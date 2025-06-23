@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "disableScroll": true,
+  "usingComponents": {
+    "tabbar": "/components/tabbar",
+    "custom-header": "/components/custom_header",
+    "login": "/components/employer_login",
+    "add-name": "/components/addName"
+  }
+}

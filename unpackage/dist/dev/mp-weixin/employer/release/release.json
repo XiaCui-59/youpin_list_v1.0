@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "uni-data-picker": "/uni_modules/uni-data-picker/components/uni-data-picker/uni-data-picker",
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "u-calendar": "/uni_modules/uview-ui/components/u-calendar/u-calendar"
+  }
+}

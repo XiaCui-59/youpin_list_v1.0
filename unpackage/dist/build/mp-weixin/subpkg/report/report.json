@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "",
+  "disableScroll": true,
+  "usingComponents": {
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-avatar": "/uni_modules/uview-ui/components/u-avatar/u-avatar",
+    "qiun-data-charts": "/uni_modules/qiun-data-charts/components/qiun-data-charts/qiun-data-charts",
+    "u-line-progress": "/uni_modules/uview-ui/components/u-line-progress/u-line-progress"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "pages": [
+    "pages/role_confirm_page/role_confirm_page",
+    "pages/role_choose/role_choose",
+    "pages/error_sever/error_sever",
+    "pages/employer_index/employer_index",
+    "pages/employer_sign/employer_sign",
+    "pages/employer_mine/employer_mine",
+    "pages/index/index"
+  ],
+  "subPackages": [
+    {
+      "root": "subpkg/",
+      "pages": [
+        "phone_call/phone_call",
+        "index/index",
+        "about/about",
+        "edit_info/edit_info",
+        "project_list/project_list",
+        "view_record/view_record",
+        "sign_record/sign_record",
+        "report/report"
+      ]
+    },
+    {
+      "root": "employer/",
+      "pages": [
+        "release/release",
+        "project_detail/project_detail",
+        "wallet/wallet",
+        "about_us/about_us",
+        "recharge/recharge",
+        "release_success/release_success"
+      ]
+    },
+    {
+      "root": "worker/",
+      "pages": [
+        "worker_index/worker_index"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "灵动优聘",
+    "navigationBarBackgroundColor": "#20b1f3",
+    "navigationStyle": "custom",
+    "backgroundColor": "#f6f6f6"
+  },
+  "tabBar": {
+    "color": "#757579",
+    "selectedColor": "#20b1f3",
+    "borderStyle": "white",
+    "backgroundColor": "#f6f6f6",
+    "fontSize": "16px",
+    "iconWidth": "20px",
+    "padding": "10rpx",
+    "list": [
+      {
+        "pagePath": "pages/employer_index/employer_index"
+      },
+      {
+        "pagePath": "pages/employer_sign/employer_sign"
+      },
+      {
+        "pagePath": "pages/employer_mine/employer_mine"
+      }
+    ]
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "请授权您的地理位置以便更精准的为您推荐工作。"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.6",
+      "provider": "wx069ba97219f66d99"
+    }
+  },
+  "usingComponents": {
+    "my-modal": "/components/myModal"
+  }
+}

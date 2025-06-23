@@ -1,0 +1,201 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+		{
+			"path": "pages/role_confirm_page/role_confirm_page",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		}, {
+			"path": "pages/role_choose/role_choose",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		},
+
+		{
+			"path": "pages/error_sever/error_sever",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		},
+
+		{
+			"path": "pages/employer_index/employer_index",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/employer_sign/employer_sign",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/employer_mine/employer_mine",
+			"style": {
+				"navigationBarTitleText": "",
+				"disableScroll": true
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		}
+	],
+	"subPackages": [
+		// 分包配置
+		{
+			"root": "subpkg/",
+			"pages": [
+				// 分包内页面
+				{
+					"path": "phone_call/phone_call",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "index/index",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "about/about",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "edit_info/edit_info",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "project_list/project_list",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "view_record/view_record",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "sign_record/sign_record",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				},
+				{
+					"path": "report/report",
+					"style": {
+						"navigationBarTitleText": "",
+						"disableScroll": true
+					}
+				}
+			]
+		},
+		{
+			"root": "employer/",
+			"pages": [
+				// 分包内页面
+				{
+					"path": "release/release",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "project_detail/project_detail",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "wallet/wallet",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "about_us/about_us",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "recharge/recharge",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+				{
+					"path": "release_success/release_success",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				}
+			]
+		},
+		{
+			"root": "worker/",
+			"pages": [
+				// 分包内页面
+				{
+					"path": "worker_index/worker_index",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "灵动优聘",
+		"navigationBarBackgroundColor": "#20b1f3",
+		// #ifdef MP-WEIXIN || MP-KUAISHOU
+		"navigationStyle": "custom",
+		// #endif
+		"backgroundColor": "#f6f6f6"
+	},
+	"tabBar": {
+		"color": "#757579",
+		"selectedColor": "#20b1f3",
+		"borderStyle": "white",
+		"backgroundColor": "#f6f6f6",
+		"fontSize": "16px",
+		"iconWidth": "20px",
+		"padding": "10rpx",
+		"list": [{
+				"pagePath": "pages/employer_index/employer_index"
+			},
+			{
+				"pagePath": "pages/employer_sign/employer_sign"
+			},
+			{
+				"pagePath": "pages/employer_mine/employer_mine"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}

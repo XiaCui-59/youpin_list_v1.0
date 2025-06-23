@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "u--input": "/uni_modules/uview-ui/components/u--input/u--input",
+    "custom-header": "/components/custom_header",
+    "login": "/components/employer_login"
+  }
+}

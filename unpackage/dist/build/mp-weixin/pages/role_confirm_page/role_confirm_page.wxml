@@ -1,0 +1,1 @@
+<view class="role_choose"><view class="cont" style="{{'top:'+(marginTop+'px')+';'+('height:'+(contHeight+'px')+';')}}"><view class="cont_inner"><image src="{{imgUrl+'/worker/v2/role_confirm_page_ic1.png'}}" mode="widthFix"></image><view class="text"><view>灵动优聘找工作，几句话的事～</view><view>职位信息透明保真</view><view>可信任可依赖的高技术招聘服务平台</view></view></view></view></view>

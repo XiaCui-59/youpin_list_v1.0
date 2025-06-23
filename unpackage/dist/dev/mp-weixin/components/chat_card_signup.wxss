@@ -1,0 +1,121 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+image.data-v-99e1600a {
+  will-change: transform;
+  width: auto;
+  height: auto;
+  flex-shrink: 0;
+}
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+image.data-v-99e1600a {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.card_signup.data-v-99e1600a {
+  margin-top: 30rpx;
+  background: url("https://static.test.swiftwd.com/worker/v2/chat_card_signup_bg.png") no-repeat;
+  background-size: cover;
+  background-position: top right;
+  border-radius: 16rpx;
+}
+.card_signup .top.data-v-99e1600a {
+  padding: 30rpx 20rpx 0 30rpx;
+}
+.card_signup .top .top_left.data-v-99e1600a {
+  width: calc(100% - 150rpx);
+}
+.card_signup .top .top_left .tit.data-v-99e1600a {
+  font-size: 38rpx;
+  color: #FFFFFF;
+  text-shadow: 0px 1px 2px rgba(32, 32, 32, 0.8);
+  margin-bottom: 6rpx;
+  font-family: "也字工厂";
+}
+.card_signup .top .top_left .text.data-v-99e1600a {
+  font-weight: 600;
+  font-size: 27rpx;
+  color: #333333;
+}
+.card_signup .top .top_left .text image.data-v-99e1600a {
+  width: 50rpx;
+}
+.card_signup .top .top_left .text text.data-v-99e1600a {
+  display: inline-block;
+  width: calc(100% - 50rpx);
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.card_signup .top .view_btn.data-v-99e1600a {
+  width: 146rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  text-align: center;
+  background: #FFF2C9;
+  box-shadow: 0rpx 2rpx 4rpx 0rpx #755900;
+  border-radius: 29rpx;
+  font-weight: 600;
+  font-size: 27rpx;
+  color: #7B5D00;
+  flex-shrink: 0;
+}
+.card_signup .bot_wrap.data-v-99e1600a {
+  padding: 0 30rpx 30rpx 30rpx;
+  margin-top: 20rpx;
+}
+.card_signup .bot.data-v-99e1600a {
+  background: #FFFFFF;
+  border-radius: 15rpx;
+  padding: 38rpx 25rpx 23rpx 25rpx;
+}
+.card_signup .bot .bot_item.data-v-99e1600a {
+  font-weight: 400;
+  font-size: 31rpx;
+  color: #020202;
+}
+.card_signup .bot .bot_item image.data-v-99e1600a {
+  width: 46rpx;
+  margin-right: 6rpx !important;
+}
+.card_signup .bot .bot_item:nth-child(2) image.data-v-99e1600a {
+  width: 2rpx;
+}
+.card_signup .bot .sure_btn.data-v-99e1600a {
+  height: 81rpx;
+  background: #106afa;
+  border-radius: 15rpx;
+  font-weight: 600;
+  font-size: 29rpx;
+  color: #fff;
+  line-height: 81rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+.card_signup .bot .sure_btn image.data-v-99e1600a {
+  width: 46rpx;
+  margin-left: 6rpx !important;
+}
