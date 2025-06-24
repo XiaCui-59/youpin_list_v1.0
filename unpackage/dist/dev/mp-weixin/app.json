@@ -36,7 +36,9 @@
     {
       "root": "worker/",
       "pages": [
-        "worker_index/worker_index"
+        "worker_index/worker_index",
+        "worker_chat/worker_chat",
+        "work_detail/work_detail"
       ]
     }
   ],

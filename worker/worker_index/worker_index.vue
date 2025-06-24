@@ -46,18 +46,25 @@
 						</view>
 					</u-tabs>
 				</view>
-				<view class="tab_2 flex">
-					<view class="tab_2_item" v-for="(item,index) in tab_2_list"
-						:class="currentIndex2 == index?'active':''" :key="index">{{item.label}}</view>
+				<view class="flex flex_btween" style="background:#F3F3F5 ;">
+					<view class="tab_2 flex">
+						<view class="tab_2_item" v-for="(item,index) in tab_2_list"
+							:class="currentIndex2 == index?'active':''" :key="index">{{item.label}}</view>
+					</view>
+					<view v-if="jobList.length == 0" class="tips"
+						style="font-size: 23rpx;color: #5E5E5E;padding-right: 28rpx;">当前分类暂无职位，看看其他职位吧
+					</view>
 				</view>
+
 			</u-sticky>
 			<view class="box" :style="{paddingBottom:tabbarHeight+'px'}">
-				<view class="item" v-for="(item,index) in jobList" :key="index" @click="toChat(item)">
+				<view class="item" v-if="jobList.length" v-for="(item,index) in jobList" :key="index"
+					@click="toDetail(item)">
 					<view class="item_top flex flex_btween">
 						<view class="title">{{item.name}}
 						</view>
 						<view class="salary">
-							{{(item.min_salary== item.max_salary?item.max_salary:(item.min_salary+"-"+item.max_salary+"元"+period.filter(el=>{return el.value==item.salary_type})[0].text))}}
+							{{(item.min_salary== item.max_salary?item.max_salary:(item.min_salary+"-"+item.max_salary))+"元"+period.filter(el=>{return el.value==item.salary_type})[0].text}}
 						</view>
 					</view>
 					<view class="labels flex" v-if="item.highlight && item.highlight.length != 0">
@@ -68,7 +75,7 @@
 					</view>
 					<view class="bottom flex" :class="item.address?'flex_btween':'flex_end'">
 						<view class="location" v-if="item.address">
-							{{item.city+item.district+item.street}}
+							{{item.address}}
 						</view>
 						<view class="sign_btn flex flex_end">
 							<image :src="imgUrl+'/worker/new/ic_telephone.png'" mode="widthFix"></image>
@@ -76,8 +83,30 @@
 						</view>
 					</view>
 				</view>
-				<view class="empty" v-if="jobList.length == 0">
-					<image :src="imgUrl+'/broker/empty.png'" mode="widthFix"></image>
+				<view class="item" v-if="!jobList.length" v-for="(item,index) in allList" :key="index"
+					@click="toChat(item)">
+					<view class="item_top flex flex_btween">
+						<view class="title">{{item.name}}
+						</view>
+						<view class="salary">
+							{{(item.min_salary== item.max_salary?item.max_salary:(item.min_salary+"-"+item.max_salary))+"元"+period.filter(el=>{return el.value==item.salary_type})[0].text}}
+						</view>
+					</view>
+					<view class="labels flex" v-if="item.highlight && item.highlight.length != 0">
+						<view class="label flex" v-for="(label,labIndex) in item.highlight"
+							:class="(labIndex==0 || labIndex==1)?'active':''" :key="labIndex">
+							{{label}}
+						</view>
+					</view>
+					<view class="bottom flex" :class="item.address?'flex_btween':'flex_end'">
+						<view class="location" v-if="item.address">
+							{{item.address}}
+						</view>
+						<view class="sign_btn flex flex_end">
+							<image :src="imgUrl+'/worker/new/ic_telephone.png'" mode="widthFix"></image>
+							<view class="">免费咨询</view>
+						</view>
+					</view>
 				</view>
 				<!-- <scroll-view scroll-y="true" class="scroll-Y"
 					:style="{height:scrollHeight+'px',paddingBottom:1.5*tabMargin+'px',boxSizing:'border-box'}"
@@ -87,6 +116,9 @@
 
 			</view>
 		</view>
+		<customCascade title="请选择期望职位" :data="workType" :show="showCascade" :selected="selectedWorkType"
+			@cancel="cancelCascade" @confirm="handleConfirm">
+		</customCascade>
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getList">
 		</login>
 		<tabbar current="0" @getTabbarHeight="getTabbarHeight" :todo="todo"></tabbar>
@@ -97,6 +129,7 @@
 	import login from "@/components/employer_login.vue"
 	import tabbar from "@/components/worker_tabbar.vue"
 	import commonData from "@/common/commonData"
+	import customCascade from "@/components/custom_cascade.vue"
 	import {
 		mapState,
 		mapMutations
@@ -105,8 +138,7 @@
 	export default {
 		data() {
 			return {
-				selectedIds: [],
-				showDialog: false,
+				showCascade: false,
 				period: commonData.periodList,
 				currentIndex2: 0,
 				tab_2_list: [{
@@ -118,26 +150,10 @@
 				}],
 				currentIndex: 0,
 				selectedWorkType: [{
-						value: "",
-						label: "全部"
-					}, {
-						value: "123",
-						label: "保洁"
-					},
-					{
-						value: "123",
-						label: "保洁"
-					}, {
-						value: "123",
-						label: "保洁"
-					}, {
-						value: "123",
-						label: "保洁"
-					}, {
-						value: "123",
-						label: "保洁"
-					}
-				],
+					value: "",
+					label: "全部"
+				}],
+				allList: [],
 				jobList: [{
 					name: "眉山职业学院大学辅导员",
 					min_salary: 3000,
@@ -219,7 +235,7 @@
 				bannerHeight: app.globalData.bannerHeight,
 				tabs: commonData.requireStatus,
 				currentTab: {
-					value: "all",
+					value: "",
 					text: "全部"
 				},
 				list: [],
@@ -227,7 +243,9 @@
 				boxTop: 0,
 				headerHeight: app.globalData.highTopHeight,
 				currentPage: 1,
+				allCurrentPage: 1,
 				pagination: {},
+				allPagination: {},
 				tabbarHeight: 0,
 				periodList: commonData.periodList,
 				orderInfo: {
@@ -241,7 +259,8 @@
 		},
 		components: {
 			tabbar,
-			login
+			login,
+			customCascade
 		},
 		computed: {
 			...mapState(["employerInfo", "nameShow", "loginStatus", "workType"])
@@ -250,6 +269,18 @@
 			this.boxTop = this.marginTop + this.bannerHeight + 3 * this.tabMargin + this.subTabHeight
 			this.scrollHeight = app.globalData.systemHeight - this.marginTop - this.subTabHeight - 3 * this.tabMargin -
 				this.tabbarHeight - this.bannerHeight
+			this.selectedWorkType = uni.getStorageSync("workTypes") ? uni.getStorageSync("workTypes") : [{
+					value: "",
+					label: "全部"
+				}],
+				this.getList()
+		},
+		onReachBottom() {
+			if (this.jobList.length == 0) {
+				this.getAllMore()
+			} else {
+				this.getMore()
+			}
 		},
 		onShow() {
 			console.log("ifSingle", this.ifSingle)
@@ -264,146 +295,101 @@
 		},
 		methods: {
 			showSelect() {
-				console.log(111)
-				this.showDialog = true
+				this.showCascade = true
+			},
+			cancelCascade() {
+				this.showCascade = false
+			},
+			handleTabClick(e) {
+				this.currentTab = e
+				this.currentPage = 1
+				this.getList()
+			},
+			handleConfirm(e) {
+				console.log(e)
+				let arr = [{
+					value: "",
+					label: "全部"
+				}]
+				this.selectedWorkType = arr.concat(e)
+				uni.setStorageSync("workTypes", this.selectedWorkType)
+				this.showCascade = false
+			},
+			getList() {
+				let _this = this
+				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=" + this
+					.currentTab.value
+				this.$request(url).then(res => {
+					if (res.code == 0) {
+						this.jobList = res.data.list
+						this.pagination = res.data.pagination
+						if (this.jobList.length == 0) {
+							this.getAll()
+						}
+					}
+				})
+			},
+			getAll() {
+				let _this = this
+				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code="
+				this.$request(url).then(res => {
+					if (res.code == 0) {
+						this.allList = res.data.list
+						this.allPagination = res.data.pagination
+					}
+				})
+			},
+			getAllMore() {
+				if (this.allCurrentPage < this.allPagination.page_count) {
+					this.allCurrentPage++
+					let url = "/guest/recommend-jobs?page=" + this.allCurrentPage +
+						"&keyword=&crowd_sourcing_job_type_code="
+					this.$request(url).then(res => {
+						if (res.code == 0) {
+							this.allList = this.allList.concat(res.data.list)
+							this.allPagination = res.data.pagination
+						}
+					})
+				} else {
+					uni.showToast({
+						title: "已加载全部",
+						icon: "none"
+					})
+				}
 			},
 			closeLogin() {
 				this.showLogin = false
 			},
-			toadd() {
-				if (this.isLogin()) {
-					uni.navigateTo({
-						url: "/employer/release/release"
-					})
-				} else {
-					this.showLogin = true
-				}
-
-			},
-			toClose(item) {
-				let _this = this
-				uni.showModal({
-					title: "提示",
-					content: "是否确认关闭需求：" + item.description.slice(0, 10) + "？",
-					confirmText: "确认关闭",
-					success(resp) {
-						if (resp.confirm) {
-							let url = "/employer/jobRequirement/" + item.id + "/finish"
-							_this.$request(url, {}, "PATCH").then(res => {
-								if (res.code == 0) {
-									uni.showToast({
-										title: "需求关闭成功",
-										icon: "none",
-										duration: 3000
-									})
-									_this.getList()
-								}
-							})
-						}
-
-					}
-				})
-			},
-			reOpen(item) {
-				uni.navigateTo({
-					url: "/employer/release/release?id=" + item.id
-				})
-			},
 			getTabbarHeight(e) {
 				this.tabbarHeight = e
 			},
-			changeTab(item) {
-				console.log("isLogin：", this.isLogin())
-				if (this.isLogin()) {
-					this.currentTab = item
-					this.currentPage = 1
-					this.getList()
-				} else {
-					this.showLogin = true
-				}
-
-			},
-			toDetail(id) {
+			toDetail(item) {
 				uni.navigateTo({
-					url: "/employer/project_detail/project_detail?id=" + id
+					url: "/worker/work_detail/work_detail?id=" + item.id
 				})
 			},
 			getMore() {
-				let url = "/employer/jobRequirements?page=" + this.currentPage + "&status=" + this.currentTab.value
-				this.$request(url).then(res => {
-					if (res.code == 0) {
-						this.list = this.list.concat(res.data.list)
-						this.pagination = res.data.pagination
-					}
-				})
-			},
-			getList() {
-				let url = "/employer/jobRequirements?page=1" + "&status=" + this.currentTab.value
-				this.$request(url).then(res => {
-					if (res.code == 0) {
-						this.list = res.data.list
-						this.pagination = res.data.pagination
-					}
-				})
+				if (this.currentPage < this.pagination.page_count) {
+					this.currentPage++
+					let url = "/guest/recommend-jobs?page=" + this.currentPage +
+						"&keyword=&crowd_sourcing_job_type_code=" +
+						this.currentTab.value
+					this.$request(url).then(res => {
+						if (res.code == 0) {
+							this.jobList = this.jobList.concat(res.data.list)
+							this.pagination = res.data.pagination
+						}
+					})
+				} else {
+					uni.showToast({
+						title: "已加载全部",
+						icon: "none"
+					})
+				}
+
 			},
 			closeMask() {
 				this.showMask = false
-			},
-			toPay() {
-				// 支付需求
-				if (!this.btnStatus2) {
-					uni.showToast({
-						title: "请勿重复点击",
-						icon: "error"
-					})
-					return
-				}
-				this.btnStatus2 = false
-				let url = "/employer/jobRequirement/" + this.currentRecord.id + "/pay"
-				this.$request(url, {}, "POST").then(res => {
-					if (res.code == 0) {
-						this.showMask = false
-						this.btnStatus2 = true
-						uni.navigateTo({
-							url: "/employer/release_success/release_success?id=" + this.currentRecord.id
-						})
-					}
-				})
-			},
-			openCheck(item) {
-				this.currentRecord = {
-					...item
-				}
-				this.checkBalance(item)
-			},
-			checkBalance(item) {
-				let id = item ? item.id : this.currentRecord.id
-				let url = "/employer/preCheckBanlance/" + id
-				this.$request(url).then(res => {
-					if (res.code == 0) {
-						this.showMask = true
-						this.orderInfo = res.data
-					}
-				})
-			},
-			toRecharge() {
-				uni.navigateTo({
-					url: "/employer/recharge/recharge"
-				})
-			},
-			lower() {
-				if (this.list.length < this.pagination.total_count) {
-					this.currentPage++
-					this.getMore()
-				} else {
-					if (this.list.length >= this.pagination.total_count) {
-						uni.showToast({
-							title: "已经到底啦~",
-							icon: "none",
-							duration: 2000
-						})
-					}
-				}
 			},
 		}
 	}
@@ -484,6 +470,13 @@
 	.cont {
 		min-height: 100vh;
 		background: #F3F3F5;
+	}
+
+	.empty {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	.inner {
@@ -776,6 +769,7 @@
 
 			.labels {
 				padding: 23rpx 0rpx;
+				flex-wrap: wrap;
 
 				.label {
 					height: 48rpx;
@@ -786,6 +780,8 @@
 					font-size: 24rpx;
 					color: #5E5E5E;
 					margin-right: 16rpx;
+					white-space: nowrap;
+					margin-bottom: 16rpx;
 
 					&.active {
 						background: #E5EEFF;
@@ -800,7 +796,6 @@
 				.location {
 					font-size: 29rpx;
 					color: #686868;
-					line-height: 13px;
 					white-space: nowrap;
 					overflow: hidden;
 					text-overflow: ellipsis;

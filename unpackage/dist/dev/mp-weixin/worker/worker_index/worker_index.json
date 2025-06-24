@@ -6,6 +6,7 @@
     "u-sticky": "/uni_modules/uview-ui/components/u-sticky/u-sticky",
     "u-tabs": "/uni_modules/uview-ui/components/u-tabs/u-tabs",
     "tabbar": "/components/worker_tabbar",
-    "login": "/components/employer_login"
+    "login": "/components/employer_login",
+    "custom-cascade": "/components/custom_cascade"
   }
 }

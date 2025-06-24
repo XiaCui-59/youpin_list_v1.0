@@ -165,6 +165,20 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+				},
+
+				{
+					"path": "worker_chat/worker_chat",
+					"style": {
+						"navigationBarTitleText": ""
+					}
+				},
+
+				{
+					"path": "work_detail/work_detail",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		}

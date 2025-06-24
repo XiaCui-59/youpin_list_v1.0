@@ -135,30 +135,51 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var g0 = !_vm.ifSingle ? _vm.selectedWorkType.length : null
+  var g1 = !_vm.ifSingle ? _vm.jobList.length : null
   var l0 = !_vm.ifSingle
     ? _vm.__map(_vm.jobList, function (item, index) {
         var $orig = _vm.__get_orig(item)
-        var g1 = !(item.min_salary == item.max_salary)
+        var g2 = _vm.jobList.length
+        var g3 = g2
           ? _vm.period.filter(function (el) {
               return el.value == item.salary_type
             })
           : null
-        var g2 = item.highlight && item.highlight.length != 0
+        var g4 = g2 ? item.highlight && item.highlight.length != 0 : null
         return {
           $orig: $orig,
-          g1: g1,
           g2: g2,
+          g3: g3,
+          g4: g4,
         }
       })
     : null
-  var g3 = !_vm.ifSingle ? _vm.jobList.length : null
+  var l1 = !_vm.ifSingle
+    ? _vm.__map(_vm.allList, function (item, index) {
+        var $orig = _vm.__get_orig(item)
+        var g5 = _vm.jobList.length
+        var g6 = !g5
+          ? _vm.period.filter(function (el) {
+              return el.value == item.salary_type
+            })
+          : null
+        var g7 = !g5 ? item.highlight && item.highlight.length != 0 : null
+        return {
+          $orig: $orig,
+          g5: g5,
+          g6: g6,
+          g7: g7,
+        }
+      })
+    : null
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
         g0: g0,
+        g1: g1,
         l0: l0,
-        g3: g3,
+        l1: l1,
       },
     }
   )
@@ -214,15 +235,19 @@ var login = function login() {
 };
 var tabbar = function tabbar() {
   __webpack_require__.e(/*! require.ensure | components/worker_tabbar */ "components/worker_tabbar").then((function () {
-    return resolve(__webpack_require__(/*! @/components/worker_tabbar.vue */ 548));
+    return resolve(__webpack_require__(/*! @/components/worker_tabbar.vue */ 541));
+  }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+};
+var customCascade = function customCascade() {
+  __webpack_require__.e(/*! require.ensure | components/custom_cascade */ "components/custom_cascade").then((function () {
+    return resolve(__webpack_require__(/*! @/components/custom_cascade.vue */ 855));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var app = getApp();
 var _default = {
   data: function data() {
     return {
-      selectedIds: [],
-      showDialog: false,
+      showCascade: false,
       period: _commonData.default.periodList,
       currentIndex2: 0,
       tab_2_list: [{
@@ -236,22 +261,8 @@ var _default = {
       selectedWorkType: [{
         value: "",
         label: "全部"
-      }, {
-        value: "123",
-        label: "保洁"
-      }, {
-        value: "123",
-        label: "保洁"
-      }, {
-        value: "123",
-        label: "保洁"
-      }, {
-        value: "123",
-        label: "保洁"
-      }, {
-        value: "123",
-        label: "保洁"
       }],
+      allList: [],
       jobList: [{
         name: "眉山职业学院大学辅导员",
         min_salary: 3000,
@@ -333,7 +344,7 @@ var _default = {
       bannerHeight: app.globalData.bannerHeight,
       tabs: _commonData.default.requireStatus,
       currentTab: {
-        value: "all",
+        value: "",
         text: "全部"
       },
       list: [],
@@ -341,7 +352,9 @@ var _default = {
       boxTop: 0,
       headerHeight: app.globalData.highTopHeight,
       currentPage: 1,
+      allCurrentPage: 1,
       pagination: {},
+      allPagination: {},
       tabbarHeight: 0,
       periodList: _commonData.default.periodList,
       orderInfo: {
@@ -355,12 +368,24 @@ var _default = {
   },
   components: {
     tabbar: tabbar,
-    login: login
+    login: login,
+    customCascade: customCascade
   },
   computed: _objectSpread({}, (0, _vuex.mapState)(["employerInfo", "nameShow", "loginStatus", "workType"])),
   onLoad: function onLoad() {
     this.boxTop = this.marginTop + this.bannerHeight + 3 * this.tabMargin + this.subTabHeight;
     this.scrollHeight = app.globalData.systemHeight - this.marginTop - this.subTabHeight - 3 * this.tabMargin - this.tabbarHeight - this.bannerHeight;
+    this.selectedWorkType = uni.getStorageSync("workTypes") ? uni.getStorageSync("workTypes") : [{
+      value: "",
+      label: "全部"
+    }], this.getList();
+  },
+  onReachBottom: function onReachBottom() {
+    if (this.jobList.length == 0) {
+      this.getAllMore();
+    } else {
+      this.getMore();
+    }
   },
   onShow: function onShow() {
     console.log("ifSingle", this.ifSingle);
@@ -374,145 +399,100 @@ var _default = {
   },
   methods: {
     showSelect: function showSelect() {
-      console.log(111);
-      this.showDialog = true;
+      this.showCascade = true;
     },
-    closeLogin: function closeLogin() {
-      this.showLogin = false;
+    cancelCascade: function cancelCascade() {
+      this.showCascade = false;
     },
-    toadd: function toadd() {
-      if (this.isLogin()) {
-        uni.navigateTo({
-          url: "/employer/release/release"
-        });
-      } else {
-        this.showLogin = true;
-      }
+    handleTabClick: function handleTabClick(e) {
+      this.currentTab = e;
+      this.currentPage = 1;
+      this.getList();
     },
-    toClose: function toClose(item) {
+    handleConfirm: function handleConfirm(e) {
+      console.log(e);
+      var arr = [{
+        value: "",
+        label: "全部"
+      }];
+      this.selectedWorkType = arr.concat(e);
+      uni.setStorageSync("workTypes", this.selectedWorkType);
+      this.showCascade = false;
+    },
+    getList: function getList() {
+      var _this2 = this;
       var _this = this;
-      uni.showModal({
-        title: "提示",
-        content: "是否确认关闭需求：" + item.description.slice(0, 10) + "？",
-        confirmText: "确认关闭",
-        success: function success(resp) {
-          if (resp.confirm) {
-            var url = "/employer/jobRequirement/" + item.id + "/finish";
-            _this.$request(url, {}, "PATCH").then(function (res) {
-              if (res.code == 0) {
-                uni.showToast({
-                  title: "需求关闭成功",
-                  icon: "none",
-                  duration: 3000
-                });
-                _this.getList();
-              }
-            });
+      var url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=" + this.currentTab.value;
+      this.$request(url).then(function (res) {
+        if (res.code == 0) {
+          _this2.jobList = res.data.list;
+          _this2.pagination = res.data.pagination;
+          if (_this2.jobList.length == 0) {
+            _this2.getAll();
           }
         }
       });
     },
-    reOpen: function reOpen(item) {
-      uni.navigateTo({
-        url: "/employer/release/release?id=" + item.id
+    getAll: function getAll() {
+      var _this3 = this;
+      var _this = this;
+      var url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=";
+      this.$request(url).then(function (res) {
+        if (res.code == 0) {
+          _this3.allList = res.data.list;
+          _this3.allPagination = res.data.pagination;
+        }
       });
+    },
+    getAllMore: function getAllMore() {
+      var _this4 = this;
+      if (this.allCurrentPage < this.allPagination.page_count) {
+        this.allCurrentPage++;
+        var url = "/guest/recommend-jobs?page=" + this.allCurrentPage + "&keyword=&crowd_sourcing_job_type_code=";
+        this.$request(url).then(function (res) {
+          if (res.code == 0) {
+            _this4.allList = _this4.allList.concat(res.data.list);
+            _this4.allPagination = res.data.pagination;
+          }
+        });
+      } else {
+        uni.showToast({
+          title: "已加载全部",
+          icon: "none"
+        });
+      }
+    },
+    closeLogin: function closeLogin() {
+      this.showLogin = false;
     },
     getTabbarHeight: function getTabbarHeight(e) {
       this.tabbarHeight = e;
     },
-    changeTab: function changeTab(item) {
-      console.log("isLogin：", this.isLogin());
-      if (this.isLogin()) {
-        this.currentTab = item;
-        this.currentPage = 1;
-        this.getList();
-      } else {
-        this.showLogin = true;
-      }
-    },
-    toDetail: function toDetail(id) {
+    toDetail: function toDetail(item) {
       uni.navigateTo({
-        url: "/employer/project_detail/project_detail?id=" + id
+        url: "/worker/work_detail/work_detail?id=" + item.id
       });
     },
     getMore: function getMore() {
-      var _this2 = this;
-      var url = "/employer/jobRequirements?page=" + this.currentPage + "&status=" + this.currentTab.value;
-      this.$request(url).then(function (res) {
-        if (res.code == 0) {
-          _this2.list = _this2.list.concat(res.data.list);
-          _this2.pagination = res.data.pagination;
-        }
-      });
-    },
-    getList: function getList() {
-      var _this3 = this;
-      var url = "/employer/jobRequirements?page=1" + "&status=" + this.currentTab.value;
-      this.$request(url).then(function (res) {
-        if (res.code == 0) {
-          _this3.list = res.data.list;
-          _this3.pagination = res.data.pagination;
-        }
-      });
+      var _this5 = this;
+      if (this.currentPage < this.pagination.page_count) {
+        this.currentPage++;
+        var url = "/guest/recommend-jobs?page=" + this.currentPage + "&keyword=&crowd_sourcing_job_type_code=" + this.currentTab.value;
+        this.$request(url).then(function (res) {
+          if (res.code == 0) {
+            _this5.jobList = _this5.jobList.concat(res.data.list);
+            _this5.pagination = res.data.pagination;
+          }
+        });
+      } else {
+        uni.showToast({
+          title: "已加载全部",
+          icon: "none"
+        });
+      }
     },
     closeMask: function closeMask() {
       this.showMask = false;
-    },
-    toPay: function toPay() {
-      var _this4 = this;
-      // 支付需求
-      if (!this.btnStatus2) {
-        uni.showToast({
-          title: "请勿重复点击",
-          icon: "error"
-        });
-        return;
-      }
-      this.btnStatus2 = false;
-      var url = "/employer/jobRequirement/" + this.currentRecord.id + "/pay";
-      this.$request(url, {}, "POST").then(function (res) {
-        if (res.code == 0) {
-          _this4.showMask = false;
-          _this4.btnStatus2 = true;
-          uni.navigateTo({
-            url: "/employer/release_success/release_success?id=" + _this4.currentRecord.id
-          });
-        }
-      });
-    },
-    openCheck: function openCheck(item) {
-      this.currentRecord = _objectSpread({}, item);
-      this.checkBalance(item);
-    },
-    checkBalance: function checkBalance(item) {
-      var _this5 = this;
-      var id = item ? item.id : this.currentRecord.id;
-      var url = "/employer/preCheckBanlance/" + id;
-      this.$request(url).then(function (res) {
-        if (res.code == 0) {
-          _this5.showMask = true;
-          _this5.orderInfo = res.data;
-        }
-      });
-    },
-    toRecharge: function toRecharge() {
-      uni.navigateTo({
-        url: "/employer/recharge/recharge"
-      });
-    },
-    lower: function lower() {
-      if (this.list.length < this.pagination.total_count) {
-        this.currentPage++;
-        this.getMore();
-      } else {
-        if (this.list.length >= this.pagination.total_count) {
-          uni.showToast({
-            title: "已经到底啦~",
-            icon: "none",
-            duration: 2000
-          });
-        }
-      }
     }
   }
 };

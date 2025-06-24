@@ -31209,6 +31209,16 @@ var _default = {
       "style": {
         "navigationBarTitleText": ""
       }
+    }, {
+      "path": "worker_chat/worker_chat",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    }, {
+      "path": "work_detail/work_detail",
+      "style": {
+        "navigationBarTitleText": ""
+      }
     }]
   }],
   "globalStyle": {
@@ -41804,14 +41814,7 @@ exports.default = _default;
 /* 557 */,
 /* 558 */,
 /* 559 */,
-/* 560 */,
-/* 561 */,
-/* 562 */,
-/* 563 */,
-/* 564 */,
-/* 565 */,
-/* 566 */,
-/* 567 */
+/* 560 */
 /*!**************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-popup/props.js ***!
   \**************************************************************************************/
@@ -41908,14 +41911,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 568 */,
-/* 569 */,
-/* 570 */,
-/* 571 */,
-/* 572 */,
-/* 573 */,
-/* 574 */,
-/* 575 */
+/* 561 */,
+/* 562 */,
+/* 563 */,
+/* 564 */,
+/* 565 */,
+/* 566 */,
+/* 567 */,
+/* 568 */
 /*!****************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-toolbar/props.js ***!
   \****************************************************************************************/
@@ -41967,14 +41970,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 576 */,
-/* 577 */,
-/* 578 */,
-/* 579 */,
-/* 580 */,
-/* 581 */,
-/* 582 */,
-/* 583 */
+/* 569 */,
+/* 570 */,
+/* 571 */,
+/* 572 */,
+/* 573 */,
+/* 574 */,
+/* 575 */,
+/* 576 */
 /*!*********************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-loading-icon/props.js ***!
   \*********************************************************************************************/
@@ -42051,14 +42054,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 584 */,
-/* 585 */,
-/* 586 */,
-/* 587 */,
-/* 588 */,
-/* 589 */,
-/* 590 */,
-/* 591 */
+/* 577 */,
+/* 578 */,
+/* 579 */,
+/* 580 */,
+/* 581 */,
+/* 582 */,
+/* 583 */,
+/* 584 */
 /*!*******************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-status-bar/props.js ***!
   \*******************************************************************************************/
@@ -42084,14 +42087,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 592 */,
-/* 593 */,
-/* 594 */,
-/* 595 */,
-/* 596 */,
-/* 597 */,
-/* 598 */,
-/* 599 */
+/* 585 */,
+/* 586 */,
+/* 587 */,
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */,
+/* 592 */
 /*!*******************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-cell-group/props.js ***!
   \*******************************************************************************************/
@@ -42123,14 +42126,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 600 */,
-/* 601 */,
-/* 602 */,
-/* 603 */,
-/* 604 */,
-/* 605 */,
-/* 606 */,
-/* 607 */
+/* 593 */,
+/* 594 */,
+/* 595 */,
+/* 596 */,
+/* 597 */,
+/* 598 */,
+/* 599 */,
+/* 600 */
 /*!*************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-cell/props.js ***!
   \*************************************************************************************/
@@ -42258,14 +42261,14 @@ exports.default = _default2;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 608 */,
-/* 609 */,
-/* 610 */,
-/* 611 */,
-/* 612 */,
-/* 613 */,
-/* 614 */,
-/* 615 */
+/* 601 */,
+/* 602 */,
+/* 603 */,
+/* 604 */,
+/* 605 */,
+/* 606 */,
+/* 607 */,
+/* 608 */
 /*!********************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-scroll-list/props.js ***!
   \********************************************************************************************/
@@ -42317,16 +42320,16 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 609 */,
+/* 610 */,
+/* 611 */,
+/* 612 */,
+/* 613 */,
+/* 614 */,
+/* 615 */,
 /* 616 */,
 /* 617 */,
-/* 618 */,
-/* 619 */,
-/* 620 */,
-/* 621 */,
-/* 622 */,
-/* 623 */,
-/* 624 */,
-/* 625 */
+/* 618 */
 /*!**********************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/markdown-render/static/js/markdown-it.min.js ***!
   \**********************************************************************************************/
@@ -46634,7 +46637,7 @@ var _default = mt;
 exports.default = _default;
 
 /***/ }),
-/* 626 */
+/* 619 */
 /*!********************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/markdown-render/static/js/highlight.min.js ***!
   \********************************************************************************************/
@@ -51748,7 +51751,7 @@ var hljs = function () {
 "object" == ( false ? undefined : _typeof(exports)) && "undefined" != typeof module && (module.exports = hljs);
 
 /***/ }),
-/* 627 */
+/* 620 */
 /*!******************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/markdown-render/static/js/html-parser.js ***!
   \******************************************************************************************/
@@ -52071,7 +52074,7 @@ var _default = parseHtml;
 exports.default = _default;
 
 /***/ }),
-/* 628 */
+/* 621 */
 /*!****************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/markdown-render/static/js/markdown-it-emoji.min.js ***!
   \****************************************************************************************************/
@@ -54107,6 +54110,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 });
 
 /***/ }),
+/* 622 */,
+/* 623 */,
+/* 624 */,
+/* 625 */,
+/* 626 */,
+/* 627 */,
+/* 628 */,
 /* 629 */,
 /* 630 */,
 /* 631 */,
@@ -54128,14 +54138,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 /* 647 */,
 /* 648 */,
 /* 649 */,
-/* 650 */,
-/* 651 */,
-/* 652 */,
-/* 653 */,
-/* 654 */,
-/* 655 */,
-/* 656 */,
-/* 657 */
+/* 650 */
 /*!**************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-badge/props.js ***!
   \**************************************************************************************/
@@ -54225,14 +54228,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 658 */,
-/* 659 */,
-/* 660 */,
-/* 661 */,
-/* 662 */,
-/* 663 */,
-/* 664 */,
-/* 665 */
+/* 651 */,
+/* 652 */,
+/* 653 */,
+/* 654 */,
+/* 655 */,
+/* 656 */,
+/* 657 */,
+/* 658 */
 /*!*************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-text/props.js ***!
   \*************************************************************************************/
@@ -54360,6 +54363,13 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 659 */,
+/* 660 */,
+/* 661 */,
+/* 662 */,
+/* 663 */,
+/* 664 */,
+/* 665 */,
 /* 666 */,
 /* 667 */,
 /* 668 */,
@@ -54370,14 +54380,7 @@ exports.default = _default;
 /* 673 */,
 /* 674 */,
 /* 675 */,
-/* 676 */,
-/* 677 */,
-/* 678 */,
-/* 679 */,
-/* 680 */,
-/* 681 */,
-/* 682 */,
-/* 683 */
+/* 676 */
 /*!******************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-load-more/components/uni-load-more/i18n/index.js ***!
   \******************************************************************************************************/
@@ -54392,9 +54395,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 684));
-var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 685));
-var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 686));
+var _en = _interopRequireDefault(__webpack_require__(/*! ./en.json */ 677));
+var _zhHans = _interopRequireDefault(__webpack_require__(/*! ./zh-Hans.json */ 678));
+var _zhHant = _interopRequireDefault(__webpack_require__(/*! ./zh-Hant.json */ 679));
 var _default = {
   en: _en.default,
   'zh-Hans': _zhHans.default,
@@ -54403,7 +54406,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 684 */
+/* 677 */
 /*!*****************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-load-more/components/uni-load-more/i18n/en.json ***!
   \*****************************************************************************************************/
@@ -54413,7 +54416,7 @@ exports.default = _default;
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show more\",\"uni-load-more.contentrefresh\":\"loading...\",\"uni-load-more.contentnomore\":\"No more data\"}");
 
 /***/ }),
-/* 685 */
+/* 678 */
 /*!**********************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hans.json ***!
   \**********************************************************************************************************/
@@ -54423,7 +54426,7 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"Pull up to show mo
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多\",\"uni-load-more.contentrefresh\":\"正在加载...\",\"uni-load-more.contentnomore\":\"没有更多数据了\"}");
 
 /***/ }),
-/* 686 */
+/* 679 */
 /*!**********************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-load-more/components/uni-load-more/i18n/zh-Hant.json ***!
   \**********************************************************************************************************/
@@ -54433,14 +54436,14 @@ module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉显示更多
 module.exports = JSON.parse("{\"uni-load-more.contentdown\":\"上拉顯示更多\",\"uni-load-more.contentrefresh\":\"正在加載...\",\"uni-load-more.contentnomore\":\"沒有更多數據了\"}");
 
 /***/ }),
-/* 687 */,
-/* 688 */,
-/* 689 */,
-/* 690 */,
-/* 691 */,
-/* 692 */,
-/* 693 */,
-/* 694 */
+/* 680 */,
+/* 681 */,
+/* 682 */,
+/* 683 */,
+/* 684 */,
+/* 685 */,
+/* 686 */,
+/* 687 */
 /*!*****************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-icons/components/uni-icons/uniicons_file_vue.js ***!
   \*****************************************************************************************************/
@@ -54943,6 +54946,13 @@ var fontData = [{
 exports.fontData = fontData;
 
 /***/ }),
+/* 688 */,
+/* 689 */,
+/* 690 */,
+/* 691 */,
+/* 692 */,
+/* 693 */,
+/* 694 */,
 /* 695 */,
 /* 696 */,
 /* 697 */,
@@ -54957,14 +54967,7 @@ exports.fontData = fontData;
 /* 706 */,
 /* 707 */,
 /* 708 */,
-/* 709 */,
-/* 710 */,
-/* 711 */,
-/* 712 */,
-/* 713 */,
-/* 714 */,
-/* 715 */,
-/* 716 */
+/* 709 */
 /*!*******************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/libs/mixin/button.js ***!
   \*******************************************************************************/
@@ -54994,7 +54997,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 717 */
+/* 710 */
 /*!*********************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/libs/mixin/openType.js ***!
   \*********************************************************************************/
@@ -55036,7 +55039,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 718 */
+/* 711 */
 /*!***************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-button/props.js ***!
   \***************************************************************************************/
@@ -55215,6 +55218,13 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 712 */,
+/* 713 */,
+/* 714 */,
+/* 715 */,
+/* 716 */,
+/* 717 */,
+/* 718 */,
 /* 719 */,
 /* 720 */,
 /* 721 */,
@@ -55229,14 +55239,7 @@ exports.default = _default;
 /* 730 */,
 /* 731 */,
 /* 732 */,
-/* 733 */,
-/* 734 */,
-/* 735 */,
-/* 736 */,
-/* 737 */,
-/* 738 */,
-/* 739 */,
-/* 740 */
+/* 733 */
 /*!*************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-swiper-indicator/props.js ***!
   \*************************************************************************************************/
@@ -55283,6 +55286,13 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 734 */,
+/* 735 */,
+/* 736 */,
+/* 737 */,
+/* 738 */,
+/* 739 */,
+/* 740 */,
 /* 741 */,
 /* 742 */,
 /* 743 */,
@@ -55290,14 +55300,7 @@ exports.default = _default;
 /* 745 */,
 /* 746 */,
 /* 747 */,
-/* 748 */,
-/* 749 */,
-/* 750 */,
-/* 751 */,
-/* 752 */,
-/* 753 */,
-/* 754 */,
-/* 755 */
+/* 748 */
 /*!****************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-overlay/props.js ***!
   \****************************************************************************************/
@@ -55339,14 +55342,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 756 */,
-/* 757 */,
-/* 758 */,
-/* 759 */,
-/* 760 */,
-/* 761 */,
-/* 762 */,
-/* 763 */
+/* 749 */,
+/* 750 */,
+/* 751 */,
+/* 752 */,
+/* 753 */,
+/* 754 */,
+/* 755 */,
+/* 756 */
 /*!*******************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-transition/props.js ***!
   \*******************************************************************************************/
@@ -55388,7 +55391,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 764 */
+/* 757 */
 /*!************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-transition/transition.js ***!
   \************************************************************************************************/
@@ -55405,7 +55408,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 30));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 32));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 765));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 758));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -55497,7 +55500,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 765 */
+/* 758 */
 /*!**************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \**************************************************************************************************/
@@ -55690,14 +55693,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 766 */,
-/* 767 */,
-/* 768 */,
-/* 769 */,
-/* 770 */,
-/* 771 */,
-/* 772 */,
-/* 773 */
+/* 759 */,
+/* 760 */,
+/* 761 */,
+/* 762 */,
+/* 763 */,
+/* 764 */,
+/* 765 */,
+/* 766 */
 /*!********************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \********************************************************************************************/
@@ -55717,14 +55720,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 774 */,
-/* 775 */,
-/* 776 */,
-/* 777 */,
-/* 778 */,
-/* 779 */,
-/* 780 */,
-/* 781 */
+/* 767 */,
+/* 768 */,
+/* 769 */,
+/* 770 */,
+/* 771 */,
+/* 772 */,
+/* 773 */,
+/* 774 */
 /*!*************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-line/props.js ***!
   \*************************************************************************************/
@@ -55775,14 +55778,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 782 */,
-/* 783 */,
-/* 784 */,
-/* 785 */,
-/* 786 */,
-/* 787 */,
-/* 788 */,
-/* 789 */
+/* 775 */,
+/* 776 */,
+/* 777 */,
+/* 778 */,
+/* 779 */,
+/* 780 */,
+/* 781 */,
+/* 782 */
 /*!*************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-text/value.js ***!
   \*************************************************************************************/
@@ -55890,6 +55893,13 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 783 */,
+/* 784 */,
+/* 785 */,
+/* 786 */,
+/* 787 */,
+/* 788 */,
+/* 789 */,
 /* 790 */,
 /* 791 */,
 /* 792 */,
@@ -55925,14 +55935,7 @@ exports.default = _default;
 /* 822 */,
 /* 823 */,
 /* 824 */,
-/* 825 */,
-/* 826 */,
-/* 827 */,
-/* 828 */,
-/* 829 */,
-/* 830 */,
-/* 831 */,
-/* 832 */
+/* 825 */
 /*!*************************************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uni-transition/components/uni-transition/createAnimation.js ***!
   \*************************************************************************************************************/
@@ -56066,12 +56069,12 @@ function createAnimation(option, _this) {
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 833 */,
-/* 834 */,
-/* 835 */,
-/* 836 */,
-/* 837 */,
-/* 838 */
+/* 826 */,
+/* 827 */,
+/* 828 */,
+/* 829 */,
+/* 830 */,
+/* 831 */
 /*!*************************************************************************************!*\
   !*** E:/项目文件/发薪平台/youpin_list_v1.0/uni_modules/uview-ui/components/u-link/props.js ***!
   \*************************************************************************************/

@@ -71,7 +71,7 @@
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/ic_work_sele.png"
 					},
 					{
-						"pagePath": "pages/waiting_handle/waiting_handle",
+						"pagePath": "worker/worker_chat/worker_chat",
 						"text": "对话",
 						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_normal.png",
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_active.png"
