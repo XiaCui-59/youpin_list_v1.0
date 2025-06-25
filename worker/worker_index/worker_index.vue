@@ -77,7 +77,7 @@
 						<view class="location" v-if="item.address">
 							{{item.address}}
 						</view>
-						<view class="sign_btn flex flex_end">
+						<view class="sign_btn flex flex_end" @click.stop="makePhoneCall">
 							<image :src="imgUrl+'/worker/new/ic_telephone.png'" mode="widthFix"></image>
 							<view class="">免费咨询</view>
 						</view>
@@ -102,7 +102,7 @@
 						<view class="location" v-if="item.address">
 							{{item.address}}
 						</view>
-						<view class="sign_btn flex flex_end">
+						<view class="sign_btn flex flex_end" @click.stop="makePhoneCall">
 							<image :src="imgUrl+'/worker/new/ic_telephone.png'" mode="widthFix"></image>
 							<view class="">免费咨询</view>
 						</view>
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-	import login from "@/components/employer_login.vue"
+	import login from "@/components/login.vue"
 	import tabbar from "@/components/worker_tabbar.vue"
 	import commonData from "@/common/commonData"
 	import customCascade from "@/components/custom_cascade.vue"
@@ -274,6 +274,7 @@
 					label: "全部"
 				}],
 				this.getList()
+			this.getSelectWorkTypes()
 		},
 		onReachBottom() {
 			if (this.jobList.length == 0) {
@@ -297,6 +298,17 @@
 			showSelect() {
 				this.showCascade = true
 			},
+			getSelectWorkTypes() {
+				this.$request("/worker/expected-job-types").then(res => {
+					if (res.code == 0) {
+						let arr = [{
+							value: "",
+							label: "全部"
+						}]
+						this.selectedWorkType = arr.concat(res.data)
+					}
+				})
+			},
 			cancelCascade() {
 				this.showCascade = false
 			},
@@ -307,13 +319,19 @@
 			},
 			handleConfirm(e) {
 				console.log(e)
-				let arr = [{
-					value: "",
-					label: "全部"
-				}]
-				this.selectedWorkType = arr.concat(e)
-				uni.setStorageSync("workTypes", this.selectedWorkType)
-				this.showCascade = false
+				let data = {
+					job_types: [...e]
+				}
+				this.$request("/worker/expected-job-types", data, "PUT").then(res => {
+					if (res.code == 0) {
+						this.getSelectWorkTypes()
+						this.showCascade = false
+					}
+				})
+
+			},
+			makePhoneCall() {
+				this.$store.dispatch('makePhoneCall')
 			},
 			getList() {
 				let _this = this
@@ -367,6 +385,7 @@
 				uni.navigateTo({
 					url: "/worker/work_detail/work_detail?id=" + item.id
 				})
+
 			},
 			getMore() {
 				if (this.currentPage < this.pagination.page_count) {
@@ -705,7 +724,7 @@
 		background: #F3F3F5;
 
 		.item {
-			padding: 28rpx;
+			padding: 28rpx 28rpx 0 28rpx;
 			border-radius: 16rpx;
 			background: #fff;
 			margin-bottom: 28rpx;
@@ -768,7 +787,7 @@
 			// }
 
 			.labels {
-				padding: 23rpx 0rpx;
+				padding: 23rpx 0rpx 0 0;
 				flex-wrap: wrap;
 
 				.label {
@@ -794,6 +813,7 @@
 				font-weight: 400;
 
 				.location {
+					padding: 10rpx 0 28rpx 0rpx;
 					font-size: 29rpx;
 					color: #686868;
 					white-space: nowrap;
@@ -802,8 +822,8 @@
 				}
 
 				.sign_btn {
+					padding: 10rpx 0 28rpx 28rpx;
 					flex-shrink: 0;
-					padding-left: 28rpx;
 
 					image {
 						width: 37rpx;

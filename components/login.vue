@@ -234,6 +234,7 @@
 							_this.$emit("closeLogin")
 							uni.setStorageSync("loginStatus", "in")
 							_this.updateLoginStatus()
+							_this.$store.dispatch('getWorkerInfo');
 							// let header = {
 							// 	"Authorization": "bearer " + resp.data.token,
 							// 	"accept": "application/json",
@@ -273,7 +274,7 @@
 		bottom: 0;
 		right: 0;
 		background: rgba(0, 0, 0, 0.6);
-		z-index: 200;
+		z-index: 10000;
 
 		.inner {
 			position: absolute;

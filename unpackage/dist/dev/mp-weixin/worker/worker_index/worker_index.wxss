@@ -277,7 +277,7 @@ image.data-v-3c84a2e8 {
   background: #F3F3F5;
 }
 .box .item.data-v-3c84a2e8 {
-  padding: 28rpx;
+  padding: 28rpx 28rpx 0 28rpx;
   border-radius: 16rpx;
   background: #fff;
   margin-bottom: 28rpx;
@@ -323,7 +323,7 @@ image.data-v-3c84a2e8 {
   text-align: right;
 }
 .box .item .labels.data-v-3c84a2e8 {
-  padding: 23rpx 0rpx;
+  padding: 23rpx 0rpx 0 0;
   flex-wrap: wrap;
 }
 .box .item .labels .label.data-v-3c84a2e8 {
@@ -346,6 +346,7 @@ image.data-v-3c84a2e8 {
   font-weight: 400;
 }
 .box .item .bottom .location.data-v-3c84a2e8 {
+  padding: 10rpx 0 28rpx 0rpx;
   font-size: 29rpx;
   color: #686868;
   white-space: nowrap;
@@ -353,8 +354,8 @@ image.data-v-3c84a2e8 {
   text-overflow: ellipsis;
 }
 .box .item .bottom .sign_btn.data-v-3c84a2e8 {
+  padding: 10rpx 0 28rpx 28rpx;
   flex-shrink: 0;
-  padding-left: 28rpx;
   font-size: 29rpx;
   color: #216FF9;
 }

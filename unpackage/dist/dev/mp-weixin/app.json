@@ -38,14 +38,15 @@
       "pages": [
         "worker_index/worker_index",
         "worker_chat/worker_chat",
-        "work_detail/work_detail"
+        "work_detail/work_detail",
+        "webview/webview"
       ]
     }
   ],
   "window": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "灵动优聘",
-    "navigationBarBackgroundColor": "#20b1f3",
+    "navigationBarBackgroundColor": "#f3f3f5",
     "navigationStyle": "custom",
     "backgroundColor": "#f6f6f6"
   },

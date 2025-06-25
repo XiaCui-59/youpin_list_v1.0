@@ -37,7 +37,7 @@ image.data-v-27539ebe {
   bottom: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 200;
+  z-index: 10000;
 }
 .login .inner.data-v-27539ebe {
   position: absolute;

@@ -143,12 +143,12 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var tabbar = function tabbar() {
   Promise.all(/*! require.ensure | components/tabbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/tabbar")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 354));
+    return resolve(__webpack_require__(/*! @/components/tabbar.vue */ 374));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var customHeader = function customHeader() {
   __webpack_require__.e(/*! require.ensure | components/custom_header */ "components/custom_header").then((function () {
-    return resolve(__webpack_require__(/*! @/components/custom_header.vue */ 361));
+    return resolve(__webpack_require__(/*! @/components/custom_header.vue */ 381));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var app = getApp();

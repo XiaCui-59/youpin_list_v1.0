@@ -12,7 +12,7 @@
 			<!-- 消息角标 -->
 			<view class="badge" v-if="(index == 1) && (todo > 0)" :class="current == index?'active':''">{{todo}}</view>
 		</view>
-		<view class="pub" :style="{bottom:height+icHeight+'px'}"
+		<!-- <view class="pub" :style="{bottom:height+icHeight+'px'}"
 			v-if="(!employerInfo.wechat_official_account_subscribed) && (loginStatus == 'in')" @click="showPub">
 			<view class="img_wrap">
 				<image :src="imgUrl+'/broker/v2/ic_wechat_y.png'" mode="widthFix"></image>
@@ -20,7 +20,7 @@
 
 			<text>公众号</text>
 		</view>
-		<booking ref="book"></booking>
+		<booking ref="book"></booking> -->
 		<!-- <customModal :title="modalTitle" :content="modalContent" :bgUrl="modalBg" :iconUrl="modalIcon"
 			:imageUrl="imageUrl" :iconPosition="iconPosition" v-if="showModal" :showCancel="showCancel"
 			:showConfirm="showConfirm" @confirm="handleConfirm" @cancel="handleCancel" @closeModal="closeModal">
@@ -95,7 +95,7 @@
 		created() {
 			console.log("tabbar islogin", this.isLogin())
 			if (this.isLogin()) {
-				this.$store.dispatch('getEmployerInfo');
+				this.$store.dispatch('getWorkerInfo');
 			}
 			let _this = this
 			uni.hideTabBar()

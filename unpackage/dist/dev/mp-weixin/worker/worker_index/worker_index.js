@@ -101,16 +101,16 @@ var components
 try {
   components = {
     uNavbar: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-navbar/u-navbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-navbar/u-navbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-navbar/u-navbar.vue */ 399))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-navbar/u-navbar */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-navbar/u-navbar")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-navbar/u-navbar.vue */ 419))
     },
     uSwiper: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 525))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-swiper/u-swiper */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-swiper/u-swiper")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-swiper/u-swiper.vue */ 545))
     },
     uSticky: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-sticky/u-sticky */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-sticky/u-sticky")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-sticky/u-sticky.vue */ 533))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-sticky/u-sticky */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-sticky/u-sticky")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-sticky/u-sticky.vue */ 553))
     },
     uTabs: function () {
-      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 458))
+      return Promise.all(/*! import() | uni_modules/uview-ui/components/u-tabs/u-tabs */[__webpack_require__.e("common/vendor"), __webpack_require__.e("uni_modules/uview-ui/components/u-tabs/u-tabs")]).then(__webpack_require__.bind(null, /*! @/uni_modules/uview-ui/components/u-tabs/u-tabs.vue */ 478))
     },
   }
 } catch (e) {
@@ -223,24 +223,25 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+var _toConsumableArray2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ 18));
 var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ 11));
 var _commonData = _interopRequireDefault(__webpack_require__(/*! @/common/commonData */ 194));
 var _vuex = __webpack_require__(/*! vuex */ 41);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 var login = function login() {
-  Promise.all(/*! require.ensure | components/employer_login */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/employer_login")]).then((function () {
-    return resolve(__webpack_require__(/*! @/components/employer_login.vue */ 347));
+  Promise.all(/*! require.ensure | components/login */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/login")]).then((function () {
+    return resolve(__webpack_require__(/*! @/components/login.vue */ 441));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var tabbar = function tabbar() {
   __webpack_require__.e(/*! require.ensure | components/worker_tabbar */ "components/worker_tabbar").then((function () {
-    return resolve(__webpack_require__(/*! @/components/worker_tabbar.vue */ 541));
+    return resolve(__webpack_require__(/*! @/components/worker_tabbar.vue */ 561));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var customCascade = function customCascade() {
   __webpack_require__.e(/*! require.ensure | components/custom_cascade */ "components/custom_cascade").then((function () {
-    return resolve(__webpack_require__(/*! @/components/custom_cascade.vue */ 855));
+    return resolve(__webpack_require__(/*! @/components/custom_cascade.vue */ 568));
   }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
 };
 var app = getApp();
@@ -379,6 +380,7 @@ var _default = {
       value: "",
       label: "全部"
     }], this.getList();
+    this.getSelectWorkTypes();
   },
   onReachBottom: function onReachBottom() {
     if (this.jobList.length == 0) {
@@ -401,6 +403,18 @@ var _default = {
     showSelect: function showSelect() {
       this.showCascade = true;
     },
+    getSelectWorkTypes: function getSelectWorkTypes() {
+      var _this2 = this;
+      this.$request("/worker/expected-job-types").then(function (res) {
+        if (res.code == 0) {
+          var arr = [{
+            value: "",
+            label: "全部"
+          }];
+          _this2.selectedWorkType = arr.concat(res.data);
+        }
+      });
+    },
     cancelCascade: function cancelCascade() {
       this.showCascade = false;
     },
@@ -410,49 +424,55 @@ var _default = {
       this.getList();
     },
     handleConfirm: function handleConfirm(e) {
+      var _this3 = this;
       console.log(e);
-      var arr = [{
-        value: "",
-        label: "全部"
-      }];
-      this.selectedWorkType = arr.concat(e);
-      uni.setStorageSync("workTypes", this.selectedWorkType);
-      this.showCascade = false;
+      var data = {
+        job_types: (0, _toConsumableArray2.default)(e)
+      };
+      this.$request("/worker/expected-job-types", data, "PUT").then(function (res) {
+        if (res.code == 0) {
+          _this3.getSelectWorkTypes();
+          _this3.showCascade = false;
+        }
+      });
+    },
+    makePhoneCall: function makePhoneCall() {
+      this.$store.dispatch('makePhoneCall');
     },
     getList: function getList() {
-      var _this2 = this;
+      var _this4 = this;
       var _this = this;
       var url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=" + this.currentTab.value;
       this.$request(url).then(function (res) {
         if (res.code == 0) {
-          _this2.jobList = res.data.list;
-          _this2.pagination = res.data.pagination;
-          if (_this2.jobList.length == 0) {
-            _this2.getAll();
+          _this4.jobList = res.data.list;
+          _this4.pagination = res.data.pagination;
+          if (_this4.jobList.length == 0) {
+            _this4.getAll();
           }
         }
       });
     },
     getAll: function getAll() {
-      var _this3 = this;
+      var _this5 = this;
       var _this = this;
       var url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=";
       this.$request(url).then(function (res) {
         if (res.code == 0) {
-          _this3.allList = res.data.list;
-          _this3.allPagination = res.data.pagination;
+          _this5.allList = res.data.list;
+          _this5.allPagination = res.data.pagination;
         }
       });
     },
     getAllMore: function getAllMore() {
-      var _this4 = this;
+      var _this6 = this;
       if (this.allCurrentPage < this.allPagination.page_count) {
         this.allCurrentPage++;
         var url = "/guest/recommend-jobs?page=" + this.allCurrentPage + "&keyword=&crowd_sourcing_job_type_code=";
         this.$request(url).then(function (res) {
           if (res.code == 0) {
-            _this4.allList = _this4.allList.concat(res.data.list);
-            _this4.allPagination = res.data.pagination;
+            _this6.allList = _this6.allList.concat(res.data.list);
+            _this6.allPagination = res.data.pagination;
           }
         });
       } else {
@@ -474,14 +494,14 @@ var _default = {
       });
     },
     getMore: function getMore() {
-      var _this5 = this;
+      var _this7 = this;
       if (this.currentPage < this.pagination.page_count) {
         this.currentPage++;
         var url = "/guest/recommend-jobs?page=" + this.currentPage + "&keyword=&crowd_sourcing_job_type_code=" + this.currentTab.value;
         this.$request(url).then(function (res) {
           if (res.code == 0) {
-            _this5.jobList = _this5.jobList.concat(res.data.list);
-            _this5.pagination = res.data.pagination;
+            _this7.jobList = _this7.jobList.concat(res.data.list);
+            _this7.pagination = res.data.pagination;
           }
         });
       } else {

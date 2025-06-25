@@ -179,14 +179,21 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+
+				},
+				{
+					"path": "webview/webview",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "灵动优聘",
-		"navigationBarBackgroundColor": "#20b1f3",
+		"navigationBarBackgroundColor": "#f3f3f5",
 		// #ifdef MP-WEIXIN || MP-KUAISHOU
 		"navigationStyle": "custom",
 		// #endif

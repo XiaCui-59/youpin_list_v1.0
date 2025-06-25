@@ -5,6 +5,7 @@ import request from 'common/request.js'
 Vue.use(Vuex)
 // 获取初始状态值
 let employerInfo = uni.getStorageSync("employerInfo") ? uni.getStorageSync("employerInfo") : null
+let workerInfo = uni.getStorageSync("workerInfo") ? uni.getStorageSync("workerInfo") : null
 let userInfo = uni.getStorageSync("userInfo") ? JSON.parse(uni.getStorageSync("userInfo")) : null
 let shareParams = uni.getStorageSync("shareParams") ? JSON.parse(uni.getStorageSync("shareParams")) : null
 let nameShow = uni.getStorageSync("nameShow") ? uni.getStorageSync("nameShow") : ""
@@ -54,6 +55,7 @@ const store = new Vuex.Store({
 		}], //工种类型
 		openidStatus: "none",
 		audioSwitch: false,
+		workerInfo: workerInfo
 	},
 	mutations: {
 		setNameShow(state) {
@@ -263,6 +265,9 @@ const store = new Vuex.Store({
 		},
 		updateAudioSwitch(state, data) {
 			state.audioSwitch = data
+		},
+		updateWorkerInfo(state, info) {
+			state.workerInfo = info
 		}
 	},
 	actions: {
@@ -326,6 +331,30 @@ const store = new Vuex.Store({
 				}
 			})
 
+		},
+		// 获取个人信息
+		getWorkerInfo({
+			commit
+		}, userInfo) {
+			// 这里应该是调用登录接口的代码
+			request("/worker/ai-wechat/profile").then(resp => {
+				if (resp.code == 0) {
+					uni.setStorageSync("workerInfo", resp.data)
+					commit('updateWorkerInfo', resp.data)
+				}
+			})
+
+		},
+		// 拨打客服电话
+		makePhoneCall() {
+			// 这里应该是调用登录接口的代码
+			request("/guest/contact-phone").then(resp => {
+				if (resp.code == 0) {
+					uni.makePhoneCall({
+						phoneNumber: resp.data
+					})
+				}
+			})
 		},
 		// 登出操作
 		userLogout({
