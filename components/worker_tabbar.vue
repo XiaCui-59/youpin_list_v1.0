@@ -2,7 +2,7 @@
 	<view class="tabbar">
 		<view class="tabbar-item" v-for="(item,index) in list" :key="index" @click="changeTab(index)"
 			:style="{height:height+'px',paddingTop:paddingTop+'px',paddingBottom:paddingTop+'px'}">
-			<image class="img active" :src="item.selectedIconPath" v-if="current == index"
+			<image class="img active" :src="item.selectedIconPath" v-if="(current == index) && (current != 1)"
 				:style="{height:seleIcHeight+'px',top:seleTop+'px',width:'auto'}" mode="heightFix"></image>
 			<image class="img" :src="item.iconPath" v-else
 				:style="{height:icHeight+'px',top:paddingTop+'px',width:'auto'}" mode="heightFix"></image>
@@ -65,13 +65,13 @@
 				showPubTabbar: false,
 				timer: null,
 				list: [{
-						"pagePath": "worker/worker_index/worker_index",
+						"pagePath": "pages/worker_index/worker_index",
 						"text": "工作",
 						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/work_normal.png",
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/ic_work_sele.png"
 					},
 					{
-						"pagePath": "worker/worker_chat/worker_chat",
+						"pagePath": "pages/worker_chat/worker_chat",
 						"text": "对话",
 						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_normal.png",
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_active.png"
@@ -130,7 +130,7 @@
 			},
 			changeTab(e) {
 				uni.switchTab({
-					url: '/' + this.list[e].pagePath,
+					url: '/' + this.list[e].pagePath
 				})
 			},
 			closeModal() {

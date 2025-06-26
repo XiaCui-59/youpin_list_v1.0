@@ -77,7 +77,7 @@
 						"selectedIconPath": app.globalData.baseImageUrl + "/broker/icon_message_sele.png"
 					},
 					{
-						"pagePath": "pages/employer_mine/employer_mine",
+						"pagePath": "pages/mine/mine",
 						"text": "我的",
 						"iconPath": app.globalData.baseImageUrl + "/broker/icon_mine.png",
 						"selectedIconPath": app.globalData.baseImageUrl + "/broker/icon_mine_sele.png"

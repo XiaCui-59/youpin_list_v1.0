@@ -245,14 +245,6 @@
 		computed: {
 			...mapState(["workerInfo", "loginStatus"])
 		},
-		// watch: {
-		// 	workerInfo: {
-		// 		handler: function(newVal, oldVal) {
-		// 			console.log(newVal)
-		// 		},
-		// 		deep: true, // 开启深度监听
-		// 	}
-		// },
 		onShareAppMessage() {
 			return {
 				title: "快乐求职好伙伴，品质工作新选择",
@@ -263,6 +255,10 @@
 		onLoad(param) {
 			this.id = param.id
 			this.contMinHeight = app.globalData.systemHeight - this.marginTop - this.tabMargin
+			this.name = this.workerInfo.name ? this.workerInfo.name : ""
+			this.age = this.workerInfo.age ? this.workerInfo.age : ""
+			this.nation = this.workerInfo.nation ? this.workerInfo.nation : ""
+			this.gender = this.workerInfo.gender ? this.workerInfo.gender : ""
 			this.getInfo()
 			if (!this.isLogin()) {
 				this.showLogin = true
@@ -299,8 +295,8 @@
 				if (pages.length > 1) {
 					uni.navigateBack()
 				} else {
-					uni.redirectTo({
-						url: "/worker/worker_index/worker_index"
+					uni.switchTab({
+						url: "/pages/worker_index/worker_index"
 					})
 				}
 

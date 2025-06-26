@@ -59,6 +59,7 @@
 			}
 		},
 		methods: {
+			...mapMutations(["setRole"]),
 			checkRole() {
 				let _this = this
 				if (_this.token) {
@@ -66,19 +67,18 @@
 					_this.$request("/guest/role").then(res => {
 						if (res.code == 0) {
 							if (res.data.role == "worker") {
-								// uni.redirectTo({
-								// 	url: "/subpkg/index/index",
-								// 	success() {
-								// 		uni.hideLoading()
-								// 	}
-								// })
-								uni.redirectTo({
-									url: "/worker/worker_index/worker_index",
+								this.setRole("worker")
+								uni.switchTab({
+									url: "/pages/worker_index/worker_index",
 									success() {
 										uni.hideLoading()
+									},
+									fail(err) {
+										console.log("err：", err)
 									}
 								})
 							} else {
+								this.setRole("employer")
 								uni.switchTab({
 									url: "/pages/employer_index/employer_index",
 									success() {

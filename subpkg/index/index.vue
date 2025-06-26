@@ -387,18 +387,6 @@
 				// this.params = this.getQueryParams(fullPath)
 			}
 			let token = uni.getStorageSync("token") ? uni.getStorageSync("token") : ""
-			// this.header = {
-			// 	'content-type': 'application/json',
-			// 	"app-id": urlSetting.urls.appid,
-			// 	"open-id": uni.getStorageSync("openid") ? uni.getStorageSync("openid") : "",
-			// 	"address": _this.location ? encodeURIComponent(JSON.stringify(_this.location)) : "",
-			// 	"Authorization": "bearer " + token,
-			// 	"ad-platform": this.params.ad_platform ? this.params.ad_platform : "",
-			// 	"ad-sub-platform": this.params.ad_sub_platform ? this.params.ad_sub_platform : "",
-			// 	"job-id": this.currentProjectDetail.id ? this.currentProjectDetail.id : (this.params.pro_id ? this
-			// 		.params
-			// 		.pro_id : "")
-			// }
 			if (this.params.from == "ad") {
 				this.pro_id = this.params.pro_id
 				this.loadWorkInfo = await this.getWorkInfo()
@@ -438,18 +426,6 @@
 			broadcast
 		},
 		watch: {
-			// greetingReady(newValue) {
-			// 	if (newValue) {
-			// 		// uni.hideLoading()
-			// 		// this.closeAnswerContinue()
-			// 	}
-			// },
-			// aiReady(newValue) {
-			// 	if (newValue) {
-			// 		uni.hideLoading()
-			// 		// this.closeAnswerContinue()
-			// 	}
-			// },
 			currentTabIndex(newValue, oldValue) {
 				let _this = this
 				if (newValue != 0) {
@@ -542,7 +518,6 @@
 					_this.$request(url).then(res => {
 						if (res.code == 0) {
 							resolve(res.data)
-							// _this.currentProjectDetail = res.data
 						}
 					})
 				})
@@ -935,20 +910,6 @@
 				}
 
 			},
-			handleBtnMsg(msg) {
-				let _this = this
-				return new Promise((resolve) => {
-					_this.$request("/ai/refine/question", {
-						"text": msg
-					}, "POST").then(res => {
-						if (res.code == 0) {
-							resolve(res.data)
-						} else {
-							resolve("error")
-						}
-					})
-				})
-			},
 			inputBindFocus(e) {
 				if (!this.isLogin()) {
 					this.showLogin = true
@@ -1210,17 +1171,6 @@
 						_this.showProPop = true
 					}
 					console.log('已成功建立链接onOpen', res);
-					// if (this.loadWorkInfo && this.loadWorkInfo.project_id) {
-					// 	let obj = {
-					// 		job_id: this.loadWorkInfo.project_id,
-					// 		name: this.loadWorkInfo.project_name,
-					// 		msg: "你好，我叫" + this.loadWorkInfo.name + "，电话" + this.loadWorkInfo.mobile + "，对职位" +
-					// 			this.loadWorkInfo.project_name + "(职位ID：" + this.loadWorkInfo.project_id +
-					// 			")感兴趣，请问如何报名呢？"
-					// 	}
-					// 	this.sendBtnMsg(obj)
-					// }
-					// 如果是其他页面进入首页
 				})
 				app.globalData.socketTask.onError((err) => {
 					app.globalData.socketTask = null

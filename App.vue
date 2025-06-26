@@ -160,6 +160,7 @@
 		},
 		onUnload() {
 			this.globalData.Audio.destroy()
+			this.globalData.socketTask.close()
 		}
 	}
 </script>

@@ -1,151 +1,146 @@
 <template>
-	<view class="content_body body_bg" :style="{paddingTop:top+'px',paddingBottom:bottom+'px'}">
+	<view class="chat_body">
 		<!-- 有聊天对话区 -->
-		<view class="chat_area">
-			<scroll-view class="chat_wrap" :scroll-into-view="scrollView" :style="{height:scrollHeight+'px'}"
-				:scroll-y="true" id="chatwrap" :refresher-enabled="true" :refresher-triggered="trigger"
-				@refresherrefresh="getMoreHistory">
-				<!-- 历史记录 -->
-				<view class="history list">
-					<view class="qa_item" v-for="(item,index) in historyList" :key="item.id" :id="'his'+item.id">
-						<view class="line" :class="item.origin == 'customer'?'right':'left'">
-							<view class="inline_box">
-								<view class="cont" :class="item.msg_type == 'text'?'textcont':''">
-									<!-- 文字信息 -->
-									<rich-text :nodes="item.content"
-										:class="item.origin == 'customer'?'customer_text':'ai_text'"
-										v-if="item.msg_type == 'text'  && item.origin == 'customer'"></rich-text>
-									<markdown-render :sourceMdContent="item.content" :showCursor="false" class="ai_text"
-										v-if="item.origin == 'ai'"></markdown-render>
-									<view class="voice_line flex flex_end">
-										<view class="trans" v-show="item.showTranIcon"
-											@click.stop="startTrans(item,'his')">
-											<image :src="imgUrl+'/worker/ic_trans.png'" mode="widthFix"></image>
-										</view>
-										<!-- 语音消息 -->
-										<view class="voice_wrap flex flex_end" v-if="item.msg_type == 'voice'"
-											@tap.stop="handleAudio('his',item,index)" @longpress="showTrans(item,'his')"
-											:style="{width:Math.ceil(item.voice.second * 20)+'px',maxWidth:'calc(100% - 136rpx)',minWidth:'60px'}">
+		<scroll-view class="chat_wrap" :scroll-into-view="scrollView" :style="{height:scrollHeight+'px'}"
+			:scroll-y="true" id="chatwrap" :refresher-enabled="true" :refresher-triggered="trigger"
+			@refresherrefresh="getMoreHistory">
+			<!-- 历史记录 -->
+			<view class="history list">
+				<view class="qa_item" v-for="(item,index) in historyList" :key="item.id" :id="'his'+item.id">
+					<view class="line" :class="item.origin == 'customer'?'right':'left'">
+						<view class="inline_box">
+							<view class="cont" :class="item.msg_type == 'text'?'textcont':''">
+								<!-- 文字信息 -->
+								<rich-text :nodes="item.content"
+									:class="item.origin == 'customer'?'customer_text':'ai_text'"
+									v-if="item.msg_type == 'text'  && item.origin == 'customer'"></rich-text>
+								<markdown-render :sourceMdContent="item.content" :showCursor="false" class="ai_text"
+									v-if="item.origin == 'ai'"></markdown-render>
+								<view class="voice_line flex flex_end">
+									<view class="trans" v-show="item.showTranIcon" @click.stop="startTrans(item,'his')">
+										<image :src="imgUrl+'/worker/ic_trans.png'" mode="widthFix"></image>
+									</view>
+									<!-- 语音消息 -->
+									<view class="voice_wrap flex flex_end" v-if="item.msg_type == 'voice'"
+										@tap.stop="handleAudio('his',item,index)" @longpress="showTrans(item,'his')"
+										:style="{width:Math.ceil(item.voice.second * 20)+'px',maxWidth:'calc(100% - 136rpx)',minWidth:'60px'}">
 
-											<view class="seconds">{{Math.ceil(item.voice.second)}}'</view>
-											<view class="voice_icon" :class="[
+										<view class="seconds">{{Math.ceil(item.voice.second)}}'</view>
+										<view class="voice_icon" :class="[
+												{ voice_icon_right: true },
+												{ voice_icon_right_an: item.voice.anmitionPlay }
+											]"></view>
+									</view>
+								</view>
+								<rich-text :nodes="item.content" class="trans_result text"
+									v-if="item.showTranlate"></rich-text>
+							</view>
+							<!-- 添加客服微信 -->
+							<cardKefu v-show="item.msg_type == 'card' && item.card && item.card.type == 'QCODE'">
+							</cardKefu>
+							<!-- 报名成功后卡片 -->
+							<cardSignupe :job_name="item.card.job_name" :job_id="item.card.job_id"
+								v-show="item.msg_type == 'card' && item.card && item.card.type == 'applied'">
+							</cardSignupe>
+						</view>
+					</view>
+				</view>
+				<view class="fenge flex flex_around" id="fenge_line" v-show="historyList.length>0">
+					<view class="fgline"></view>
+					<view class="text">以上是历史记录</view>
+					<view class="fgline"></view>
+				</view>
+			</view>
+
+			<view class="list" id="listWrap" v-if="qaList.length!=0">
+				<!-- <view class="list" id="listWrap" :style="{paddingBottom:subTabHeight+30+'px',boxSizing:'border-box'}"> -->
+				<view class="qa_item" v-for="(item,index) in qaList" :key="item.id" :id="'qa'+index">
+					<view class="line" :class="item.origin == 'customer'?'right':'left'">
+						<view class="inline_box">
+							<view class="cont" :class="item.msg_type == 'text'?'textcont':''" :id="'cont'+index">
+								<!-- 文字信息 -->
+								<rich-text :nodes="item.content"
+									:class="item.origin == 'customer'?'customer_text':'ai_text'"
+									v-if="item.msg_type == 'text'  && item.origin == 'customer'"></rich-text>
+								<markdown-render :sourceMdContent="item.content" :showCursor="false" class="ai_text"
+									:class="index == (qaList.length - 1) && answerContinue?'last_ai_text':''"
+									v-if="item.msg_type == 'text' && item.origin != 'customer'"></markdown-render>
+								<view class="voice_line flex flex_end">
+									<view class="trans" v-show="item.showTranIcon" @click.stop="startTrans(item,'qa')">
+										<image :src="imgUrl+'/worker/ic_trans.png'" mode="widthFix"></image>
+									</view>
+									<!-- 语音消息 -->
+									<view class="voice_wrap flex flex_end" v-if="item.msg_type == 'voice'"
+										@tap.stop="handleAudio('qa',item,index)" @longpress="showTrans(item,'qa')"
+										:style="{width:Math.ceil(item.voice.second * 20)+'px',maxWidth:'calc(100% - 136rpx)',minWidth:'60px'}">
+
+										<view class="seconds">{{Math.ceil(item.voice.second)}}'</view>
+										<view class="voice_icon" :class="[
 													{ voice_icon_right: true },
 													{ voice_icon_right_an: item.voice.anmitionPlay }
 												]"></view>
+									</view>
+								</view>
+								<rich-text :nodes="item.content" class="trans_result text"
+									v-if="item.showTranlate"></rich-text>
+							</view>
+							<!-- 您还可以这样问 -->
+							<view class="may_ask"
+								v-if="item.may_ask?(item.may_ask.length>0&&index == qaList.length -1 && (!answerContinue)):false">
+								<!-- <view class="tit">{{item.printMayAsk.title}}</view> -->
+								<view class="may_ask_list">
+									<view class="ask_item flex flex-start" v-for="(askItem,askIndex) in item.may_ask"
+										:key="`ask${askIndex}`">
+										<view class="text" @click.stop="()=>sendMsg(askItem,'tip')">{{askItem}}
 										</view>
 									</view>
-									<rich-text :nodes="item.content" class="trans_result text"
-										v-if="item.showTranlate"></rich-text>
 								</view>
-								<!-- 添加客服微信 -->
-								<cardKefu v-show="item.msg_type == 'card' && item.card && item.card.type == 'QCODE'">
+							</view>
+							<!-- 添加客服微信 -->
+							<view v-if="index == (qaList.length - 1)">
+								<!-- 最新一条 -->
+								<cardKefu v-if="item.card && item.card.type == 'QCODE' && !answerContinue"
+									:showHand="showHand" @closeHand="closeHand">
 								</cardKefu>
-								<!-- 报名成功后卡片 -->
-								<cardSignupe :job_name="item.card.job_name" :job_id="item.card.job_id"
-									v-show="item.msg_type == 'card' && item.card && item.card.type == 'applied'">
-								</cardSignupe>
 							</view>
+							<view v-if="index != (qaList.length - 1)">
+								<!-- 不是最后一条一直显示 -->
+								<cardKefu v-if="item.card && item.card.type == 'QCODE'">
+								</cardKefu>
+							</view>
+							<!-- 推送充值卡片 -->
+							<view v-if="index == (qaList.length - 1)">
+								<!-- 最新一条 -->
+								<cardRecharge
+									v-if="item.card && item.card.type == 'score_not_enough' && !answerContinue"
+									@sendMsg="sendMsg('我已充值成功，请帮我报名。','')" @setScrollHeight="setScrollHeight">
+								</cardRecharge>
+							</view>
+							<cardSignupe v-show="item.card && item.card.type == 'applied' && !answerContinue">
+							</cardSignupe>
 						</view>
 					</view>
-					<view class="fenge flex flex_around" id="fenge_line" v-show="historyList.length>0">
-						<view class="fgline"></view>
-						<view class="text">以上是历史记录</view>
-						<view class="fgline"></view>
-					</view>
 				</view>
-
-				<view class="list" id="listWrap" v-if="qaList.length!=0">
-					<!-- <view class="list" id="listWrap" :style="{paddingBottom:subTabHeight+30+'px',boxSizing:'border-box'}"> -->
-					<view class="qa_item" v-for="(item,index) in qaList" :key="item.id" :id="'qa'+index">
-						<view class="line" :class="item.origin == 'customer'?'right':'left'">
-							<view class="inline_box">
-								<view class="cont" :class="item.msg_type == 'text'?'textcont':''" :id="'cont'+index">
-									<!-- 文字信息 -->
-									<rich-text :nodes="item.content"
-										:class="item.origin == 'customer'?'customer_text':'ai_text'"
-										v-if="item.msg_type == 'text'  && item.origin == 'customer'"></rich-text>
-									<markdown-render :sourceMdContent="item.content" :showCursor="false" class="ai_text"
-										:class="index == (qaList.length - 1) && answerContinue?'last_ai_text':''"
-										v-if="item.msg_type == 'text' && item.origin != 'customer'"></markdown-render>
-									<view class="voice_line flex flex_end">
-										<view class="trans" v-show="item.showTranIcon"
-											@click.stop="startTrans(item,'qa')">
-											<image :src="imgUrl+'/worker/ic_trans.png'" mode="widthFix"></image>
-										</view>
-										<!-- 语音消息 -->
-										<view class="voice_wrap flex flex_end" v-if="item.msg_type == 'voice'"
-											@tap.stop="handleAudio('qa',item,index)" @longpress="showTrans(item,'qa')"
-											:style="{width:Math.ceil(item.voice.second * 20)+'px',maxWidth:'calc(100% - 136rpx)',minWidth:'60px'}">
-
-											<view class="seconds">{{Math.ceil(item.voice.second)}}'</view>
-											<view class="voice_icon" :class="[
-														{ voice_icon_right: true },
-														{ voice_icon_right_an: item.voice.anmitionPlay }
-													]"></view>
-										</view>
-									</view>
-									<rich-text :nodes="item.content" class="trans_result text"
-										v-if="item.showTranlate"></rich-text>
-								</view>
-								<!-- 您还可以这样问 -->
-								<view class="may_ask"
-									v-if="item.may_ask?(item.may_ask.length>0&&index == qaList.length -1 && (!answerContinue)):false">
-									<!-- <view class="tit">{{item.printMayAsk.title}}</view> -->
-									<view class="may_ask_list">
-										<view class="ask_item flex flex-start"
-											v-for="(askItem,askIndex) in item.may_ask" :key="`ask${askIndex}`">
-											<view class="text" @click.stop="()=>sendMsg(askItem,'tip')">{{askItem}}
-											</view>
-										</view>
-									</view>
-								</view>
-								<!-- 添加客服微信 -->
-								<view v-if="index == (qaList.length - 1)">
-									<!-- 最新一条 -->
-									<cardKefu v-if="item.card && item.card.type == 'QCODE' && !answerContinue"
-										:showHand="showHand" @closeHand="closeHand">
-									</cardKefu>
-								</view>
-								<view v-if="index != (qaList.length - 1)">
-									<!-- 不是最后一条一直显示 -->
-									<cardKefu v-if="item.card && item.card.type == 'QCODE'">
-									</cardKefu>
-								</view>
-								<!-- 推送充值卡片 -->
-								<view v-if="index == (qaList.length - 1)">
-									<!-- 最新一条 -->
-									<cardRecharge
-										v-if="item.card && item.card.type == 'score_not_enough' && !answerContinue"
-										@sendMsg="sendMsg('我已充值成功，请帮我报名。','')" @setScrollHeight="setScrollHeight">
-									</cardRecharge>
-								</view>
-								<cardSignupe v-show="item.card && item.card.type == 'applied' && !answerContinue">
-								</cardSignupe>
+			</view>
+			<view class="list">
+				<view class="qa_item" :style="{paddingBottom: '20rpx',display:answering?'block':'none'}" id="answering">
+					<view class="line left">
+						<view class="inline_box flex" style="align-items: center;">
+							<view class="cont flex " style="width:400rpx;text-align: center;">
+								<text>正在努力思考</text>
+								<image :src="imgUrl+'/worker/answering.gif'" mode="widthFix"
+									style="width:100rpx;margin-left:10rpx;margin-right: 0; vertical-align: middle;">
+								</image>
 							</view>
 						</view>
 					</view>
 				</view>
-				<view class="list">
-					<view class="qa_item" :style="{paddingBottom: '20rpx',display:answering?'block':'none'}"
-						id="answering">
-						<view class="line left">
-							<view class="inline_box flex" style="align-items: center;">
-								<view class="cont flex " style="width:400rpx;text-align: center;">
-									<text>正在努力思考</text>
-									<image :src="imgUrl+'/worker/answering.gif'" mode="widthFix"
-										style="width:100rpx;margin-left:10rpx;margin-right: 0; vertical-align: middle;">
-									</image>
-								</view>
-							</view>
-						</view>
-					</view>
+			</view>
+			<view class="list">
+				<view class="qa_item" :style="{paddingBottom: '20rpx'}" id="continue">
 				</view>
-				<view class="list">
-					<view class="qa_item" :style="{paddingBottom: '20rpx'}" id="continue">
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+			</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -184,7 +179,8 @@
 				freshing: false,
 				trigger: false,
 				cardDoubleClick: false, //防止卡片连续点击,
-				showHand: true
+				showHand: true,
+				scrollRemainHis: "" //记录加载更多时当前第一条的id
 			};
 		},
 		computed: {
@@ -263,7 +259,6 @@
 				})
 			}
 		},
-		components: {},
 		methods: {
 			// ...mapMutations(["closeInterviewCard"]),
 			getElementHeight() {
@@ -288,6 +283,7 @@
 				console.log("freshing/trigger：", this.freshing, this.trigger)
 			},
 			getMoreHistory() {
+				this.scrollRemainHis = "his" + this.historyList[0].id
 				if (this.freshing) return
 				this.freshing = true
 				this.trigger = true
@@ -553,6 +549,14 @@
 
 				}
 			},
+			// 加载更多时滚动到刚才最后一条信息
+			scrollToPre() {
+				let _this = this
+				_this.scrollView = ""
+				this.$nextTick(() => {
+					_this.scrollView = _this.scrollRemainHis
+				})
+			},
 			toScroll() {
 				let _this = this
 				_this.scrollView = ""
@@ -724,11 +728,12 @@
 		}
 	}
 
-	.content_body {
+	.chat_body {
 		// background: url($back-ground-url+"/worker/new/chat_bg.png") no-repeat;
 		// background-size: cover;
 		padding: 0 28rpx;
 		box-sizing: border-box;
+
 
 		.greeting {
 			margin-top: 30rpx;
@@ -760,7 +765,7 @@
 				font-size: 31rpx;
 				color: #223756;
 				line-height: 54rpx;
-				background: #F1F8FF;
+				background: #FFFFFF;
 				border-radius: 4rpx 44rpx 44rpx 44rpx;
 				padding: 23rpx 30rpx;
 				box-sizing: border-box;
@@ -970,9 +975,10 @@
 							}
 
 							.cont {
-								background: #F1F8FF;
+								background: #FFFFFF;
 								border-radius: 4rpx 35rpx 35rpx 35rpx;
 								color: #213B56;
+								box-shadow: 0rpx 0rpx 4rpx 0rpx rgba(0, 0, 0, 0.1);
 
 							}
 						}

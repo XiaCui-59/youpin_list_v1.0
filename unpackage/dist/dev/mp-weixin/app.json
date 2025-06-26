@@ -6,7 +6,10 @@
     "pages/employer_index/employer_index",
     "pages/employer_sign/employer_sign",
     "pages/employer_mine/employer_mine",
-    "pages/index/index"
+    "pages/index/index",
+    "pages/worker_index/worker_index",
+    "pages/worker_chat/worker_chat",
+    "pages/mine/mine"
   ],
   "subPackages": [
     {
@@ -36,8 +39,6 @@
     {
       "root": "worker/",
       "pages": [
-        "worker_index/worker_index",
-        "worker_chat/worker_chat",
         "work_detail/work_detail",
         "webview/webview"
       ]
@@ -66,7 +67,13 @@
         "pagePath": "pages/employer_sign/employer_sign"
       },
       {
-        "pagePath": "pages/employer_mine/employer_mine"
+        "pagePath": "pages/mine/mine"
+      },
+      {
+        "pagePath": "pages/worker_index/worker_index"
+      },
+      {
+        "pagePath": "pages/worker_chat/worker_chat"
       }
     ]
   },

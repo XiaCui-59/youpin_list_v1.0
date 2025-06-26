@@ -189,13 +189,6 @@
 		computed: {
 			...mapState(["employerInfo", "nameShow", "loginStatus"])
 		},
-		async onShow() {
-			if (this.isLogin()) {
-				this.getInfo()
-			} else {
-				this.showLogin = true
-			}
-		},
 		methods: {
 			...mapMutations(["setToken"]),
 			getTabbarHeight(e) {

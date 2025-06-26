@@ -64,7 +64,7 @@
 						<view class="title">{{item.name}}
 						</view>
 						<view class="salary">
-							{{(item.min_salary== item.max_salary?item.max_salary:(item.min_salary+"-"+item.max_salary))+"元"+period.filter(el=>{return el.value==item.salary_type})[0].text}}
+							{{(item.min_salary== item.max_salary?Math.floor(item.max_salary):(Math.floor(item.min_salary)+"-"+Math.floor(item.max_salary)))+"元"+period.filter(el=>{return el.value==item.salary_type})[0].text}}
 						</view>
 					</view>
 					<view class="labels flex" v-if="item.highlight && item.highlight.length != 0">
@@ -121,7 +121,7 @@
 		</customCascade>
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getList">
 		</login>
-		<tabbar current="0" @getTabbarHeight="getTabbarHeight" :todo="todo"></tabbar>
+		<tabbar current="0" @getTabbarHeight="getTabbarHeight"></tabbar>
 	</view>
 </template>
 
@@ -263,7 +263,7 @@
 			customCascade
 		},
 		computed: {
-			...mapState(["employerInfo", "nameShow", "loginStatus", "workType"])
+			...mapState(["workType"])
 		},
 		onLoad() {
 			this.boxTop = this.marginTop + this.bannerHeight + 3 * this.tabMargin + this.subTabHeight

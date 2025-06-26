@@ -39,6 +39,16 @@ const request = (url = '', date = {}, type = 'GET', header = {
 				if (res.data.code == -1 && url.indexOf(
 						"/guest/role") == -1) {
 					uni.removeStorageSync("token")
+					uni.removeStorageSync("currentRole")
+					if (uni.getStorageSync("workerInfo")) {
+						uni.removeStorageSync("workerInfo")
+					}
+
+					if (uni.getStorageSync("employerInfo")) {
+						uni.removeStorageSync("employerInfo")
+					}
+
+					uni.removeStorageSync("loginStatus")
 					uni.setStorageSync("isLogout", true)
 					uni.redirectTo({
 						url: "/pages/role_confirm_page/role_confirm_page"

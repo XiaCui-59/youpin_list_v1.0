@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "tabbar": "/components/tabbar",
+    "custom-header": "/components/custom_header",
+    "login": "/components/employer_login",
+    "add-name": "/components/addName",
+    "employer-mine": "/components/employer_mine",
+    "worker-login": "/components/login",
+    "worker-tabbar": "/components/worker_tabbar",
+    "worker-mine": "/components/worker_mine"
+  }
+}

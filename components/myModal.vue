@@ -1,70 +1,65 @@
 <template>
-	<view class="modal" v-if="showMyModal">
-		<view class="modal_inner_box">
-			<view class="text_area">
-				<view class="title" v-if="info.title">{{info.title}}</view>
-				<view class="cont" v-if="info.content">{{info.content}}</view>
-			</view>
-			<view class="btn_area flex flex_btween" :style="{justifyContent:!info.showCancel?'center':'between'}">
-				<view class="btn_item cancel" @click="cancel" v-if="info.showCancel"
-					:style="{borderColor:'#CFCFCF',color:info.cancelColor}">
-					{{info.cancelText?info.cancelText:"取消"}}
-				</view>
-				<view class="btn_item confirm" @click="confirm"
-					:style="{borderColor:info.confirmColor,color:info.confirmColor}">
-					{{info.confirmText?info.confirmText:"确定"}}
+	<view class="modal">
+		<uni-popup ref="modal" type="center">
+			<view class="modal_wrap">
+				<view class="modal_title">{{option.title}}</view>
+				<view class="modal_content">{{option.content}}</view>
+				<view class="modal_btns">
+					<view class="modal_btn modal_cancel" v-if="option.showCancel" @click="cancel">{{option.cancelText}}
+					</view>
+					<view class="modal_btn modal_confirm" :class="option.showCancel?'':'widther'" @click="confirm">
+						{{option.confirmText}}
+					</view>
 				</view>
 			</view>
-		</view>
 
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	export default {
 		name: "myModal",
-		props: ["title", "content", "confirmText", "cancelText", "showCancel"],
 		data() {
 			return {
-				showMyModal: false,
-				info: {
+				option: {
 					title: "",
 					content: "",
-					showCancel: true,
-					confirmText: "确定",
 					cancelText: "取消",
-					confirmColor: "#216FF9",
-					cancelColor: "#213B56",
+					confirmText: "确定",
+					showCancel: true,
 					success: () => {}
 				}
 			};
 		},
 		methods: {
-			showModal(param) {
-				this.showMyModal = true
-				this.info.title = param.title ? param.title : ""
-				this.info.content = param.content ? param.content : ""
-				this.info.showCancel = String(param.showCancel) != "undefined" ? param.showCancel : true
-				this.info.confirmText = param.confirmText ? param.confirmText : "确定"
-				this.info.cancelText = param.cancelText ? param.cancelText : "取消"
-				this.info.confirmColor = param.confirmColor ? param.confirmColor : "#216FF9"
-				this.info.cancelColor = param.cancelColor ? param.cancelColor : "#213B56"
-				this.info.success = (type) => {
-					if (typeof param.success == "function") {
-						param.success(type)
+			showMyModal(obj) {
+				let _this = this
+				setTimeout(function() {
+					_this.$refs.modal.open()
+				}, 500)
+				this.option.title = obj.title ? obj.title : "提示"
+				this.option.content = obj.content ? obj.content : "确认执行此操作吗？"
+				this.option.cancelText = obj.cancelText ? obj.cancelText : "取消"
+				this.option.confirmText = obj.confirmText ? obj.confirmText : "确定"
+				console.log(String(obj.showCancel))
+				this.option.showCancel = String(obj.showCancel) != "undefined" ? obj.showCancel : true
+				this.option.success = (type) => {
+					if (typeof obj.success == "function") {
+						obj.success(type)
 					}
 
 				}
 			},
 			hideModal() {
-				this.showMyModal = false
+				this.$refs.modal.close()
 			},
 			cancel() {
-				this.info.success("cancel")
+				this.option.success("cancel")
 				this.hideModal()
 			},
 			confirm() {
-				this.info.success("confirm")
+				this.option.success("confirm")
 				this.hideModal()
 			}
 		}
@@ -73,57 +68,66 @@
 
 <style lang="scss">
 	.modal {
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(0, 0, 0, .6);
-		z-index: 20000;
+		width: 100%;
+	}
 
-		.modal_inner_box {
-			width: 69.2%;
-			position: absolute;
-			top: 55%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			background: url($back-ground-url+'/worker/new/modal_bg.png') no-repeat;
-			background-size: 100% 100%;
-			border-radius: 21rpx;
-			overflow: hidden;
 
-			padding: 88rpx 40rpx 48rpx 40rpx;
-			box-sizing: border-box;
 
-			.text_area {
-				.title {
-					font-weight: 400;
-					font-size: 35rpx;
-					color: #213B56;
-					text-align: center;
-					line-height: 56rpx;
+	.modal_wrap {
+		background: linear-gradient(225deg, #A6D0FB 0%, rgba(230, 242, 254, 0.6) 23%, #FFFFFF 65%, #EDF4FF 86%, #C4D9F7 100%);
+		border-radius: 44rpx;
+		width: 100%;
+		padding: 57rpx 30rpx 76rpx 30rpx;
+		box-sizing: border-box;
+
+		.modal_title {
+			text-align: center;
+			font-weight: 600;
+			font-size: 44rpx;
+			margin-bottom: 57rpx;
+			line-height: 69rpx;
+			color: #333333;
+		}
+
+		.modal_content {
+			font-weight: 600;
+			font-size: 30rpx;
+			color: #333333;
+			text-align: center;
+			line-height: 50rpx;
+		}
+
+		.modal_btns {
+			margin-top: 76rpx;
+			text-align: center;
+
+			.modal_btn {
+				display: inline-block;
+				width: 200rpx;
+				height: 85rpx;
+				line-height: 85rpx;
+				text-align: center;
+				font-weight: 600;
+				font-size: 29rpx;
+				border-radius: 15rpx;
+				box-shadow: 0rpx 2rpx 4rpx 0rpx rgba(0, 0, 0, 0.15);
+				border: 2rpx solid #216FF9;
+
+				&.widther {
+					width: 54.5%;
 				}
 
-
-			}
-
-			.btn_area {
-				margin-top: 53rpx;
-
-				.btn_item {
-					width: 40%;
-					height: 69rpx;
-					line-height: 69rpx;
-					text-align: center;
-					font-weight: 400;
-					font-size: 27rpx;
-					color: #213B56;
-					border-radius: 35rpx;
-					border-width: 2rpx;
-					border-style: solid;
-					border-color: #CFCFCF;
+				&.modal_cancel {
+					background: #FFFFFF;
+					color: #216FF9;
+					margin-right: 40rpx;
 				}
 
+				&.modal_confirm {
+					background: #216FF9;
+					color: #fff;
+
+				}
 			}
 		}
 	}

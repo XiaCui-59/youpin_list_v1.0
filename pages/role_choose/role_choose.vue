@@ -64,7 +64,7 @@
 			}
 		},
 		methods: {
-			...mapMutations(["setToken"]),
+			...mapMutations(["setToken", "setRole"]),
 			handle(type) {
 				let url = "/auth/ai-wechat/" + type + "/token"
 				let data = {
@@ -75,8 +75,9 @@
 						this.setToken(res.data.token)
 						uni.setStorageSync("token", res.data.token)
 						if (type == "worker") {
-							uni.redirectTo({
-								url: "/worker/worker_index/worker_index",
+							this.setRole("worker")
+							uni.switchTab({
+								url: "/pages/worker_index/worker_index",
 								success(resp) {
 									console.log("跳转成功", resp)
 								},
@@ -85,6 +86,7 @@
 								}
 							})
 						} else {
+							this.setRole("employer")
 							uni.switchTab({
 								url: "/pages/employer_index/employer_index",
 								success(resp) {

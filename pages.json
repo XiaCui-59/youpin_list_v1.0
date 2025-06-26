@@ -49,6 +49,25 @@
 			"style": {
 				"navigationBarTitleText": ""
 			}
+		},
+		{
+			"path": "pages/worker_index/worker_index",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+
+		{
+			"path": "pages/worker_chat/worker_chat",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/mine/mine",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		}
 	],
 	"subPackages": [
@@ -161,20 +180,6 @@
 			"pages": [
 				// 分包内页面
 				{
-					"path": "worker_index/worker_index",
-					"style": {
-						"navigationBarTitleText": ""
-					}
-				},
-
-				{
-					"path": "worker_chat/worker_chat",
-					"style": {
-						"navigationBarTitleText": ""
-					}
-				},
-
-				{
 					"path": "work_detail/work_detail",
 					"style": {
 						"navigationBarTitleText": ""
@@ -214,7 +219,13 @@
 				"pagePath": "pages/employer_sign/employer_sign"
 			},
 			{
-				"pagePath": "pages/employer_mine/employer_mine"
+				"pagePath": "pages/mine/mine"
+			},
+			{
+				"pagePath": "pages/worker_index/worker_index"
+			},
+			{
+				"pagePath": "pages/worker_chat/worker_chat"
 			}
 		]
 	},

@@ -4,6 +4,7 @@ import request from 'common/request.js'
 
 Vue.use(Vuex)
 // 获取初始状态值
+let currentRole = uni.getStorageSync("currentRole") ? uni.getStorageSync("currentRole") : ""
 let employerInfo = uni.getStorageSync("employerInfo") ? uni.getStorageSync("employerInfo") : null
 let workerInfo = uni.getStorageSync("workerInfo") ? uni.getStorageSync("workerInfo") : null
 let userInfo = uni.getStorageSync("userInfo") ? JSON.parse(uni.getStorageSync("userInfo")) : null
@@ -55,12 +56,17 @@ const store = new Vuex.Store({
 		}], //工种类型
 		openidStatus: "none",
 		audioSwitch: false,
-		workerInfo: workerInfo
+		workerInfo: workerInfo,
+		currentRole: ""
 	},
 	mutations: {
 		setNameShow(state) {
 			state.nameShow = "show"
 			uni.setStorageSync("nameShow", "show")
+		},
+		setRole(state, role) {
+			state.currentRole = role
+			uni.setStorageSync("currentRole", role)
 		},
 		setCallBackCount(state) {
 			state.callBackCount = 1

@@ -150,14 +150,14 @@ image {
   font-size: 27rpx;
   color: #213B56;
 }
-.content_body {
+.chat_body {
   padding: 0 28rpx;
   box-sizing: border-box;
 }
-.content_body .greeting {
+.chat_body .greeting {
   margin-top: 30rpx;
 }
-.content_body .greeting .avatar {
+.chat_body .greeting .avatar {
   text-align: center;
   width: 280rpx;
   height: 280rpx;
@@ -165,10 +165,10 @@ image {
   border-radius: 50%;
   overflow: hidden;
 }
-.content_body .greeting .avatar image {
+.chat_body .greeting .avatar image {
   width: 280rpx;
 }
-.content_body .greeting .title {
+.chat_body .greeting .title {
   font-weight: 400;
   font-size: 35rpx;
   color: #020202;
@@ -176,45 +176,45 @@ image {
   margin-bottom: 38rpx;
   margin-top: 16rpx;
 }
-.content_body .greeting .tips {
+.chat_body .greeting .tips {
   font-weight: 400;
   font-size: 31rpx;
   color: #223756;
   line-height: 54rpx;
-  background: #F1F8FF;
+  background: #FFFFFF;
   border-radius: 4rpx 44rpx 44rpx 44rpx;
   padding: 23rpx 30rpx;
   box-sizing: border-box;
 }
-.content_body .fenge {
+.chat_body .fenge {
   margin-top: 20rpx;
 }
-.content_body .fenge .fgline {
+.chat_body .fenge .fgline {
   width: calc(50% - 110rpx);
   border-top: 2rpx solid #C2D3E5;
 }
-.content_body .fenge .text {
+.chat_body .fenge .text {
   width: 200rpx;
   font-weight: 400;
   font-size: 26rpx;
   color: #93A4B7;
   text-align: center;
 }
-.content_body .tips_wrap {
+.chat_body .tips_wrap {
   position: fixed;
   left: 28rpx;
 }
-.content_body .tips_wrap .title {
+.chat_body .tips_wrap .title {
   font-weight: 600;
   font-size: 30rpx;
   color: #2F2F2F;
   margin-bottom: 16rpx;
 }
-.content_body .tips_wrap .tip_list .item {
+.chat_body .tips_wrap .tip_list .item {
   display: flex;
   margin-bottom: 12rpx;
 }
-.content_body .tips_wrap .tip_list .item .text {
+.chat_body .tips_wrap .tip_list .item .text {
   height: 58rpx;
   line-height: 58rpx;
   background: rgba(255, 255, 255, 0.6);
@@ -226,11 +226,11 @@ image {
   font-size: 28rpx;
   color: #213B56;
 }
-.content_body .chat_wrap {
+.chat_body .chat_wrap {
   padding: 20rpx 0rpx;
   box-sizing: border-box;
 }
-.content_body .chat_wrap .list .sure_card {
+.chat_body .chat_wrap .list .sure_card {
   margin-top: 30rpx;
   padding: 34rpx 25rpx 20rpx 25rpx;
   width: 100%;
@@ -240,32 +240,32 @@ image {
   box-sizing: border-box;
   position: relative;
 }
-.content_body .chat_wrap .list .sure_card .text_img {
+.chat_body .chat_wrap .list .sure_card .text_img {
   padding-left: 25rpx;
   box-sizing: border-box;
 }
-.content_body .chat_wrap .list .sure_card .text_img image {
+.chat_body .chat_wrap .list .sure_card .text_img image {
   width: 310rpx;
 }
-.content_body .chat_wrap .list .sure_card .sure_icon {
+.chat_body .chat_wrap .list .sure_card .sure_icon {
   position: absolute;
   top: 0;
   right: 0;
 }
-.content_body .chat_wrap .list .sure_card .sure_icon image {
+.chat_body .chat_wrap .list .sure_card .sure_icon image {
   width: 200rpx;
 }
-.content_body .chat_wrap .list .sure_card .bot_box {
+.chat_body .chat_wrap .list .sure_card .bot_box {
   background: #FFFFFF;
   border-radius: 15rpx;
   padding: 23rpx 26rpx;
   box-sizing: border-box;
   margin-top: 21rpx;
 }
-.content_body .chat_wrap .list .sure_card .bot_box .name {
+.chat_body .chat_wrap .list .sure_card .bot_box .name {
   margin-top: 10rpx;
 }
-.content_body .chat_wrap .list .sure_card .bot_box .name .label {
+.chat_body .chat_wrap .list .sure_card .bot_box .name .label {
   width: 138rpx;
   height: 42rpx;
   text-align: center;
@@ -278,7 +278,7 @@ image {
   color: #216FF9;
   flex-shrink: 0;
 }
-.content_body .chat_wrap .list .sure_card .bot_box .name .text {
+.chat_body .chat_wrap .list .sure_card .bot_box .name .text {
   margin-left: 12rpx;
   font-weight: 600;
   font-size: 31rpx;
@@ -287,27 +287,27 @@ image {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.content_body .chat_wrap .list .sure_card .bot_box .sure_btn {
+.chat_body .chat_wrap .list .sure_card .bot_box .sure_btn {
   margin-top: 36rpx;
 }
-.content_body .chat_wrap .list .sure_card .bot_box .sure_btn image {
+.chat_body .chat_wrap .list .sure_card .bot_box .sure_btn image {
   width: 100%;
 }
-.content_body .chat_wrap .list .qa_item {
+.chat_body .chat_wrap .list .qa_item {
   transition: all 1s;
 }
-.content_body .chat_wrap .list .qa_item .line {
+.chat_body .chat_wrap .list .qa_item .line {
   margin-top: 38rpx;
   text-align: right;
 }
-.content_body .chat_wrap .list .qa_item .line image {
+.chat_body .chat_wrap .list .qa_item .line image {
   margin-left: 20rpx;
 }
-.content_body .chat_wrap .list .qa_item .line .inline_box .ai_name {
+.chat_body .chat_wrap .list .qa_item .line .inline_box .ai_name {
   color: #606166;
   margin-bottom: 20rpx;
 }
-.content_body .chat_wrap .list .qa_item .line .inline_box .ai_name image {
+.chat_body .chat_wrap .list .qa_item .line .inline_box .ai_name image {
   width: 65rpx;
   height: 65rpx;
   flex-shrink: 0;
@@ -317,7 +317,7 @@ image {
   -webkit-transform: rotateY(-180deg);
           transform: rotateY(-180deg);
 }
-.content_body .chat_wrap .list .qa_item .line .inline_box .cont {
+.chat_body .chat_wrap .list .qa_item .line .inline_box .cont {
   display: inline-block;
   max-width: 100%;
   overflow: hidden;
@@ -326,63 +326,64 @@ image {
   text-align: left;
   transition: height 2s;
 }
-.content_body .chat_wrap .list .qa_item .line .inline_box .cont .ai_text,
-.content_body .chat_wrap .list .qa_item .line .inline_box .cont .customer_text {
+.chat_body .chat_wrap .list .qa_item .line .inline_box .cont .ai_text,
+.chat_body .chat_wrap .list .qa_item .line .inline_box .cont .customer_text {
   padding: 26rpx 30rpx;
   box-sizing: border-box;
   display: block;
   line-height: 60rpx;
   word-break: break-all;
 }
-.content_body .chat_wrap .list .qa_item .line .inline_box .cont .ai_text.last_ai_text,
-.content_body .chat_wrap .list .qa_item .line .inline_box .cont .customer_text.last_ai_text {
+.chat_body .chat_wrap .list .qa_item .line .inline_box .cont .ai_text.last_ai_text,
+.chat_body .chat_wrap .list .qa_item .line .inline_box .cont .customer_text.last_ai_text {
   padding: 26rpx 30rpx 50rpx 30rpx;
 }
-.content_body .chat_wrap .list .qa_item .line.left {
+.chat_body .chat_wrap .list .qa_item .line.left {
   text-align: left;
 }
-.content_body .chat_wrap .list .qa_item .line.left .inline_box {
+.chat_body .chat_wrap .list .qa_item .line.left .inline_box {
   justify-content: flex-start;
   align-items: start;
 }
-.content_body .chat_wrap .list .qa_item .line.left image {
+.chat_body .chat_wrap .list .qa_item .line.left image {
   margin-right: 20rpx;
 }
-.content_body .chat_wrap .list .qa_item .line.left .cont {
-  background: #F1F8FF;
+.chat_body .chat_wrap .list .qa_item .line.left .cont {
+  background: #FFFFFF;
   border-radius: 4rpx 35rpx 35rpx 35rpx;
   color: #213B56;
+  box-shadow: 0rpx 0rpx 4rpx 0rpx rgba(0, 0, 0, 0.1);
 }
-.content_body .chat_wrap .list .qa_item .line.right {
+.chat_body .chat_wrap .list .qa_item .line.right {
   display: flex;
   justify-content: flex-end;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box {
   align-items: start;
   justify-content: flex-end;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .cont {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .cont {
   width: 100%;
   position: relative;
   overflow: visible;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .cont.textcont {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .cont.textcont {
   width: auto;
   max-width: 100%;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .cont .customer_text {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .cont .customer_text {
   background: #216FF9;
   border-radius: 35rpx 35rpx 4rpx 35rpx;
   color: #fff;
   font-weight: 600;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .cont .trans image {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .cont .trans image {
   width: 120rpx !important;
   margin-right: 16rpx;
   margin-left: 0;
   flex-shrink: 0;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap {
   text-align: center;
   background: #216FF9;
   border-radius: 35rpx 35rpx 4rpx 35rpx;
@@ -390,15 +391,15 @@ image {
   box-sizing: border-box;
   color: #fff;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap image {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap image {
   width: 20rpx !important;
   vertical-align: middle;
   flex-shrink: 0;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap image.gif {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .voice_wrap image.gif {
   width: 50rpx !important;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .trans_result {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .trans_result {
   padding: 20rpx;
   border-radius: 16rpx;
   box-sizing: border-box;
@@ -407,6 +408,6 @@ image {
   font-size: 28rpx;
   float: right;
 }
-.content_body .chat_wrap .list .qa_item .line.right .inline_box .trans_result image {
+.chat_body .chat_wrap .list .qa_item .line.right .inline_box .trans_result image {
   width: 80rpx;
 }
