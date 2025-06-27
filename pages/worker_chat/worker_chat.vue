@@ -66,6 +66,7 @@
 		<login :showLogin="showLogin" @cancel="cancelLogin" @closeLogin="closeLogin" @getInfo="handleLogin">
 		</login>
 		<tabbar current="1" @getTabbarHeight="getTabbarHeight"></tabbar>
+		<myModal ref="myModal"></myModal>
 	</view>
 </template>
 
@@ -151,7 +152,7 @@
 		},
 		async onLoad() {
 			if (this.isLogin()) {
-				// this.creatConnect()
+				this.creatConnect()
 				// 录音初始化
 				this.initRecord()
 			}
@@ -190,6 +191,9 @@
 			app.globalData.Audio.offStop()
 			app.globalData.Audio.offEnded()
 			uni.offKeyboardHeightChange(this.listenKeyBoard)
+		},
+		onUnload() {
+			// this.close()
 		},
 		watch: {
 			question(newVal) {
@@ -262,8 +266,9 @@
 					return
 				}
 				// 回答完成后才能发下一条信息
+				console.log("answering：", this.answering, "answerContinue：", this.answerContinue)
 				if (this.answering || this.answerContinue) {
-					this.$refs.myModal.showModal({
+					this.$refs.myModal.showMyModal({
 						title: "目前有正在回复的对话，请稍后重试",
 						showCancel: false,
 						confirmText: "好的"
@@ -411,10 +416,16 @@
 			cancelLogin() {
 				this.closeLogin()
 				uni.switchTab({
-					url: "/pages/employer_index/employer_index"
+					url: "/pages/worker_index/worker_index"
 				})
 			},
-			handleLogin() {
+			async handleLogin() {
+				let _this = this
+				this.historyId = 0
+				this.historyList = await this.getHistory()
+				this.$nextTick(() => {
+					_this.$refs.chatRef.toScroll()
+				})
 				this.creatConnect()
 			},
 			getTabbarHeight(e) {
@@ -527,9 +538,9 @@
 					this.unConnected()
 					this.unConnecting()
 					this.resetAiReady()
-					if (this.answering || this.answerContinue) {
-						this.handleConnectErr()
-					}
+					// if (this.answering || this.answerContinue) {
+					// 	this.handleConnectErr()
+					// }
 					if (!this.abnormalClose) {
 						setTimeout(function() {
 							_this.creatConnect()
@@ -539,9 +550,9 @@
 				})
 				app.globalData.socketTask.onMessage((res) => {
 					this.closeAnswering()
-					this.closeAnswerContinue()
+					// this.closeAnswerContinue()
 					_this.openAnswerContinue()
-					_this.closeAnswering()
+					// _this.closeAnswering()
 					let respData = JSON.parse(res.data)
 					console.log("websocket返回：", respData)
 					if (_this.inCall) {
@@ -609,6 +620,7 @@
 							}
 						} else {
 							_this.setRespEnd()
+							console.log("RespEnd：", _this.responEnd)
 							if (respData.need_mayask) {
 								_this.getMayAsk()
 							}
@@ -623,9 +635,9 @@
 					this.unConnected()
 					this.unConnecting()
 					this.resetAiReady()
-					if (this.answering || this.answerContinue) {
-						this.handleConnectErr()
-					}
+					// if (this.answering || this.answerContinue) {
+					// 	this.handleConnectErr()
+					// }
 					clearInterval(this.timer)
 					if (!this.abnormalErr) {
 						setTimeout(function() {
@@ -725,10 +737,11 @@
 			printResponse() {
 				let _this = this
 				let index = 0
-				let noOutCount = 0
+				console.log("开始打印")
 				this.prinTimer = setInterval(function() {
 					let len = _this.responseStr.length
 					if (index < len) {
+						console.log("正在打印")
 						_this.curRespone.content += _this.responseStr[index]
 						if (_this.inChannel) {
 							_this.updateChannelQaList(_this.curRespone)
@@ -738,10 +751,12 @@
 								_this.$set(_this.qaList, _this.currentQalength, _this.curRespone)
 							}
 						}
-
 						index++
 					} else {
+						console.log("打印结束")
+						console.log(_this.responEnd)
 						if (_this.responEnd) {
+							console.log("返回结束")
 							if (_this.curRespone.card) {
 								_this.curRespone.card.showCard = true
 							}

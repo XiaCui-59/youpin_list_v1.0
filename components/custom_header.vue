@@ -107,7 +107,6 @@
 			color: #fff;
 			font-size: 32rpx;
 			position: relative;
-			font-weight: bold;
 			z-index: 10;
 
 			.back {

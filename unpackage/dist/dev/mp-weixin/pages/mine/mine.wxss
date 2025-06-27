@@ -30,11 +30,11 @@ image.data-v-dcbcfe34 {
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.data-v-dcbcfe34 .u-navbar--fixed {
-  background: linear-gradient(180deg, #9EC2FF 0%, #FFFFFF 100%);
-}
 .data-v-dcbcfe34 .u-tabs__wrapper__nav__item {
   padding: 0 !important;
+}
+.data-v-dcbcfe34 .u-navbar__content__left {
+  display: none !important;
 }
 .top_area.data-v-dcbcfe34 {
   width: calc(100% - 96rpx);

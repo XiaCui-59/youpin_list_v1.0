@@ -2,7 +2,7 @@
 	<view class="tabbar">
 		<view class="tabbar-item" v-for="(item,index) in list" :key="index" @click="changeTab(index)"
 			:style="{height:height+'px',paddingTop:paddingTop+'px',paddingBottom:paddingTop+'px'}">
-			<image class="img active" :src="item.selectedIconPath" v-if="(current == index) && (current != 1)"
+			<image class="img active" :src="item.selectedIconPath" v-if="current == index"
 				:style="{height:seleIcHeight+'px',top:seleTop+'px',width:'auto'}" mode="heightFix"></image>
 			<image class="img" :src="item.iconPath" v-else
 				:style="{height:icHeight+'px',top:paddingTop+'px',width:'auto'}" mode="heightFix"></image>
@@ -67,20 +67,20 @@
 				list: [{
 						"pagePath": "pages/worker_index/worker_index",
 						"text": "工作",
-						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/work_normal.png",
-						"selectedIconPath": app.globalData.baseImageUrl + "/worker/ic_work_sele.png"
+						"iconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_index_normal.png",
+						"selectedIconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_index_active.png"
 					},
 					{
 						"pagePath": "pages/worker_chat/worker_chat",
 						"text": "对话",
-						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_normal.png",
-						"selectedIconPath": app.globalData.baseImageUrl + "/worker/zhida/wait_handle_active.png"
+						"iconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_chat_normal.png",
+						"selectedIconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_chat_active.png"
 					},
 					{
 						"pagePath": "pages/mine/mine",
 						"text": "我的",
-						"iconPath": app.globalData.baseImageUrl + "/worker/zhida/mine_normal.png",
-						"selectedIconPath": app.globalData.baseImageUrl + "/worker/ic_mine_sele.png"
+						"iconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_mine_normal.png",
+						"selectedIconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_mine_active.png"
 					}
 				]
 			}
@@ -102,11 +102,11 @@
 			// 系统信息
 			let systemInfo = uni.getSystemInfoSync()
 			// 设计稿tabbar占比
-			let percent = 66 / 844
+			let percent = 62 / 844
 			// 选中icon占tabbar的比例
-			let icPercent = 40 / 66
+			let icPercent = 22 / 62
 			// 未选中icon占tabbar的比例
-			let icPer = 22 / 66
+			let icPer = 22 / 62
 			// 上边距占tabar的比例
 			let paddingPer = 8 / 66
 			this.height = Math.floor(percent * systemInfo.screenHeight)

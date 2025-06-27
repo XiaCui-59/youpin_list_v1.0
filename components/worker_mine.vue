@@ -1,122 +1,66 @@
 <template>
-	<view class="worker_mine">
-		<!-- 自定义导航栏 -->
-		<u-navbar :safeAreaInsetTop="true" bgColor="transparent">
-			<view class="u-nav-slot flex flex-start" slot="left">
-				<view class="ic_menu">
-					<image :src="imgUrl+'/worker/v_list/text_logo.png'" mode="heightFix" style="height:33px;"></image>
-				</view>
-			</view>
+	<view class="employer_mine">
+		<u-navbar title="我的" :safeAreaInsetTop="true" :titleStyle="{lineHeight:'44px',color:'#fff'}"
+			bgColor="transparent">
 		</u-navbar>
-		<view class="cont" :style="{marginTop:marginTop+'px'}">
-			<view class="top_area" :style="{top:marginTop+'px'}">
-				<view class="top flex flex-start" :style="{marginTop:tabMargin+'px',marginBottom:tabMargin+'px'}">
-					<button class="logo" open-type="chooseAvatar" @chooseavatar="getAvatar"
-						:style="{width:avatarHeight + 'px',height:avatarHeight + 'px'}">
-						<image :src="workerInfo.avatar?workerInfo.avatar:imgUrl+'/worker/worker_default.png'"
-							style="border-radius: 50%;background: #fff;"
-							:style="{width:avatarHeight + 'px',height:avatarHeight + 'px'}"></image>
-					</button>
-					<view class="info flex flex_btween">
-						<view class="name">
-							<text>{{workerInfo.name?workerInfo.name:"微信用户"}}</text>
-							<view class="tel">{{workerInfo.mobile}}</view>
+		<view class="main_body">
+			<view class="head" :style="{paddingTop:marginTop+tabMargin+'px'}">
+				<view class="base_info flex flex_btween">
+					<view class="base flex">
+						<button class="logo" open-type="chooseAvatar" @chooseavatar="getAvatar">
+							<image :src="workerInfo.avatar.url?workerInfo.avatar.url:avatar" mode="widthFix"></image>
+						</button>
+						<view class="info">
+							<view class="name">{{workerInfo.name}}</view>
+							<view class="labels flex">
+								<view class="label">
+									{{gender.filter(el=>{return el.value == workerInfo.gender})[0]?gender.filter(el=>{return el.value == workerInfo.gender})[0].text:""}}
+								</view>
+								<view class="label" v-if="workerInfo.age">{{workerInfo.age}}</view>
+								<view class="label" v-if="workerInfo.nation">{{workerInfo.nation}}</view>
+							</view>
 						</view>
-						<view class="status flex flex-end" v-if="workerInfo.id_card_number">
-							<image :src="imgUrl+'/worker/ic_veri.png'" mode="" v-if="workerInfo.fadada_authorized">
-							</image>
-							<view class="sta_text">{{workerInfo.fadada_authorized?"已实名":"待授权"}}</view>
-							<view class="btn" v-if="!workerInfo.fadada_authorized" @click="toAuth">去授权</view>
-						</view>
-						<view class="status flex flex-end" v-if="!workerInfo.id_card_number">
-							<view class="btn" @click="navigate('/subpkg/authentication/authentication')">完善信息</view>
-						</view>
+					</view>
+					<view class="btn_right flex flex_end" @click="navigate('/subpkg/edit_info/edit_info')">
+						<view class="text">个人信息</view>
+						<u-icon name="arrow-right" color="#FFFFFF" size="14"></u-icon>
+					</view>
+				</view>
+				<view class="datas flex">
+					<view class="data" @click="navigate('/subpkg/view_record/view_record')">
+						<view class="text">沟通过</view>
+						<view class="count">{{viewCount}}</view>
+					</view>
+					<view class="data" @click="navigate('/subpkg/sign_record/sign_record')">
+						<view class="text">已报名</view>
+						<view class="count">{{signCount}}</view>
 					</view>
 				</view>
 			</view>
-			<view class="box" :style="{top:mineTop+'px',height:scrollHeight+'px',paddingTop:0}">
-				<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" :style="{height:scrollHeight+'px',boxSizing:'border-box',position:'fixed',top:innerBoxTop+'px',left:'50%',
-					transform:'translateX(-50%)',background:'#fff',borderRadius:'16rpx',padding:'30rpx',width:'90%'}">
-					<view class="line flex flex_btween">
-						<view class="item" @click="navigate('/subpkg/my_contracts/my_contracts')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/broker/ic_mine_rele.png'" mode="widthFix"></image>
-								<view class="text">我的合同</view>
-							</view>
-							<view class="item_middle">权益保障，上班无忧</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/broker/ic_mine_rele_bg.png'" mode="widthFix"></image>
-							</view>
-						</view>
-						<view class="item" @click="navigate('/subpkg/salary_list/salary_list')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/worker/zhida/ic_mine_yen.png'" mode="widthFix"></image>
-								<view class="text">工资记录</view>
-							</view>
-							<view class="item_middle">小金库又充实啦</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/worker/zhida/ic_mine_salary_bg.png'" mode="widthFix"></image>
-							</view>
-						</view>
-						<!-- <view class="item" @click="navigate('/subpkg/my_info/my_info')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/broker/ic_mine_info.png'" mode="widthFix"></image>
-								<view class="text">我的名片</view>
-							</view>
-							<view class="item_middle">实名认证，多重保障</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/broker/ic_mine_info_bg.png'" mode="widthFix"></image>
-							</view>
-						</view> -->
-					</view>
-					<view class="line flex flex_btween">
-						<view class="item" @click="navigate('/subpkg/bank_card/bank_card')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/broker/ic_mine_two_card.png'" mode="widthFix"></image>
-								<view class="text">银行卡</view>
-							</view>
-							<view class="item_middle">信息全面，安全随行</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/broker/ic_mine_two_bg.png'" mode="widthFix"></image>
-							</view>
-						</view>
-						<view class="item" @click="navigate('/subpkg/my_info/my_info')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/broker/ic_mine_info.png'" mode="widthFix"></image>
-								<view class="text">我的名片</view>
-							</view>
-							<view class="item_middle">实名认证，多重保障</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/broker/ic_mine_info_bg.png'" mode="widthFix"></image>
-							</view>
-						</view>
-						<!-- <view class="item" @click="navigate('/subpkg/setting/setting')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/broker/ic_mine_setting.png'" mode="widthFix"></image>
-								<view class="text">系统设置</view>
-							</view>
-							<view class="item_middle">更多功能，敬请期待</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/broker/ic_mine_setting_bg.png'" mode="widthFix"></image>
-							</view>
-						</view> -->
-					</view>
-					<view class="line flex flex_btween">
-						<view class="item" @click="navigate('/subpkg/about_us/about_us')">
-							<view class="item_top flex flex-start">
-								<image :src="imgUrl+'/worker/zhida/ic_mine_about.png'" mode="widthFix"></image>
-								<view class="text">关于我们</view>
-							</view>
-							<view class="item_middle">更多信息，一键查看</view>
-							<view class="item_bot">
-								<image :src="imgUrl+'/worker/zhida/ic_mine_about_bg.png'" mode="widthFix"></image>
-							</view>
-						</view>
-					</view>
-				</scroll-view>
+			<view class="box" @click="toRelease">
+				<view class="box_inner text">
+					<view class="tit flex"><text style="margin-right: 10rpx;display: inline-block;">我要招人</text><u-icon
+							name="play-right-fill" color="#9baff0" size="12"></u-icon></view>
+					<view class="tips">身份一键切换，海量人才等你来选</view>
+					<image :src="imgUrl+'/worker/v_list/ic_zhao.png'" mode="widthFix" style="width:115rpx;"></image>
+				</view>
 			</view>
+			<view class="box">
+				<view class="box_inner menu_box">
+					<u-grid :border="false" col="4">
+						<u-grid-item v-for="(listItem,listIndex) in menus" :key="listIndex" @click="handleMenuClick">
+							<image :src="listItem.iconUrl" mode="widthFix" style="width:76rpx;"></image>
+							<text class="grid-text">{{listItem.text}}</text>
+						</u-grid-item>
+					</u-grid>
+				</view>
+			</view>
+
 		</view>
-		<myModal ref="myModal"></myModal>
+		<view class="fixed_btn" :style="{bottom:tabbarHeight+19+'px'}" @click="logout">退出登录</view>
+		<myModal ref="myModal">
+		</myModal>
+		<showBooking ref="book"></showBooking>
 	</view>
 </template>
 
@@ -125,165 +69,201 @@
 		mapState,
 		mapMutations
 	} from "vuex"
-	import customHeader from "@/components/custom_header.vue"
+	import showBooking from "@/components/showBooking.vue"
 	const app = getApp()
 	export default {
+		props: ["tabbarHeight"],
 		data() {
 			return {
-				showLogin: false,
+				gender: [{
+					value: "male",
+					text: "男"
+				}, {
+					value: "female",
+					text: "女"
+				}, {
+					value: "unknown",
+					text: "未知"
+				}],
+				signCount: 0,
+				viewCount: 0,
 				imgUrl: app.globalData.baseImageUrl,
 				pageName: "我的",
 				marginTop: app.globalData.marginTop,
 				tabMargin: app.globalData.tabMargin,
-				avatarHeight: app.globalData.avatarHeight,
-				mineCardHeight: app.globalData.mineCardHeight,
-				mineTop: app.globalData.mineTop,
-				scrollHeight: 0,
-				boxTop: 0,
-				headerHeight: app.globalData.highTopHeight,
-				maskInnerTop: 0,
-				showMask: false,
-				baseStatus: [{
-						value: "pending",
-						text: "审核中",
-						btnText: ""
+				avatar: app.globalData.baseImageUrl + "/broker/com_default.png",
+				menus: [{
+						text: "进群找活",
+						iconUrl: app.globalData.baseImageUrl + "/worker/v_list/ic_mine_menu01.png",
+						clickType: "navigate",
+						url: "/worker/webview/webview"
 					},
 					{
-						value: "approved",
-						text: "已认证",
-						btnText: ""
-					},
-					{
-						value: "rejected",
-						text: "认证失败",
-						btnText: "重新认证"
+						text: "关注公众号",
+						iconUrl: app.globalData.baseImageUrl + "/worker/v_list/ic_mine_menu02.png",
+						clickType: "public",
+						url: ""
+					}, {
+						text: "联系客服",
+						iconUrl: app.globalData.baseImageUrl + "/worker/v_list/ic_mine_menu03.png",
+						clickType: "kefu",
+						url: ""
+					}, {
+						text: "关于我们",
+						iconUrl: app.globalData.baseImageUrl + "/worker/v_list/ic_mine_menu04.png",
+						clickType: "navigate",
+						url: "/subpkg/about/about"
 					}
-				],
-				twoStatus: [{
-						value: "not_uploaded",
-						text: "未上传"
-					},
-					{
-						value: "pending",
-						text: "待审"
-					},
-					{
-						value: "approved",
-						text: "审核通过"
-					},
-					{
-						value: "rejected",
-						text: "审核拒绝"
-					}
-				],
-				info: {
-					"avatar": "",
-					"gender": "male",
-					"id_card_back_image": "",
-					"id_card_front_image": "",
-					"id_card_number": "",
-					"name": "",
-					"verified": false
-				},
-				dataHeight: 0,
-				tabbarHeight: 0,
-				topAreaHeight: 0,
-				innerBoxTop: 0
+				]
 			}
 		},
 		components: {
-			customHeader
+			showBooking
+		},
+		created() {
+			this.headerHeight = app.globalData.systemHeight * (214 / 844)
 		},
 		computed: {
 			...mapState(["workerInfo"])
 		},
-		async created() {
-			let topArea = await this.getElementInfo(".top_area")
-			console.log("topArea", topArea)
-			if (topArea) {
-				this.topAreaHeight = topArea.height
-			}
-			this.innerBoxTop = this.marginTop + this.topAreaHeight + this.tabMargin
-			this.scrollHeight = app.globalData.systemHeight - this.marginTop - this.topAreaHeight - 3 * this
-				.tabMargin - this
-				.tabbarHeight
-			this.$store.dispatch("getWorkerInfo")
-		},
 		methods: {
-			getTabbarHeight(e) {
-				this.tabbarHeight = e
+			...mapMutations(["setToken", "setRole", "unConnected", "unConnecting", "closeAnswering", "openCansend",
+				"closeAnswerContinue"
+			]),
+			getSignList() {
+				let url = "/worker/job-applications?page=1&status=all"
+				this.$request(url).then(res => {
+					if (res.code == 0) {
+						this.signCount = res.data.pagination.total_count
+					}
+				})
 			},
-			getElementInfo(className) {
-				return new Promise((resolve) => {
-					let info = uni.createSelectorQuery().select(className);
-					info.boundingClientRect(function(data) { //data - 各种参数
-						resolve(data)
-					}).exec()
+			getViewList() {
+				let url = "/worker/job-browse-records?page=1"
+				this.$request(url).then(res => {
+					if (res.code == 0) {
+						this.viewCount = res.data.pagination.total_count
+					}
+				})
+			},
+			handleMenuClick(e) {
+				switch (this.menus[e].clickType) {
+					case "navigate":
+						this.navigate(this.menus[e].url)
+						break;
+					case "public":
+						this.$refs.book.getCode()
+						break;
+					case "kefu":
+						this.openKefu()
+						break;
+					default:
+						break;
+				}
+			},
+			openKefu() {
+				wx.openCustomerServiceChat({
+					extInfo: {
+						url: "https://work.weixin.qq.com/kfid/kfc01b1c6e379607409"
+					},
+					corpId: 'wwe3ced2e65390ad79',
+					success(res) {},
+					fail(err) {
+						console.log(err)
+						uni.showToast({
+							title: "请稍后重试",
+							icon: "none"
+						})
+					}
 				})
 			},
 			navigate(url) {
-				if (url.indexOf("my_info") != -1 || url.indexOf("bank_card") != -1) {
-					if (!this.info.id_card_number) {
-						this.$refs.myModal.showMyModal({
-							title: "提示",
-							content: "您还未实名认证，请先进行实名认证。",
-							confirmText: "去实名",
-							success(res) {
-								if (res == "confirm") {
-									uni.navigateTo({
-										url: "/subpkg/authentication/authentication"
-									})
-								}
-							}
-						})
-						return
-					}
-				}
 				uni.navigateTo({
 					url: url
 				})
 			},
-			toAuth() {
+			closeLogin() {
+				this.showLogin = false
+			},
+			cancelLogin() {
+				console.log("执行了cancel")
+				this.closeLogin()
+				uni.switchTab({
+					url: "/pages/employer_index/employer_index"
+				})
+			},
+			toRelease() {
 				let _this = this
-				let authUrl = "/worker/identity-auth?job_application_id="
-				_this.$request(authUrl, {}, "POST").then(respo => {
-					if (respo.code == 0) {
-						let url = encodeURIComponent(respo.data.auth_url)
-						uni.navigateTo({
-							url: "/pagesFace/pages/webview/webview?url=" +
-								url,
-							success(respon) {
-								console.log(respon)
-							},
-							fail(err) {
-								console.log(err)
+				this.$refs.myModal.showMyModal({
+					title: "是否确认切换到招人状态？",
+					success(res) {
+						if (res == "confirm") {
+							uni.showLoading({
+								title: "切换中"
+							})
+							// 移除本地token
+							uni.removeStorageSync("token")
+							uni.removeStorageSync("workerInfo")
+							let openid = uni.getStorageSync("openid")
+							_this.unConnected()
+							_this.unConnecting()
+							_this.closeAnswerContinue()
+							_this.closeAnswering()
+							_this.openCansend()
+							// 重新获取发布客户端的token
+							let url = "/auth/ai-wechat/employer/token"
+							let data = {
+								open_id: openid
 							}
-						});
-					} else {
-						_this.$refs.myModal.showMyModal({
-							title: "提示",
-							content: respo.msg,
-							showCancel: false
-						})
+							_this.$request(url, data, "POST").then(resp => {
+								if (resp.code == 0) {
+									_this.setToken(resp.data.token)
+									_this.setRole("employer")
+									uni.setStorageSync("token", resp.data.token)
+									_this.$store.dispatch("getEmployerInfo")
+									uni.reLaunch({
+										url: "/pages/employer_index/employer_index",
+										success(respo) {
+											console.log("跳转成功", respo)
+										},
+										fail(err) {
+											console.log("跳转失败", err)
+										},
+										complete() {
+											uni.hideLoading()
+										}
+									})
+								} else {
+									_this.$refs.myModal.showMyModal({
+										title: resp.msg
+									})
+								}
+							})
+						}
 					}
 				})
 			},
-			openMask(type) {
-				this.showMask = true
-			},
-			close() {
-				this.showMask = false
-			},
-			copyLink() {
+			logout() {
 				let _this = this
-				uni.setClipboardData({
-					data: "https://swiftwd.com",
-					success() {
-						_this.close()
+				this.$refs.myModal.showMyModal({
+					title: "确认退出登录？",
+					success(res) {
+						if (res == "confirm") {
+							uni.setStorageSync("loginStatus", "out")
+							uni.switchTab({
+								url: "/pages/worker_index/worker_index"
+							})
+							uni.showToast({
+								title: "已退出登录",
+								icon: "none",
+								duration: 2000
+							})
+						}
 					}
 				})
 			},
 			async loadimg(type, filePath) {
+				console.log(filePath, "file")
 				var _this = this;
 				let header = {
 					"Authorization": "bearer " + uni.getStorageSync("token"),
@@ -292,7 +272,7 @@
 				}
 				return new Promise((resolve, reject) => {
 					uni.uploadFile({
-						url: app.globalData.baseUrl + "/worker/upload/image?type=" + type,
+						url: app.globalData.baseUrl + "/worker/upload/image?type=avatar",
 						filePath: filePath,
 						name: "file",
 						header: header,
@@ -311,20 +291,13 @@
 											title: "头像更新成功",
 											duration: 2000
 										})
-										_this.$store.dispatch("getWorkerInfo")
-									} else {
-										_this.$refs.myModal.showMyModal({
-											title: "提示",
-											content: res.msg,
-											showCancel: false
-										})
+										_this.$store.dispatch('getWorkerInfo');
 									}
 								})
 							} else {
-								_this.$refs.myModal.showMyModal({
+								uni.showModal({
 									title: "上传失败",
-									content: response.msg,
-									showCancel: false
+									content: response.msg
 								})
 							}
 						},
@@ -337,211 +310,162 @@
 			},
 			// 获取头像
 			getAvatar(e) {
+				console.log(e)
 				this.loadimg("avatar", e.detail.avatarUrl)
-			},
-			closeLogin() {
-				this.showLogin = false
-			},
-			cancelLogin() {
-				this.closeLogin()
-				uni.switchTab({
-					url: "/pages/index/index"
-				})
-			},
-			handleLogin() {
-				// 登录成功后执行报名操作
-				this.getInfo()
-			},
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.top_area {
-		width: calc(100% - 120rpx);
+	.fixed_btn {
+		width: calc(100% - 56rpx);
+		left: 28rpx;
 		position: fixed;
-		left: 60rpx;
+		z-index: 99;
+		height: 81rpx;
+		line-height: 81rpx;
+		border-radius: 15rpx;
+		border: 2rpx solid #DCDCDC;
+		text-align: center;
+		font-size: 29rpx;
+		color: #A0A0A0;
+	}
 
-		&>image {
-			width: 100%;
-			will-change: transform;
-		}
+	.main_body {
+		min-height: 100vh;
+		background: #f3f3f5;
 
-		.top {
-			width: 100%;
+		.box {
+			padding: 0 28rpx;
 
-			&>image {
-				width: 168rpx;
-				position: absolute;
-				top: 50%;
-				left: 84%;
-				will-change: transform;
+			.box_inner {
+				margin-top: 30rpx;
+				background: #FFFFFF;
+				border-radius: 19rpx;
 			}
 
-			.logo {
-				width: 112rpx;
-				height: 112rpx;
-				border-radius: 50%;
-				overflow: hidden;
-				margin-right: 20rpx;
-				padding-left: 0;
-				padding-right: 0;
-				margin-left: 0;
-			}
-
-			.info {
-				width: calc(100% - 132rpx);
+			.text {
+				padding: 18rpx 0 18rpx 32rpx;
+				background: url($back-ground-url+"/worker/v_list/mine_zhao_bg.png") no-repeat;
+				background-size: 100% 100%;
+				color: #3B487D;
 				position: relative;
 
-				.name {
-					font-weight: 600;
-					font-size: 32rpx;
-					color: #FFFFFF;
-					text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
-					white-space: nowrap;
-
-					.tel {
-						font-weight: 500;
-						font-size: 28rpx;
-						margin-top: 10rpx;
-					}
+				&>image {
+					position: absolute;
+					top: 50%;
+					right: 59rpx;
+					transform: translateY(-50%);
 				}
 
-				.status {
-					image {
-						width: 38rpx;
-						height: 38rpx;
-						margin-right: 8rpx;
-					}
+				.tit {
+					font-weight: 600;
+					font-size: 35rpx;
+				}
 
-					.sta_text {
-						font-size: 24rpx;
-						color: #FFFFFF;
-						line-height: 48rpx;
-						text-shadow: 0px 1px 2px rgba(52, 35, 0, 0.76);
-					}
+				.tips {
+					margin-top: 6rpx;
+					font-size: 23rpx;
+					color: #3B487D;
+				}
 
-					.btn {
-						width: 160rpx;
-						height: 56rpx;
-						line-height: 56rpx;
-						background: #F7BC05;
-						// box-shadow: 0px 1px 2px 0px rgba(146,110,2,0.5);
-						border-radius: 44rpx;
-						border: 1px solid #F7BC05;
-						color: #fff;
-						font-size: 28rpx;
-						text-align: center;
-						margin-left: 10rpx;
-						// text-align: right;
-					}
+			}
+
+			.menu_box {
+				padding: 30rpx 44rpx;
+
+				.grid-text {
+					font-size: 27rpx;
+					color: #333333;
+					line-height: 54rpx;
 				}
 			}
 		}
 
-		.data {
-			margin-top: 20rpx;
-			position: relative;
 
-			&>image {
-				width: 100%;
-				will-change: transform;
-			}
 
-			.line {
-				width: 100%;
-				position: absolute;
-				top: 17%;
-				left: 0;
-				transform: translateY(-50%);
-				color: #fff;
+		.head {
+			padding-bottom: 22rpx;
+			background: url($back-ground-url+"/worker/v_list/mine_head_bg.png") no-repeat;
+			background-size: cover;
+			color: #fff;
 
-				&::after {
+			.datas {
+				position: relative;
+
+				&:before {
 					content: "";
 					width: 2rpx;
-					height: 30rpx;
-					background: #fff;
+					height: 29rpx;
+					background: #E7E7E8;
 					position: absolute;
 					top: 50%;
 					left: 50%;
 					transform: translate(-50%, -50%);
 				}
 
-				.in_line {
+				.data {
 					width: 50%;
 					text-align: center;
-					font-size: 28rpx;
 
-					.num {
-						font-size: 40rpx;
-						font-weight: bold;
+					.text {
+						font-size: 27rpx;
+						margin-bottom: 10rpx;
+					}
+
+					.count {
+						font-family: Arial;
+						font-weight: 900;
+						font-size: 38rpx;
+						color: #FFFFFF;
+						text-shadow: 0px 3px 4px #000000;
+						letter-spacing: 3rpx;
+					}
+				}
+			}
+
+			.base_info {
+				padding: 0 38rpx 0 51rpx;
+				margin-bottom: 40rpx;
+
+				.name {
+					font-weight: 600;
+					font-size: 32rpx;
+					margin-bottom: 10rpx;
+				}
+
+				.label {
+					font-size: 27rpx;
+					color: #D4D4D4;
+					margin-right: 27rpx;
+				}
+
+				.btn_right {
+					font-weight: 600;
+					font-size: 27rpx;
+
+					.text {
+						margin-right: 11rpx;
 					}
 				}
 			}
 		}
-	}
 
-	.box {
-		position: fixed;
-		width: 100%;
-		left: 0rpx;
-		z-index: 3;
-		background: url($back-ground-url+"/broker/ic_mine_bg.png") no-repeat;
-		background-size: 100% 100%;
-		overflow: hidden;
-		padding: 70rpx 40rpx 0 40rpx;
-		box-sizing: border-box;
+		.logo {
+			width: 100rpx;
+			height: 100rpx;
+			border: 6rpx solid #fff;
+			flex-shrink: 0;
+			border-radius: 50%;
+			overflow: hidden;
+			margin-right: 20rpx;
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: 0;
 
-		.inner_box {
-			position: fixed;
-			padding: 30rpx;
-			box-sizing: border-box;
-			width: 90%;
-			left: 50%;
-			transform: translateX(-50%);
-			background: #fff;
-			border-radius: 30rpx;
-		}
-
-
-		.line {
-			margin-bottom: 15rpx;
-
-			.item {
-				width: 48%;
-				padding: 20rpx;
-				box-sizing: border-box;
-				background: #fff;
-				border-radius: 20rpx;
-
-				.item_top {
-					image {
-						width: 50rpx;
-						height: 50rpx;
-						margin-right: 8rpx;
-					}
-
-					.text {
-						color: #333;
-						font-size: 28rpx;
-					}
-				}
-
-				.item_middle {
-					font-size: 24rpx;
-					color: #9E9E9E;
-					margin-top: 10rpx;
-					margin-bottom: 20rpx;
-				}
-
-				.item_bot {
-					font-size: 0;
-
-					image {
-						width: 100%;
-						will-change: transform;
-					}
-				}
+			image {
+				width: 100%;
 			}
 		}
 	}

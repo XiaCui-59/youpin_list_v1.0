@@ -1,14 +1,15 @@
 <template>
 	<view class="modal">
 		<uni-popup ref="pubModal" type="center">
-			<view class="modal_wrap">
+			<view class="modal_wrap" :class="currentRole=='employer'?'':'blue'">
 				<view class="modal_title">关注公众号</view>
 				<view class="modal_content">
 					<image :src="imgUrl" mode="widthFix" :show-menu-by-longpress="true"></image>
 					<view class="text">长按上方二维码，关注灵动优聘公众号，工作进度会通过公众号告知您。</view>
 				</view>
-				<view class="modal_btns flex flex_around">
-					<view class="modal_btn modal_confirm" @click="confirm">好的</view>
+				<view class="modal_btns flex flex_around" :class="currentRole=='employer'?'':'blue'">
+					<view class="modal_btn modal_confirm" @click="confirm">好的
+					</view>
 				</view>
 			</view>
 
@@ -17,6 +18,10 @@
 </template>
 
 <script>
+	import {
+		mapState,
+		mapMutations
+	} from "vuex"
 	export default {
 		name: "myModal",
 		data() {
@@ -24,14 +29,27 @@
 				imgUrl: ""
 			};
 		},
+		computed: {
+			...mapState(["currentRole"])
+		},
 		methods: {
 			getCode() {
-				this.$request("/employer/wechat/official-account/subscribe-qrcode").then(res => {
-					if (res.code == 0) {
-						this.imgUrl = res.data.qrcode
-						this.open()
-					}
-				})
+				if (this.currentRole == "employer") {
+					this.$request("/employer/wechat/official-account/subscribe-qrcode").then(res => {
+						if (res.code == 0) {
+							this.imgUrl = res.data.qrcode
+							this.open()
+						}
+					})
+				} else {
+					this.$request("/worker/wechat/official-account/subscribe-qrcode").then(res => {
+						if (res.code == 0) {
+							this.imgUrl = res.data.qrcode
+							this.open()
+						}
+					})
+				}
+
 			},
 			open() {
 				this.$refs.pubModal.open()
@@ -39,7 +57,12 @@
 			},
 			confirm() {
 				this.$refs.pubModal.close()
-				this.$store.dispatch('getEmployerInfo');
+				if (this.currentRole == "employer") {
+					this.$store.dispatch('getEmployerInfo');
+				} else {
+					this.$store.dispatch('getWorkerInfo');
+				}
+
 			}
 		}
 	}
@@ -57,6 +80,10 @@
 		width: 100%;
 		padding: 57rpx 60rpx 76rpx 60rpx;
 		box-sizing: border-box;
+
+		&.blue {
+			background: linear-gradient(225deg, #A6D0FB 0%, rgba(230, 242, 254, 0.6) 23%, #FFFFFF 65%, #EDF4FF 86%, #C4D9F7 100%);
+		}
 
 		.modal_title {
 			text-align: center;
@@ -82,6 +109,20 @@
 		.modal_btns {
 			margin-top: 20rpx;
 			text-align: center;
+
+			&.blue {
+				.modal_btn {
+					border: 2rpx solid #216FF9;
+
+					&.modal_cancel {
+						color: #216FF9;
+					}
+
+					&.modal_confirm {
+						background: #216FF9;
+					}
+				}
+			}
 
 			.modal_btn {
 				display: inline-block;

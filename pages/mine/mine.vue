@@ -4,12 +4,12 @@
 	</view>
 	<view class="content" v-else>
 		<employerMine v-if="currentRole=='employer'"></employerMine>
-		<workerMine v-if="currentRole=='worker'"></workerMine>
+		<workerMine ref="worker" v-if="currentRole=='worker'" :tabbarHeight="tabbarHeight"></workerMine>
 		<login v-if="currentRole=='employer'" :showLogin="showLogin" @cancel="cancelLogin" @closeLogin="closeLogin"
 			@getInfo="getInfo">
 		</login>
-		<workerLogin v-if="currentRole=='worker'" :showLogin="showLogin" @cancel="cancelLogin" @closeLogin="closeLogin"
-			@getInfo="getInfo"></workerLogin>
+		<workerLogin v-if="currentRole=='worker'" :showLogin="showLogin" @cancel="closeWorkerLogin"
+			@closeLogin="closeLogin" @getInfo="getInfo"></workerLogin>
 		<tabbar v-if="currentRole=='employer'" current="2" @getTabbarHeight="getTabbarHeight" :todo="todo"></tabbar>
 		<workerTabbar v-if="currentRole=='worker'" current="2" @getTabbarHeight="getTabbarHeight"></workerTabbar>
 	</view>
@@ -28,6 +28,7 @@
 	import workerTabbar from "@/components/worker_tabbar.vue"
 	import customHeader from "@/components/custom_header.vue"
 	import addName from "@/components/addName.vue"
+
 	const app = getApp()
 	export default {
 		data() {
@@ -84,6 +85,7 @@
 				mineTop: app.globalData.mineTop,
 				todo: 0,
 				showLogin: false,
+				currentRole: ""
 			}
 		},
 		components: {
@@ -102,10 +104,20 @@
 				.tabbarHeight - 4 * this.tabMargin
 		},
 		computed: {
-			...mapState(["employerInfo", "nameShow", "loginStatus", "workerInfo", "currentRole"])
+			...mapState(["employerInfo", "nameShow", "loginStatus", "workerInfo"])
 		},
 		async onShow() {
-			if (this.isLogin()) {} else {
+			if (this.isLogin()) {
+				this.currentRole = uni.getStorageSync("currentRole")
+				console.log("currentRole", this.currentRole)
+				if (this.currentRole == "employer") {
+					this.$store.dispatch("getEmployerInfo")
+				} else {
+					this.$store.dispatch("getWorkerInfo")
+					this.$refs.worker.getSignList()
+					this.$refs.worker.getViewList()
+				}
+			} else {
 				this.showLogin = true
 			}
 		},
@@ -136,8 +148,15 @@
 					url: url
 				})
 			},
+			getInfo() {},
 			closeLogin() {
 				this.showLogin = false
+			},
+			closeWorkerLogin() {
+				this.showLogin = false
+				uni.switchTab({
+					url: "/pages/worker_index/worker_index"
+				})
 			},
 			cancelLogin() {
 				this.closeLogin()
@@ -261,11 +280,15 @@
 <style lang="scss" scoped>
 	::v-deep {
 		.u-navbar--fixed {
-			background: linear-gradient(180deg, #9EC2FF 0%, #FFFFFF 100%);
+			// background: linear-gradient(180deg, #9EC2FF 0%, #FFFFFF 100%);
 		}
 
 		.u-tabs__wrapper__nav__item {
 			padding: 0 !important;
+		}
+
+		.u-navbar__content__left {
+			display: none !important;
 		}
 	}
 

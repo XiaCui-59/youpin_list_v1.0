@@ -123,8 +123,8 @@
 				if (prev) {
 					uni.navigateBack()
 				} else {
-					uni.redirectTo({
-						url: "/subpkg/index/index"
+					uni.switchTab({
+						url: "/pages/worker_index/worker_index"
 					})
 				}
 			},
@@ -141,11 +141,7 @@
 							title: "保存成功",
 							duration: 3000
 						})
-						let pages = getCurrentPages()
-						let curPage = pages[pages.length - 2]
-						if (curPage && curPage.$vm.getInfo) {
-							curPage.$vm.getInfo()
-						}
+						uni.navigateBack()
 					}
 				})
 			},
@@ -172,7 +168,6 @@
 			getInfo() {
 				this.$request("/worker/ai-wechat/profile").then(response => {
 					if (response.code == 0) {
-						uni.setStorageSync("userInfo", JSON.stringify(response.data))
 						this.info.name = response.data.name
 						this.info.gender = this.gender.filter(el => {
 							return el.value == response.data.gender

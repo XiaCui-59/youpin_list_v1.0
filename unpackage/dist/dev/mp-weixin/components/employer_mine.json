@@ -1,6 +1,6 @@
 {
+  "component": true,
   "usingComponents": {
     "custom-header": "/components/custom_header"
-  },
-  "component": true
+  }
 }

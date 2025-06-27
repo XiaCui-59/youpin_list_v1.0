@@ -172,7 +172,6 @@
 			this.boxTop = this.marginTop + (0.56 * this.mineCardHeight) + this.tabMargin
 			this.scrollHeight = app.globalData.systemHeight - this.boxTop - this
 				.tabbarHeight - 4 * this.tabMargin
-			this.$store.dispatch("getEmployerInfo")
 		},
 		computed: {
 			...mapState(["employerInfo", "nameShow", "loginStatus"])

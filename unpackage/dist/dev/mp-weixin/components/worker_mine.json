@@ -1,7 +1,10 @@
 {
+  "component": true,
   "usingComponents": {
     "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
-    "custom-header": "/components/custom_header"
-  },
-  "component": true
+    "u-icon": "/uni_modules/uview-ui/components/u-icon/u-icon",
+    "u-grid": "/uni_modules/uview-ui/components/u-grid/u-grid",
+    "u-grid-item": "/uni_modules/uview-ui/components/u-grid-item/u-grid-item",
+    "show-booking": "/components/showBooking"
+  }
 }

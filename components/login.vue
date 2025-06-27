@@ -172,7 +172,7 @@
 			},
 			refuse() {
 				console.log("关闭")
-				this.$emit("closeLogin")
+				this.$emit("cancel")
 			},
 			getOpenid() {
 				let _this = this
@@ -206,7 +206,7 @@
 				let _this = this
 				console.log(e, "getPhoneNumber")
 				uni.showLoading()
-				this.refuse()
+				// this.refuse()
 				// #ifdef MP-WEIXIN
 				if (uni.getStorageSync("openid")) {
 					this.getPhoneData.open_id = uni.getStorageSync("openid");
@@ -248,8 +248,8 @@
 					})
 				} else {
 					uni.hideLoading()
-					_this.$emit("closeLogin")
-					uni.setStorageSync("loginStatus", "in")
+					_this.$emit("cancel")
+					// uni.setStorageSync("loginStatus", "in")
 					// uni.setStorageSync("token", _this.token)
 					// let header = {
 					// 	"Authorization": "bearer " + _this.token,

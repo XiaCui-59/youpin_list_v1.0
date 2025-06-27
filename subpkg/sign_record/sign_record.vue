@@ -14,7 +14,7 @@
 		</u-navbar>
 		<view class="cont" :style="{marginTop:marginTop+tabMargin+'px',minHeight:contHeight+'px'}">
 			<view class="item" v-for="(item,index) in list" :key="index" v-if="list.length != 0"
-				@click.stop="toChat(item)">
+				@click.stop="toDetail(item)">
 				<view class="title flex flex_btween" :class="item.job_status=='published'?'':'grey'">{{item.job_name}}
 				</view>
 				<view class="middle flex flex_btween">
@@ -26,7 +26,8 @@
 								class="period">{{"元"+periodList.filter(el=>{return el.value==item.worker_salary_type})[0].text}}</text>
 						</view>
 					</view>
-					<view class="mid_in_item" v-if="item.job_status == 'published'">继续沟通</view>
+					<view class="mid_in_item" v-if="item.job_status == 'published'" @click.stop="makePhoneCall">免费咨询
+					</view>
 				</view>
 				<view class="bottom flex" :class="item.address?'flex_btween':'flex_end'">
 					<view class="location flex" v-if="item.address">
@@ -86,8 +87,8 @@
 			if (this.isLogin()) {
 				this.getList()
 			} else {
-				uni.redirectTo({
-					url: "/subpkg/index/index"
+				uni.switchTab({
+					url: "/pages/worker_index/worker_index"
 				})
 			}
 		},
@@ -99,10 +100,19 @@
 				if (prev) {
 					uni.navigateBack()
 				} else {
-					uni.redirectTo({
-						url: "/subpkg/index/index"
+					uni.switchTab({
+						url: "/pages/worker_index/worker_index"
 					})
 				}
+			},
+			makePhoneCall() {
+				this.$store.dispatch('makePhoneCall')
+			},
+			toDetail(item) {
+				uni.navigateTo({
+					url: "/worker/work_detail/work_detail?id=" + item.job_id
+				})
+
 			},
 			getList() {
 				let url = "/worker/job-applications?page=" + this.currentPage + "&status=all"
