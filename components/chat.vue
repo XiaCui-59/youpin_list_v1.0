@@ -86,7 +86,7 @@
 							</view>
 							<!-- 您还可以这样问 -->
 							<view class="may_ask"
-								v-if="item.may_ask?(item.may_ask.length>0&&index == qaList.length -1 && (!answerContinue)):false">
+								v-if="item.may_ask?(item.may_ask.length>0&&index == qaList.length -1 && (!answerContinue) && (item.origin !='customer')):false">
 								<!-- <view class="tit">{{item.printMayAsk.title}}</view> -->
 								<view class="may_ask_list">
 									<view class="ask_item flex flex-start" v-for="(askItem,askIndex) in item.may_ask"
@@ -209,13 +209,11 @@
 			// 深度监听list数组的变化
 			qaList: {
 				handler: function(newVal, oldVal) {
+					console.log("chat 监听qaList：", newVal)
 					let _this = this
 					this.showHand = true
 					this.getElementHeight()
 					// 当最后一条消息是用户时，关闭面试卡片
-					if (newVal[newVal.length - 1].origin == 'customer') {
-						// this.closeInterviewCard()
-					}
 				},
 				deep: true, // 开启深度监听
 			},

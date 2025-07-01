@@ -38,13 +38,6 @@
 			}
 		},
 		{
-			"path": "pages/employer_mine/employer_mine",
-			"style": {
-				"navigationBarTitleText": "",
-				"disableScroll": true
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": ""
@@ -52,13 +45,6 @@
 		},
 		{
 			"path": "pages/worker_index/worker_index",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-
-		{
-			"path": "pages/worker_chat/worker_chat",
 			"style": {
 				"navigationBarTitleText": ""
 			}
@@ -83,13 +69,6 @@
 					}
 				},
 				{
-					"path": "index/index",
-					"style": {
-						"navigationBarTitleText": "",
-						"disableScroll": true
-					}
-				},
-				{
 					"path": "about/about",
 					"style": {
 						"navigationBarTitleText": "",
@@ -98,13 +77,6 @@
 				},
 				{
 					"path": "edit_info/edit_info",
-					"style": {
-						"navigationBarTitleText": "",
-						"disableScroll": true
-					}
-				},
-				{
-					"path": "project_list/project_list",
 					"style": {
 						"navigationBarTitleText": "",
 						"disableScroll": true
@@ -191,6 +163,13 @@
 					"style": {
 						"navigationBarTitleText": ""
 					}
+				},
+
+				{
+					"path": "worker_chat/worker_chat",
+					"style": {
+						"navigationBarTitleText": ""
+					}
 				}
 			]
 		}
@@ -223,9 +202,6 @@
 			},
 			{
 				"pagePath": "pages/worker_index/worker_index"
-			},
-			{
-				"pagePath": "pages/worker_chat/worker_chat"
 			}
 		]
 	},

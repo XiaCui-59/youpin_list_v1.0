@@ -180,7 +180,7 @@
 				this.getInfo()
 			} else {
 				uni.redirectTo({
-					url: "/subpkg/index/index"
+					url: "/pages/worker_index/worker_index"
 				})
 			}
 		},

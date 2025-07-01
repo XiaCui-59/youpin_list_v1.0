@@ -13,8 +13,7 @@
 			</view>
 		</u-navbar>
 		<view class="cont" :style="{marginTop:marginTop+tabMargin+'px',minHeight:contHeight+'px'}">
-			<view class="item" v-for="(item,index) in list" :key="index" @click="toDetail(item)"
-				v-if="list.length != 0">
+			<view class="item" v-for="(item,index) in list" :key="index" @click="makePhoneCall" v-if="list.length != 0">
 				<view class="title flex flex_btween" :class="item.status=='published'?'':'grey'">{{item.name}}
 				</view>
 				<view class="middle flex flex_btween">

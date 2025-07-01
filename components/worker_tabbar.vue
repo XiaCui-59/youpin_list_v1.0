@@ -71,7 +71,7 @@
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_index_active.png"
 					},
 					{
-						"pagePath": "pages/worker_chat/worker_chat",
+						"pagePath": "worker/worker_chat/worker_chat",
 						"text": "对话",
 						"iconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_chat_normal.png",
 						"selectedIconPath": app.globalData.baseImageUrl + "/worker/v_list/ic_tabbar_chat_active.png"
@@ -101,6 +101,7 @@
 			uni.hideTabBar()
 			// 系统信息
 			let systemInfo = uni.getSystemInfoSync()
+			console.log("systemInfo：", systemInfo)
 			// 设计稿tabbar占比
 			let percent = 62 / 844
 			// 选中icon占tabbar的比例
@@ -129,9 +130,16 @@
 				console.log(count, '改变了')
 			},
 			changeTab(e) {
-				uni.switchTab({
-					url: '/' + this.list[e].pagePath
-				})
+				if (this.list[e].pagePath.indexOf("worker_chat") == -1) {
+					uni.switchTab({
+						url: '/' + this.list[e].pagePath
+					})
+				} else {
+					uni.navigateTo({
+						url: '/' + this.list[e].pagePath
+					})
+				}
+
 			},
 			closeModal() {
 				this.showModal = false

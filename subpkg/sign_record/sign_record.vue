@@ -13,8 +13,7 @@
 			</view>
 		</u-navbar>
 		<view class="cont" :style="{marginTop:marginTop+tabMargin+'px',minHeight:contHeight+'px'}">
-			<view class="item" v-for="(item,index) in list" :key="index" v-if="list.length != 0"
-				@click.stop="toDetail(item)">
+			<view class="item" v-for="(item,index) in list" :key="index" v-if="list.length != 0" @click="makePhoneCall">
 				<view class="title flex flex_btween" :class="item.job_status=='published'?'':'grey'">{{item.job_name}}
 				</view>
 				<view class="middle flex flex_btween">
@@ -26,7 +25,7 @@
 								class="period">{{"元"+periodList.filter(el=>{return el.value==item.worker_salary_type})[0].text}}</text>
 						</view>
 					</view>
-					<view class="mid_in_item" v-if="item.job_status == 'published'" @click.stop="makePhoneCall">免费咨询
+					<view class="mid_in_item" v-if="item.job_status == 'published'">免费咨询
 					</view>
 				</view>
 				<view class="bottom flex" :class="item.address?'flex_btween':'flex_end'">

@@ -53,12 +53,13 @@
 				<text>{{workInfo.description}}</text>
 			</view>
 			<view class="box">
-				<view class="detail_tit flex flex_btween">
+				<view class="detail_tit flex flex_btween" :style="{marginBottom:workInfo.latitude?'28rpx':'0'}">
 					<view class="text">{{workInfo.address}}</view>
 					<u-icon name="arrow-right" color="#0F2A4F" size="16"></u-icon>
 				</view>
-				<map name="myMap" :longitude="workInfo.longitude" :latitude="workInfo.latitude" :markers="markers"
-					@tap="handleMapClick" style="width:100%;height:269rpx;border-radius: 14rpx;overflow: hidden;"></map>
+				<map name="myMap" v-if="workInfo.latitude" :longitude="workInfo.longitude" :latitude="workInfo.latitude"
+					:markers="markers" @tap="handleMapClick"
+					style="width:100%;height:269rpx;border-radius: 14rpx;overflow: hidden;"></map>
 			</view>
 			<view class="box">
 				<view class="detail_tit" style="font-size: 0;">
@@ -77,7 +78,7 @@
 				</image>
 				<view class="text">分享</view>
 			</button>
-			<image :src="imgUrl+'/worker/v_list/ic_ai.png'" mode="widthFix" style="width:90rpx;">
+			<image :src="imgUrl+'/worker/v_list/ic_ai.png'" mode="widthFix" style="width:90rpx;" @click="toChat">
 			</image>
 			<view class="btn flex flex_around" @click="makePhoneCall">
 				<view class="flex">
@@ -254,12 +255,15 @@
 		},
 		onLoad(param) {
 			this.id = param.id
-			this.contMinHeight = app.globalData.systemHeight - this.marginTop - this.tabMargin
-			this.name = this.workerInfo.name ? this.workerInfo.name : ""
-			this.age = this.workerInfo.age ? this.workerInfo.age : ""
-			this.nation = this.workerInfo.nation ? this.workerInfo.nation : ""
-			this.gender = this.workerInfo.gender ? this.workerInfo.gender : ""
 			this.getInfo()
+			this.contMinHeight = app.globalData.systemHeight - this.marginTop - this.tabMargin
+			if (this.workerInfo) {
+				this.name = this.workerInfo.name ? this.workerInfo.name : ""
+				this.age = this.workerInfo.age ? this.workerInfo.age : ""
+				this.nation = this.workerInfo.nation ? this.workerInfo.nation : ""
+				this.gender = this.workerInfo.gender ? this.workerInfo.gender : ""
+			}
+
 			if (!this.isLogin()) {
 				this.showLogin = true
 			} else {
@@ -280,7 +284,7 @@
 		methods: {
 			...mapMutations(["updateLoginStatus", "updateOpenid", "setToken"]),
 			getProfile() {
-
+				this.toChat()
 			},
 			getSignStatus() {
 				let url = "/worker/jobs/" + this.id + "/applied"
@@ -309,6 +313,16 @@
 					url: "/worker/webview/webview"
 				})
 			},
+			toChat() {
+				if (this.isLogin()) {
+					uni.navigateTo({
+						url: "/worker/worker_chat/worker_chat?id=" + this.id
+					})
+				} else {
+					this.showLogin = true
+				}
+
+			},
 			getInfo() {
 				let url = "/jobs/" + this.id
 				this.$request(url).then(res => {
@@ -330,10 +344,9 @@
 			},
 			handleMapClick() {
 				uni.openLocation({
-					latitude: 30.6555, // 纬度
-					longitude: 104.07721, // 经度
-					name: "春熙路",
-					address: "四川省成都市锦江区春熙路",
+					latitude: this.workInfo.latitude, // 纬度
+					longitude: this.workInfo.longitude, // 经度
+					address: this.workInfo.address,
 					success: function() {
 						console.log('success');
 					}

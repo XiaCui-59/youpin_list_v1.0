@@ -49,9 +49,30 @@ const request = (url = '', date = {}, type = 'GET', header = {
 					}
 
 					uni.removeStorageSync("loginStatus")
-					uni.setStorageSync("isLogout", true)
 					uni.redirectTo({
-						url: "/pages/role_confirm_page/role_confirm_page"
+						url: "/pages/role_confirm_page/role_confirm_page",
+						success() {
+
+						},
+						fail() {
+							uni.showModal({
+								title: "非常抱歉，现在重新加载小程序。",
+								showCancel: false,
+								success(res) {
+									if (res.confirm) {
+										uni.reLaunch({
+											url: "/pages/role_confirm_page/role_confirm_page",
+											fail() {
+												uni.showModal({
+													title: "请点击右上角...，重新进入小程序。",
+													showCancel: false
+												})
+											}
+										})
+									}
+								}
+							})
+						}
 					})
 				}
 				if (res.data.code != 0 && (url.indexOf("intentionReport") == -1) && url.indexOf(

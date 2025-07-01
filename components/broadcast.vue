@@ -1,6 +1,6 @@
 <template>
 	<view class="broadcast"
-		:style="{width:visible?'100vh':'0',height:visible?'100vh':'0',bottom:visible?'0':'115rpx',left:visible?'0':'82rpx',borderRadius:visible?'0':'50%'}"
+		:style="{width:visible?'100vh':'0',height:visible?'100vh':'0',bottom:visible?'0':(bottom+'px'),left:visible?'0':(left+'rpx'),borderRadius:visible?'0':'50%'}"
 		@click="close">
 		<view class="broadcast_inner" @click.stop="">
 			<view class="close" @click="close">
@@ -62,7 +62,7 @@
 	const app = getApp()
 	export default {
 		name: "broadcast",
-		props: ["top", "bottom", "canPlay", "showUserStep"],
+		props: ["left", "bottom", "canPlay"],
 		data() {
 			return {
 				visible: false,
@@ -375,7 +375,7 @@
 								if (resp.confirm) {
 									_this.reConnectCount = 0
 									uni.reLaunch({
-										url: '/subpkg/index/index'
+										url: '/pages/role_confirm_page/role_confirm_page'
 									})
 								}
 							}
@@ -442,7 +442,7 @@
 		position: fixed;
 		left: 82rpx;
 		bottom: 115rpx;
-		z-index: 100;
+		z-index: 10000;
 		background: rgba(0, 0, 0, 0.6);
 		width: 0;
 		height: 0;

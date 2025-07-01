@@ -1,6 +1,6 @@
 <template>
 	<view class="custom_cascade">
-		<u-popup :show="show" :mode="mode" @close="close">
+		<u-popup :show="show" :mode="mode" @close="close" @open="open">
 			<view class="cascade_inner" style="width: 80vw;" :style="{paddingTop:top+'px'}">
 				<view class="title" style="height: 44px;line-height: 44px;">{{title}}</view>
 				<view class="cascade_wrap flex" :style="{height:cascadeHeight+'px'}">
@@ -36,7 +36,7 @@
 						<view class="sele_item" v-for="(item,index) in selectArr" :key="index">
 							<view class="text">{{item.label}}</view>
 							<view class="dele_icon" @click="cancelChoose(item)">
-								<u-icon name="close-circle-fill" color="#EA0000" size="18"></u-icon>
+								<u-icon name="close-circle-fill" color="#A5A5A5" size="18"></u-icon>
 							</view>
 						</view>
 					</view>
@@ -154,6 +154,12 @@
 				this.currentTwoValues.push(param.value)
 				this.selectArr.push(param)
 				this.handleMainCount()
+			},
+			close() {
+				this.$emit("cancel")
+			},
+			open() {
+				uni.setStorageSync("cascadeShow", true)
 			},
 			handleMainCount() {
 				let mainLen = this.formatData.length
@@ -312,10 +318,10 @@
 						height: 34rpx;
 						line-height: 34rpx;
 						border-radius: 50%;
-						background: rgba(234, 0, 0, 0.2);
+						background: rgba(33, 111, 249, 0.15);
 						font-weight: 600;
 						font-size: 24rpx;
-						color: #EA0000;
+						color: #216FF9;
 					}
 
 					&.active {

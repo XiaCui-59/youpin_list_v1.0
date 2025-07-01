@@ -46,13 +46,15 @@
 						</view>
 					</u-tabs>
 				</view>
-				<view class="flex flex_btween" style="background:#F3F3F5 ;">
+				<view class="flex flex_btween" style="background:#F3F3F5 ;padding: 40rpx 28rpx 20rpx 28rpx;">
 					<view class="tab_2 flex">
 						<view class="tab_2_item" v-for="(item,index) in tab_2_list"
-							:class="currentIndex2 == index?'active':''" :key="index">{{item.label}}</view>
+							:class="currentIndex2 == index?'active':''" :key="index" @click="changeSubTab(item,index)">
+							{{item.label}}
+						</view>
 					</view>
-					<view v-if="jobList.length == 0" class="tips"
-						style="font-size: 23rpx;color: #5E5E5E;padding-right: 28rpx;">当前分类暂无职位，看看其他职位吧
+					<view v-if="jobList.length == 0" class="noda_tips" style="font-size: 28rpx;color: #5E5E5E;">
+						当前分类暂无职位，看看其他职位吧
 					</view>
 				</view>
 
@@ -84,7 +86,7 @@
 					</view>
 				</view>
 				<view class="item" v-if="!jobList.length" v-for="(item,index) in allList" :key="index"
-					@click="toChat(item)">
+					@click="toDetail(item)">
 					<view class="item_top flex flex_btween">
 						<view class="title">{{item.name}}
 						</view>
@@ -116,16 +118,22 @@
 
 			</view>
 		</view>
-		<customCascade title="请选择期望职位" :data="workType" :show="showCascade" :selected="selectedWorkType"
-			@cancel="cancelCascade" @confirm="handleConfirm">
+		<customCascade v-if="showCascade" title="请选择期望职位" :data="workType" :show="showCascade"
+			:selected="selectedWorkType" @cancel="cancelCascade" @confirm="handleConfirm">
 		</customCascade>
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getList">
 		</login>
+		<broadcast v-if="showBroadcast" :bottom="tabbarHeight+48" :left="88" :canPlay="canPlay" @close="closeBroadcast"
+			@sendMsg="sendBtnMsg"></broadcast>
 		<tabbar current="0" @getTabbarHeight="getTabbarHeight"></tabbar>
+		<view class="fl_icon" :style="{bottom:tabbarHeight+18+'px'}" @click.stop="clickFengling">
+			<image :src="imgUrl+'/worker/v_list/fengling_icon.png'"></image>
+		</view>
 	</view>
 </template>
 
 <script>
+	import broadcast from "@/components/broadcast.vue"
 	import login from "@/components/login.vue"
 	import tabbar from "@/components/worker_tabbar.vue"
 	import commonData from "@/common/commonData"
@@ -138,6 +146,8 @@
 	export default {
 		data() {
 			return {
+				showBroadcast: false,
+				canPlay: true,
 				showCascade: false,
 				period: commonData.periodList,
 				currentIndex2: 0,
@@ -154,73 +164,7 @@
 					label: "全部"
 				}],
 				allList: [],
-				jobList: [{
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}, {
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}, {
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}, {
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}, {
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}, {
-					name: "眉山职业学院大学辅导员",
-					min_salary: 3000,
-					max_salary: 5000,
-					salary_type: "monthly",
-					highlight: ["保洁", "服务员", "包吃住", "工作环境好"],
-					address: "四川省",
-					province: "四川省",
-					city: "成都市",
-					district: "锦江区",
-					street: "一环路二段三益公商厦"
-				}],
+				jobList: [],
 				ifSingle: app.globalData.scene == 1154 ? true : false,
 				btnStatus2: true,
 				showMask: false,
@@ -254,26 +198,37 @@
 				},
 				swiperList: ["https://static.test.swiftwd.com/worker/v_list/index_banner01.png"],
 				currentRecord: {},
-				systemHeight: app.globalData.systemHeight
+				systemHeight: app.globalData.systemHeight,
+				position: null,
+				getNear: false
 			}
 		},
 		components: {
 			tabbar,
 			login,
-			customCascade
+			customCascade,
+			broadcast
 		},
 		computed: {
 			...mapState(["workType"])
 		},
-		onLoad() {
+		async onLoad() {
 			this.boxTop = this.marginTop + this.bannerHeight + 3 * this.tabMargin + this.subTabHeight
 			this.scrollHeight = app.globalData.systemHeight - this.marginTop - this.subTabHeight - 3 * this.tabMargin -
 				this.tabbarHeight - this.bannerHeight
-			this.selectedWorkType = uni.getStorageSync("workTypes") ? uni.getStorageSync("workTypes") : [{
-					value: "",
-					label: "全部"
-				}],
-				this.getList()
+			// this.selectedWorkType = uni.getStorageSync("workTypes") ? uni.getStorageSync("workTypes") : [{
+			// 	value: "",
+			// 	label: "全部"
+			// }]
+			let cascadeShow = uni.getStorageSync("cascadeShow") ? uni.getStorageSync("cascadeShow") : ""
+			if (cascadeShow) {
+				this.showBroadcast = true
+			} else {
+				this.showSelect()
+			}
+			this.position = await this.getPosition()
+			console.log(this.position)
+			this.getList()
 			this.getSelectWorkTypes()
 		},
 		onReachBottom() {
@@ -297,6 +252,26 @@
 		methods: {
 			showSelect() {
 				this.showCascade = true
+			},
+			sendBtnMsg(obj) {
+				console.log(obj)
+				uni.navigateTo({
+					url: "/worker/worker_chat/worker_chat?b_id=" + obj.job_id + "&b_type=" + obj.type + "&b_msg=" +
+						obj.msg + "&b_action=" + (obj.action ? obj.action : "")
+				})
+			},
+			closeBroadcast() {
+				this.showBroadcast = false
+				this.canPlay = false
+			},
+			changeSubTab(item, index) {
+				this.currentIndex2 = index
+				if (item.value == "near") {
+					this.getNear = true
+				} else {
+					this.getNear = false
+				}
+				this.getList()
 			},
 			getSelectWorkTypes() {
 				this.$request("/worker/expected-job-types").then(res => {
@@ -334,9 +309,11 @@
 				this.$store.dispatch('makePhoneCall')
 			},
 			getList() {
+				let lat = this.getNear ? this.position.location.lat : ""
+				let lng = this.getNear ? this.position.location.lng : ""
 				let _this = this
 				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=" + this
-					.currentTab.value
+					.currentTab.value + "&latitude=" + lat + "&longitude=" + lng
 				this.$request(url).then(res => {
 					if (res.code == 0) {
 						this.jobList = res.data.list
@@ -348,8 +325,11 @@
 				})
 			},
 			getAll() {
+				let lat = this.getNear ? this.position.location.lat : ""
+				let lng = this.getNear ? this.position.location.lng : ""
 				let _this = this
-				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code="
+				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=&latitude=" + lat +
+					"&longitude=" + lng
 				this.$request(url).then(res => {
 					if (res.code == 0) {
 						this.allList = res.data.list
@@ -358,10 +338,12 @@
 				})
 			},
 			getAllMore() {
+				let lat = this.getNear ? this.position.location.lat : ""
+				let lng = this.getNear ? this.position.location.lng : ""
 				if (this.allCurrentPage < this.allPagination.page_count) {
 					this.allCurrentPage++
 					let url = "/guest/recommend-jobs?page=" + this.allCurrentPage +
-						"&keyword=&crowd_sourcing_job_type_code="
+						"&keyword=&crowd_sourcing_job_type_code=&latitude=" + lat + "&longitude=" + lng
 					this.$request(url).then(res => {
 						if (res.code == 0) {
 							this.allList = this.allList.concat(res.data.list)
@@ -385,14 +367,24 @@
 				uni.navigateTo({
 					url: "/worker/work_detail/work_detail?id=" + item.id
 				})
-
+			},
+			getPosition() {
+				return new Promise((resolve, reject) => {
+					this.$request("/guest/location").then(res => {
+						if (res.code == 0) {
+							resolve(res.data)
+						}
+					})
+				})
 			},
 			getMore() {
+				let lat = this.getNear ? this.position.location.lat : ""
+				let lng = this.getNear ? this.position.location.lng : ""
 				if (this.currentPage < this.pagination.page_count) {
 					this.currentPage++
 					let url = "/guest/recommend-jobs?page=" + this.currentPage +
 						"&keyword=&crowd_sourcing_job_type_code=" +
-						this.currentTab.value
+						this.currentTab.value + "&latitude=" + lat + "&longitude=" + lng
 					this.$request(url).then(res => {
 						if (res.code == 0) {
 							this.jobList = this.jobList.concat(res.data.list)
@@ -407,6 +399,10 @@
 				}
 
 			},
+			clickFengling() {
+				this.showBroadcast = true
+				this.canPlay = true
+			},
 			closeMask() {
 				this.showMask = false
 			},
@@ -415,6 +411,17 @@
 </script>
 
 <style lang="scss" scoped>
+	.fl_icon {
+		position: fixed;
+		left: 28rpx;
+		z-index: 200;
+
+		image {
+			width: 119rpx;
+			height: 119rpx;
+		}
+	}
+
 	::v-deep {
 		.u-navbar--fixed {
 			background: linear-gradient(180deg, #9EC2FF 0%, #FFFFFF 100%);
@@ -445,7 +452,6 @@
 	}
 
 	.tab_2 {
-		padding: 28rpx 28rpx 20rpx 28rpx;
 		background: #F3F3F5;
 
 		.tab_2_item {
@@ -617,100 +623,7 @@
 		}
 	}
 
-	.top_area {
-		width: calc(100% - 92rpx);
-		left: 46rpx;
-		position: fixed;
-		z-index: 90;
 
-		.banner {
-			position: relative;
-			width: 100%;
-			background: url($back-ground-url+'/broker/index_banner.png') no-repeat;
-			background-size: cover;
-
-			.banner_info {
-				position: absolute;
-				top: 50%;
-				right: 58rpx;
-				transform: translateY(-50%);
-				text-align: right;
-
-				.tit {
-					font-weight: 600;
-					font-size: 27rpx;
-					color: #333333;
-					line-height: 38rpx;
-				}
-
-				.tips {
-					font-weight: 400;
-					font-size: 19rpx;
-					color: #ABABAB;
-					line-height: 27rpx;
-				}
-
-				.banner_btn {
-					margin-top: 15rpx;
-					width: 212rpx;
-					height: 62rpx;
-					line-height: 62rpx;
-					text-align: center;
-					background: #3780FF;
-					border-radius: 35rpx;
-					font-weight: 600;
-					font-size: 29rpx;
-					color: #FFFFFF;
-					float: right;
-				}
-			}
-		}
-
-		.tabs {
-
-			// margin-top:30rpx;
-			.tab {
-				width: 332rpx;
-				padding: 12rpx 24rpx;
-				background: url($back-ground-url+"/broker/rect_normal.png") no-repeat;
-				background-size: 100% 100%;
-				box-sizing: border-box;
-				border-radius: 20rpx;
-				overflow: hidden;
-
-				&.active {
-					background: url($back-ground-url+"/broker/rect_sele.png") no-repeat;
-					background-size: 100% 100%;
-				}
-
-				.icon {
-					font-size: 0;
-
-					image {
-						will-change: transform;
-						height: 100rpx;
-					}
-				}
-
-				.info {
-					text-align: center;
-
-					.tit {
-						font-size: 30rpx;
-						// line-height: 42rpx;
-					}
-
-					.count {
-						font-size: 34rpx;
-						color: #fff;
-						font-weight: bold;
-						// line-height: 56rpx;
-					}
-				}
-			}
-		}
-
-	}
 
 	.box {
 		padding: 0 28rpx;

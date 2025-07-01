@@ -57,9 +57,21 @@ const store = new Vuex.Store({
 		openidStatus: "none",
 		audioSwitch: false,
 		workerInfo: workerInfo,
-		currentRole: ""
+		currentRole: "",
+		qaList: []
 	},
 	mutations: {
+		setQaList(state, obj) {
+			console.log("setQaList obj", obj)
+			let index = obj.index
+			let item = obj.item
+			state.qaList[index] = {
+				...item
+			}
+		},
+		clearQaList(state) {
+			state.qaList = []
+		},
 		setNameShow(state) {
 			state.nameShow = "show"
 			uni.setStorageSync("nameShow", "show")
@@ -165,9 +177,11 @@ const store = new Vuex.Store({
 		},
 		setRespEnd(state) {
 			state.responEnd = true
+			console.log("store.js setRespEnd：", state.responEnd)
 		},
 		notRespEnd(state) {
 			state.responEnd = false
+			console.log("store.js：notRespEnd", state.responEnd)
 		},
 		setInCall(state) {
 			state.inCall = true

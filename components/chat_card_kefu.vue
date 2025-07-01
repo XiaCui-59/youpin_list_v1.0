@@ -20,7 +20,7 @@
 		data() {
 			return {
 				imageUrl: app.globalData.baseImageUrl,
-				imgUrl: app.globalData.baseImageUrl + "/worker/kefu_code.jpg?time=" + (new Date()).getTime()
+				imgUrl: app.globalData.baseImageUrl + "/worker/v_list/kefu_code.png?time=" + (new Date()).getTime()
 			};
 		},
 		computed: {

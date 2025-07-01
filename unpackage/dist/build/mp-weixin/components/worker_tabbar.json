@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "booking": "/components/showBooking"
+  }
+}

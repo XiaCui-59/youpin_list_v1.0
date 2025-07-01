@@ -36,7 +36,7 @@
 			searchBoxHeight: 0,
 			releTitHeight: 0,
 			releTopHead: 0,
-			commiCardHeight: 0
+			commiCardHeight: 0,
 		},
 		watch: {
 			showAnswering(newVal) {
@@ -44,6 +44,7 @@
 			}
 		},
 		async onLaunch(params) {
+			console.log("页面重载，onlaunch")
 			this.globalData.scene = params.scene
 			if (this.globalData.scene != 1154) {
 				this.$store.dispatch('getWorkType')

@@ -5,10 +5,8 @@
     "pages/error_sever/error_sever",
     "pages/employer_index/employer_index",
     "pages/employer_sign/employer_sign",
-    "pages/employer_mine/employer_mine",
     "pages/index/index",
     "pages/worker_index/worker_index",
-    "pages/worker_chat/worker_chat",
     "pages/mine/mine"
   ],
   "subPackages": [
@@ -16,10 +14,8 @@
       "root": "subpkg/",
       "pages": [
         "phone_call/phone_call",
-        "index/index",
         "about/about",
         "edit_info/edit_info",
-        "project_list/project_list",
         "view_record/view_record",
         "sign_record/sign_record",
         "report/report"
@@ -40,7 +36,8 @@
       "root": "worker/",
       "pages": [
         "work_detail/work_detail",
-        "webview/webview"
+        "webview/webview",
+        "worker_chat/worker_chat"
       ]
     }
   ],
@@ -71,9 +68,6 @@
       },
       {
         "pagePath": "pages/worker_index/worker_index"
-      },
-      {
-        "pagePath": "pages/worker_chat/worker_chat"
       }
     ]
   },

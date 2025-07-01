@@ -85,7 +85,6 @@
 				mineTop: app.globalData.mineTop,
 				todo: 0,
 				showLogin: false,
-				currentRole: ""
 			}
 		},
 		components: {
@@ -98,18 +97,28 @@
 			workerTabbar,
 			workerMine
 		},
+		watch: {
+			// currentRole(newVal) {
+			// 	console.log("question newVal：", newVal)
+			// 	if (!newVal) {
+			// 		this.showSend = false
+			// 	} else {
+			// 		this.showSend = true
+			// 	}
+			// },
+		},
 		async onLoad() {
 			this.boxTop = this.marginTop + (0.56 * this.mineCardHeight) + this.tabMargin
 			this.scrollHeight = app.globalData.systemHeight - this.boxTop - this
 				.tabbarHeight - 4 * this.tabMargin
 		},
 		computed: {
-			...mapState(["employerInfo", "nameShow", "loginStatus", "workerInfo"])
+			...mapState(["employerInfo", "nameShow", "loginStatus", "workerInfo", "currentRole"])
 		},
 		async onShow() {
 			if (this.isLogin()) {
-				this.currentRole = uni.getStorageSync("currentRole")
-				console.log("currentRole", this.currentRole)
+				// this.currentRole = uni.getStorageSync("currentRole")
+				// console.log("currentRole", this.currentRole)
 				if (this.currentRole == "employer") {
 					this.$store.dispatch("getEmployerInfo")
 				} else {
@@ -148,7 +157,15 @@
 					url: url
 				})
 			},
-			getInfo() {},
+			getInfo() {
+				if (this.currentRole == "employer") {
+					this.$store.dispatch("getEmployerInfo")
+				} else {
+					this.$store.dispatch("getWorkerInfo")
+					this.$refs.worker.getSignList()
+					this.$refs.worker.getViewList()
+				}
+			},
 			closeLogin() {
 				this.showLogin = false
 			},
@@ -162,52 +179,6 @@
 				this.closeLogin()
 				uni.switchTab({
 					url: "/pages/employer_index/employer_index"
-				})
-			},
-			changeRole() {
-				let _this = this
-				uni.showModal({
-					title: "是否确认切换到找工作状态？",
-					confirmText: "切换",
-					confirmColor: "#F7BC05",
-					success(res) {
-						if (res.confirm) {
-							uni.showLoading({
-								title: "切换中"
-							})
-							// 移除本地token
-							uni.removeStorageSync("token")
-							uni.removeStorageSync("userInfo")
-							let openid = uni.getStorageSync("openid")
-							// 重新获取工人端的token
-							let url = "/auth/ai-wechat/worker/token"
-							let data = {
-								open_id: openid
-							}
-							_this.$request(url, data, "POST").then(resp => {
-								if (resp.code == 0) {
-									_this.setToken(resp.data.token)
-									uni.setStorageSync("token", resp.data.token)
-									uni.reLaunch({
-										url: "/subpkg/index/index",
-										success(resp) {
-											console.log("跳转成功", resp)
-										},
-										fail(err) {
-											console.log("跳转失败", err)
-										},
-										complete() {
-											uni.hideLoading()
-										}
-									})
-								} else {
-									uni.showModal({
-										title: res.msg
-									})
-								}
-							})
-						}
-					}
 				})
 			},
 			close() {

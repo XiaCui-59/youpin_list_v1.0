@@ -2,6 +2,9 @@
   "navigationBarTitleText": "",
   "disableScroll": true,
   "usingComponents": {
-    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar"
+    "u-navbar": "/uni_modules/uview-ui/components/u-navbar/u-navbar",
+    "tabbar": "/components/worker_tabbar",
+    "login": "/components/login",
+    "chat": "/components/chat"
   }
 }
