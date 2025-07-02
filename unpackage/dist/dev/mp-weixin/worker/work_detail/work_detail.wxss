@@ -241,6 +241,12 @@ image.data-v-44864228 {
   margin-left: 28rpx;
   flex-shrink: 0;
 }
+.fixed_area .btn.applied.data-v-44864228 {
+  background: #FFF4D1;
+  border-radius: 15rpx;
+  color: #DFA900;
+  box-shadow: none;
+}
 .fixed_area .btn image.data-v-44864228 {
   margin-right: 8rpx;
 }

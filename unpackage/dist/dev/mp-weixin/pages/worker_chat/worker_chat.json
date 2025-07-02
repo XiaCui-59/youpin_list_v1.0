@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "usingComponents": {
-    "tabbar": "/components/worker_tabbar",
-    "login": "/components/login",
-    "chat": "/components/chat"
-  }
-}

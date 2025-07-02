@@ -80,6 +80,13 @@
 			</button>
 			<image :src="imgUrl+'/worker/v_list/ic_ai.png'" mode="widthFix" style="width:90rpx;" @click="toChat">
 			</image>
+			<view class="btn applied flex flex_around" v-if="applied">
+				<view class="flex">
+					<image :src="imgUrl+'/worker/v_list/ic_check_yellow.png'" mode="widthFix" style="width:28rpx;">
+					</image>
+					<view class="text">您已报名</view>
+				</view>
+			</view>
 			<view class="btn flex flex_around" @click="makePhoneCall">
 				<view class="flex">
 					<image :src="imgUrl+'/worker/v_list/ic_call.png'" mode="widthFix" style="width:34rpx;">
@@ -87,7 +94,7 @@
 					<view class="text">电话联系</view>
 				</view>
 			</view>
-			<view class="btn flex flex_around" @click="openForm">
+			<view class="btn flex flex_around" @click="openForm" v-if="!applied">
 				<view class="flex">
 					<image :src="imgUrl+'/worker/v_list/ic_person.png'" mode="widthFix" style="width:34rpx;">
 					</image>
@@ -158,6 +165,8 @@
 				</view>
 			</view>
 		</u-popup>
+		<canvas v-if="canvasShow" canvas-id="shareCard"
+			:style="{width: canvasWidth+'px',height: canvasHeight+'px',position:' fixed',right: '-999999999rpx'}"></canvas>
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getProfile">
 		</login>
 	</view>
@@ -174,6 +183,9 @@
 	export default {
 		data() {
 			return {
+				canvasShow: false,
+				canvasWidth: app.globalData.systemWidth,
+				canvasHeight: app.globalData.systemWidth * 0.8,
 				showLogin: false,
 				mobile: "",
 				age: "",
@@ -237,7 +249,9 @@
 				contMinHeight: 0,
 				qrcode: "",
 				getPhoneData: {},
-				applied: false
+				applied: false,
+				shareImg: ""
+
 			}
 		},
 		components: {
@@ -250,7 +264,8 @@
 			return {
 				title: "快乐求职好伙伴，品质工作新选择",
 				path: "/worker/work_detail/work_detail?id=" + this.id,
-				imageUrl: app.globalData.baseImageUrl + "/worker/mini_share_2.jpg?time=" + (new Date()).getTime()
+				imageUrl: this.shareImg
+				// imageUrl: app.globalData.baseImageUrl + "/worker/mini_share_2.jpg?time=" + (new Date()).getTime()
 			}
 		},
 		onLoad(param) {
@@ -263,13 +278,13 @@
 				this.nation = this.workerInfo.nation ? this.workerInfo.nation : ""
 				this.gender = this.workerInfo.gender ? this.workerInfo.gender : ""
 			}
-
 			if (!this.isLogin()) {
 				this.showLogin = true
 			} else {
 				this.getSignStatus()
 			}
 		},
+
 		onShow() {
 			console.log("ifSingle", this.ifSingle)
 			if (this.ifSingle) {
@@ -283,6 +298,70 @@
 		},
 		methods: {
 			...mapMutations(["updateLoginStatus", "updateOpenid", "setToken"]),
+			createImage() {
+				let _this = this
+				// 显示canvas画布
+				this.canvasShow = true
+				// 获取canvas实例（此方法废弃了，但新方式暂时没研究出来如何正确使用，欢迎大家补充~）
+				let canvasBox = wx.createCanvasContext('shareCard')
+				// 绘制分享底图
+				wx.getImageInfo({
+					src: app.globalData.baseImageUrl + "/worker/v_list/share_card_bg.png?time=" + (new Date())
+						.getTime(),
+					success: (res) => {
+						canvasBox.drawImage(res.path, 0, 0, _this.canvasWidth, _this.canvasHeight)
+					},
+					complete: () => {
+						// 绘制职位内容...
+						this.drawCanvas(canvasBox)
+					},
+				})
+			},
+			drawCanvas(canvasBox) {
+				let _this = this
+				// 设置标题
+				canvasBox.setFontSize(32)
+				canvasBox.setFillStyle('#333')
+				canvasBox.setTextAlign('left')
+				canvasBox.fillText(
+					_this.workInfo.name,
+					30,
+					50,
+					_this.canvasWidth
+				)
+				// 设置薪资
+				let str = (_this.workInfo.min_salary == _this.workInfo.max_salary ? _this.workInfo.max_salary : (_this
+					.workInfo.min_salary + "-" + _this.workInfo.max_salary)) + "元" + _this.period.filter(el => {
+					return el.value == _this.workInfo.worker_salary_type
+				})[0].text
+				canvasBox.setFontSize(24)
+				canvasBox.setFillStyle('#f99f21')
+				canvasBox.setTextAlign('left')
+				canvasBox.fillText(
+					str,
+					30,
+					80,
+					_this.canvasWidth
+				)
+				canvasBox.draw()
+				setTimeout(() => {
+					wx.canvasToTempFilePath({
+						canvasId: 'shareCard',
+						success: (res) => {
+							wx.saveFile({
+								tempFilePath: res.tempFilePath,
+								success: (res) => {
+									_this.shareImg = res.savedFilePath
+								},
+							})
+						},
+						complete: () => {
+							// 删除canvas
+							_this.canvasShow = false
+						},
+					})
+				})
+			},
 			getProfile() {
 				this.toChat()
 			},
@@ -330,6 +409,7 @@
 						this.workInfo = res.data
 						this.markers.longitude = res.data.longitude
 						this.markers.latitude = res.data.latitude
+						this.createImage()
 					}
 				})
 			},
@@ -400,6 +480,7 @@
 				}
 				this.$request("/worker/enrollment", data, "POST").then(res => {
 					if (res.code == 0) {
+						this.cancelForm()
 						uni.showToast({
 							title: "报名成功",
 							icon: "none"
@@ -773,6 +854,13 @@
 			color: #FFFFFF;
 			margin-left: 28rpx;
 			flex-shrink: 0;
+
+			&.applied {
+				background: #FFF4D1;
+				border-radius: 15rpx;
+				color: #DFA900;
+				box-shadow: none;
+			}
 
 			image {
 				margin-right: 8rpx;

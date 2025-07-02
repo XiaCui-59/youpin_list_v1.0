@@ -14,6 +14,7 @@
 			marginTop: 0,
 			tabbarHeight: 0,
 			systemHeight: 0,
+			systemWidth: 0,
 			mineCardHeight: 0,
 			mineTop: 0,
 			btnBottom: 0,
@@ -106,6 +107,7 @@
 			this.globalData.statusBarHeight = systemInfo.statusBarHeight
 			// #ifdef MP-WEIXIN || MP-KUAISHOU
 			this.globalData.systemHeight = systemInfo.screenHeight
+			this.globalData.systemWidth = systemInfo.screenWidth
 			// #endif
 			// #ifdef MP-TOUTIAO
 			this.globalData.systemHeight = systemInfo.windowHeight

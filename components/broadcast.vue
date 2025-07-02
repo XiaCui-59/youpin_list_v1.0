@@ -238,7 +238,7 @@
 					let obj = {
 						msg: "我正在找工作，能帮我推荐一些合适的职位吗？",
 						type: "",
-						job_id: ""
+						job_id: "000"
 					}
 					this.close()
 					this.$emit("sendMsg", obj)
