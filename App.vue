@@ -44,8 +44,32 @@
 				this.globalData.showAnswering = newVal
 			}
 		},
-		async onLaunch(params) {
+		onLaunch(params) {
 			console.log("页面重载，onlaunch")
+			uni.loadFontFace({
+				global: true,
+				scopes: ['native'],
+				family: 'miaozi',
+				source: 'url("https://static.test.swiftwd.com/font/miaozi.ttf")',
+				success() {
+					console.log('喵字success')
+				},
+				fail(err) {
+					console.log('喵字fail：', err)
+				}
+			})
+			uni.loadFontFace({
+				global: true,
+				scopes: ['native'],
+				family: 'yezi',
+				source: 'url("https://static.test.swiftwd.com/font/YeZiGongChangTangYingHei.ttf")',
+				success() {
+					console.log('也字success')
+				},
+				fail(err) {
+					console.log('也字fail：', err)
+				}
+			})
 			this.globalData.scene = params.scene
 			if (this.globalData.scene != 1154) {
 				this.$store.dispatch('getWorkType')

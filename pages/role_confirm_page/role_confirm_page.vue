@@ -41,22 +41,24 @@
 			this.contHeight = app.globalData.systemHeight - this.marginTop - this.tabMargin
 		},
 		watch: {
-			openid(newVal) {
-				console.log(newVal)
-				if (newVal) {
-					this.checkRole()
-				}
-			}
+			// openid(newVal) {
+			// 	console.log(newVal)
+			// 	if (newVal) {
+			// 		this.checkRole()
+			// 	}
+			// }
 		},
-		onShow() {
+		async onShow() {
 			let _this = this
+			await this.$store.dispatch('getOpenid');
 			uni.showLoading()
-			let openid = uni.getStorageSync("openid") ? uni.getStorageSync("openid") : ""
-			if (openid) {
-				this.checkRole()
-			} else {
-				this.$store.dispatch('getOpenid');
-			}
+			this.checkRole()
+			// let openid = uni.getStorageSync("openid") ? uni.getStorageSync("openid") : ""
+			// if (this.openid) {
+
+			// } else {
+			// 	this.$store.dispatch('getOpenid');
+			// }
 		},
 		methods: {
 			...mapMutations(["setRole"]),

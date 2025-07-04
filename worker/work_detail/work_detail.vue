@@ -25,8 +25,8 @@
 					<u-icon name="map-fill" color="#BEBEBE" size="14"></u-icon>
 					<view class="text">{{workInfo.city+workInfo.district}}</view>
 				</view>
-				<view class="labels flex" v-if="workInfo.highlight && workInfo.highlight.length != 0">
-					<view class="label flex" v-for="(label,labIndex) in workInfo.highlight" :key="labIndex">
+				<view class="labels flex" v-if="workInfo.keywords && workInfo.keywords.length != 0">
+					<view class="label flex" v-for="(label,labIndex) in workInfo.keywords" :key="labIndex">
 						{{label}}
 					</view>
 				</view>
@@ -165,8 +165,12 @@
 				</view>
 			</view>
 		</u-popup>
-		<canvas v-if="canvasShow" canvas-id="shareCard"
-			:style="{width: canvasWidth+'px',height: canvasHeight+'px',position:' fixed',right: '-999999999rpx'}"></canvas>
+		<view class="share_card"
+			:style="{width: canvasWidth+'px',height: canvasHeight+'px',position:' fixed',right: '-999999999rpx'}">
+			<l-painter ref="painter" :board="poster" />
+		</view>
+		<!-- <canvas v-if="canvasShow" canvas-id="shareCard"
+			:style="{width: canvasWidth+'px',height: canvasHeight+'px',position:' fixed',right: '-999999999rpx'}"></canvas> -->
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getProfile">
 		</login>
 	</view>
@@ -250,7 +254,15 @@
 				qrcode: "",
 				getPhoneData: {},
 				applied: false,
-				shareImg: ""
+				shareImg: "",
+				poster: {
+					css: {
+						// 根节点若无尺寸，自动获取父级节点
+						width: '',
+					},
+					views: []
+				},
+				wantToChat: false
 
 			}
 		},
@@ -262,7 +274,7 @@
 		},
 		onShareAppMessage() {
 			return {
-				title: "快乐求职好伙伴，品质工作新选择",
+				title: "您的好友给您推荐了一条优质工作信息，点击查看",
 				path: "/worker/work_detail/work_detail?id=" + this.id,
 				imageUrl: this.shareImg
 				// imageUrl: app.globalData.baseImageUrl + "/worker/mini_share_2.jpg?time=" + (new Date()).getTime()
@@ -279,7 +291,7 @@
 				this.gender = this.workerInfo.gender ? this.workerInfo.gender : ""
 			}
 			if (!this.isLogin()) {
-				this.showLogin = true
+				// this.showLogin = true
 			} else {
 				this.getSignStatus()
 			}
@@ -298,72 +310,98 @@
 		},
 		methods: {
 			...mapMutations(["updateLoginStatus", "updateOpenid", "setToken"]),
-			createImage() {
+			viewHaibao() {
 				let _this = this
-				// 显示canvas画布
-				this.canvasShow = true
-				// 获取canvas实例（此方法废弃了，但新方式暂时没研究出来如何正确使用，欢迎大家补充~）
-				let canvasBox = wx.createCanvasContext('shareCard')
-				// 绘制分享底图
-				wx.getImageInfo({
-					src: app.globalData.baseImageUrl + "/worker/v_list/share_card_bg.png?time=" + (new Date())
-						.getTime(),
-					success: (res) => {
-						canvasBox.drawImage(res.path, 0, 0, _this.canvasWidth, _this.canvasHeight)
+				this.poster.views = [{
+						type: 'image',
+						src: app.globalData.baseImageUrl + "/worker/v_list/share_card_bg.png?time=" + (new Date())
+							.getTime(),
+						css: {
+							width: '100%',
+							margin: '0 auto'
+						}
 					},
-					complete: () => {
-						// 绘制职位内容...
-						this.drawCanvas(canvasBox)
+					{
+						type: "view",
+						css: {
+							width: '70%',
+							position: 'absolute',
+							top: "24%",
+							left: "50%",
+							transform: "translateX(-50%)",
+							boxSizing: "border-box",
+							textAlign: "center",
+							overflow: "hidden",
+						},
+						views: [{
+								type: 'text',
+								text: _this.workInfo.name.slice(0, 10),
+								css: {
+									width: "100%",
+									boxSizing: "border-box",
+									fontSize: "50rpx",
+									color: "#001326",
+									fontFamily: "miaozi",
+									padding: "10px 0",
+									borderBottom: "1px dotted #50A9FF",
+									textShadow: "0px 3px 0px #FFFFFF",
+									display: "block",
+								}
+							}, {
+								type: 'text',
+								text: Math.floor(_this.workInfo.max_salary) ==
+									Math.floor(_this.workInfo.min_salary) ?
+									Math.floor(_this.workInfo.max_salary) : (Math.floor(_this.workInfo
+											.min_salary) +
+										"-" +
+										Math.floor(_this.workInfo.max_salary)) + "元" + _this.period.filter(el => {
+										return el.value == _this.workInfo.worker_salary_type
+									})[0].text,
+								css: {
+									fontSize: "60rpx",
+									color: "#FF7E13",
+									fontFamily: "yezi",
+									textShadow: "0px 4px 2px #000000",
+									display: "block",
+									margin: "6px 0 3px 0",
+								}
+							},
+							{
+								type: 'text',
+								text: _this.workInfo.keywords.length > 0 ? (_this.workInfo.keywords[0] + (_this
+									.workInfo.keywords[1] ? ("，" + _this.workInfo.keywords[1]) : "")) : "",
+								css: {
+									fontSize: "40rpx",
+									color: "#1E1A16",
+									display: "block"
+								}
+							}
+						]
 					},
-				})
-			},
-			drawCanvas(canvasBox) {
-				let _this = this
-				// 设置标题
-				canvasBox.setFontSize(32)
-				canvasBox.setFillStyle('#333')
-				canvasBox.setTextAlign('left')
-				canvasBox.fillText(
-					_this.workInfo.name,
-					30,
-					50,
-					_this.canvasWidth
-				)
-				// 设置薪资
-				let str = (_this.workInfo.min_salary == _this.workInfo.max_salary ? _this.workInfo.max_salary : (_this
-					.workInfo.min_salary + "-" + _this.workInfo.max_salary)) + "元" + _this.period.filter(el => {
-					return el.value == _this.workInfo.worker_salary_type
-				})[0].text
-				canvasBox.setFontSize(24)
-				canvasBox.setFillStyle('#f99f21')
-				canvasBox.setTextAlign('left')
-				canvasBox.fillText(
-					str,
-					30,
-					80,
-					_this.canvasWidth
-				)
-				canvasBox.draw()
-				setTimeout(() => {
-					wx.canvasToTempFilePath({
-						canvasId: 'shareCard',
+				]
+				console.log("poster：", this.poster)
+				this.$nextTick(() => {
+					// 这里的代码会在DOM更新完成后执行
+					_this.$refs.painter.canvasToTempFilePathSync({
+						fileType: "jpg",
+						// 如果返回的是base64是无法使用 saveImageToPhotosAlbum，需要设置 pathType为url
+						pathType: 'url',
+						quality: 1,
 						success: (res) => {
-							wx.saveFile({
-								tempFilePath: res.tempFilePath,
-								success: (res) => {
-									_this.shareImg = res.savedFilePath
-								},
-							})
+							_this.shareImg = res.tempFilePath
+							console.log("canvasToTempFilePathSync：", res)
 						},
-						complete: () => {
-							// 删除canvas
-							_this.canvasShow = false
-						},
+						fail: (err) => {
+							console.log(err, "err")
+						}
 					})
-				})
+				});
 			},
 			getProfile() {
-				this.toChat()
+				if (this.wantToChat) {
+					this.toChat()
+				}
+
 			},
 			getSignStatus() {
 				let url = "/worker/jobs/" + this.id + "/applied"
@@ -393,9 +431,13 @@
 				})
 			},
 			toChat() {
+				this.wantToChat = true
 				if (this.isLogin()) {
 					uni.navigateTo({
-						url: "/worker/worker_chat/worker_chat?id=" + this.id
+						url: "/worker/worker_chat/worker_chat?id=" + this.id,
+						success() {
+							this.wantToChat = false
+						}
 					})
 				} else {
 					this.showLogin = true
@@ -409,7 +451,8 @@
 						this.workInfo = res.data
 						this.markers.longitude = res.data.longitude
 						this.markers.latitude = res.data.latitude
-						this.createImage()
+						this.viewHaibao()
+						// this.createImage()
 					}
 				})
 			},
@@ -485,6 +528,7 @@
 							title: "报名成功",
 							icon: "none"
 						})
+						this.getSignStatus()
 					}
 				})
 

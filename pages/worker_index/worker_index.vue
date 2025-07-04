@@ -2,7 +2,7 @@
 	<view class="single_page" v-if="ifSingle">
 		<image :src="imgUrl+'/worker/single_page.png'" mode="widthFix" style="width: 100%;"></image>
 	</view>
-	<view class="content" v-else>
+	<view class="content" :class="showCascade?'no_scroll':''" v-else>
 		<!-- 自定义导航栏 -->
 		<u-navbar :safeAreaInsetTop="true" bgColor="transparent">
 			<view class="u-nav-slot flex flex-start" slot="left">
@@ -46,19 +46,22 @@
 						</view>
 					</u-tabs>
 				</view>
-				<view class="flex flex_btween" style="background:#F3F3F5 ;padding: 40rpx 28rpx 20rpx 28rpx;">
-					<view class="tab_2 flex">
-						<view class="tab_2_item" v-for="(item,index) in tab_2_list"
-							:class="currentIndex2 == index?'active':''" :key="index" @click="changeSubTab(item,index)">
-							{{item.label}}
-						</view>
-					</view>
-					<view v-if="jobList.length == 0" class="noda_tips" style="font-size: 28rpx;color: #5E5E5E;">
-						当前分类暂无职位，看看其他职位吧
+				<view class="tab_2 flex" style="background:#F3F3F5 ;padding: 40rpx 28rpx 20rpx 28rpx;">
+					<view class="tab_2_item" v-for="(item,index) in tab_2_list"
+						:class="currentIndex2 == index?'active':''" :key="index" @click="changeSubTab(item,index)">
+						{{item.label}}
 					</view>
 				</view>
 
 			</u-sticky>
+			<view v-if="jobList.length == 0" class="noda_tips flex flex_around">
+				<view class="flex">
+					<view class="line"></view>
+					<view class="text">当前分类暂无职位，看看其他职位吧</view>
+					<view class="line"></view>
+				</view>
+
+			</view>
 			<view class="box" :style="{paddingBottom:tabbarHeight+'px'}">
 				<view class="item" v-if="jobList.length" v-for="(item,index) in jobList" :key="index"
 					@click="toDetail(item)">
@@ -118,7 +121,7 @@
 
 			</view>
 		</view>
-		<customCascade v-if="showCascade" title="请选择期望职位" :data="workType" :show="showCascade"
+		<customCascade v-if="showCascadeMask" title="请选择期望职位" :data="workType" :show="showCascade"
 			:selected="selectedWorkType" @cancel="cancelCascade" @confirm="handleConfirm">
 		</customCascade>
 		<login :showLogin="showLogin" @cancel="closeLogin" @closeLogin="closeLogin" @getInfo="getList">
@@ -127,7 +130,7 @@
 			@sendMsg="sendBtnMsg"></broadcast>
 		<tabbar current="0" @getTabbarHeight="getTabbarHeight"></tabbar>
 		<view class="fl_icon" :style="{bottom:tabbarHeight+18+'px'}" @click.stop="clickFengling">
-			<image :src="imgUrl+'/worker/v_list/fengling_icon.png'"></image>
+			<image :src="imgUrl+'/worker/v_list/fengling_icon.png'" mode="widthFix"></image>
 		</view>
 	</view>
 </template>
@@ -148,6 +151,7 @@
 			return {
 				showBroadcast: false,
 				canPlay: true,
+				showCascadeMask: false,
 				showCascade: false,
 				period: commonData.periodList,
 				currentIndex2: 0,
@@ -196,11 +200,14 @@
 					"available_amount": "",
 					"need_pay": ""
 				},
-				swiperList: ["https://static.test.swiftwd.com/worker/v_list/index_banner01.png"],
+				swiperList: [app.globalData.baseImageUrl + "/worker/v_list/index_banner01.png?time=" + (new Date())
+					.getTime()
+				],
 				currentRecord: {},
 				systemHeight: app.globalData.systemHeight,
 				position: null,
-				getNear: false
+				getNear: false,
+				currentListType: "all" //all:所有数据，allType:某个分类下所有数据，near：某个分类下附近的工作
 			}
 		},
 		components: {
@@ -220,22 +227,37 @@
 			// 	value: "",
 			// 	label: "全部"
 			// }]
-			let cascadeShow = uni.getStorageSync("cascadeShow") ? uni.getStorageSync("cascadeShow") : ""
-			if (cascadeShow) {
-				this.showBroadcast = true
-			} else {
-				this.showSelect()
-			}
 			this.position = await this.getPosition()
 			console.log(this.position)
 			this.getList()
 			this.getSelectWorkTypes()
 		},
-		onReachBottom() {
-			if (this.jobList.length == 0) {
-				this.getAllMore()
+		onReady() {
+			let _this = this
+			let cascadeShow = uni.getStorageSync("cascadeShow") ? uni.getStorageSync("cascadeShow") : ""
+			if (cascadeShow) {
+				this.showBroadcast = true
 			} else {
-				this.getMore()
+				this.showCascadeMask = true
+				setTimeout(function() {
+					_this.showCascade = true
+				}, 1000)
+
+			}
+		},
+		onReachBottom() {
+			switch (this.currentListType) {
+				case "all":
+					this.getAllMore();
+					break;
+				case "allType":
+					this.getTypeAllMore();
+					break;
+				case "near":
+					this.getMore();
+					break;
+				default:
+					break;
 			}
 		},
 		onShow() {
@@ -251,7 +273,11 @@
 		},
 		methods: {
 			showSelect() {
-				this.showCascade = true
+				let _this = this
+				this.showCascadeMask = true
+				setTimeout(function() {
+					_this.showCascade = true
+				}, 100)
 			},
 			sendBtnMsg(obj) {
 				console.log(obj)
@@ -285,7 +311,11 @@
 				})
 			},
 			cancelCascade() {
+				let _this = this
 				this.showCascade = false
+				setTimeout(function() {
+					_this.showCascadeMask = false
+				}, 400)
 			},
 			handleTabClick(e) {
 				this.currentTab = e
@@ -309,6 +339,7 @@
 				this.$store.dispatch('makePhoneCall')
 			},
 			getList() {
+				this.currentListType = "near"
 				let lat = this.getNear ? this.position.location.lat : ""
 				let lng = this.getNear ? this.position.location.lng : ""
 				let _this = this
@@ -319,17 +350,75 @@
 						this.jobList = res.data.list
 						this.pagination = res.data.pagination
 						if (this.jobList.length == 0) {
+							if (this.getNear) {
+								// 附近无此分类的工作，加载全部数据下该分类的工作
+								this.getTypeAll()
+							} else {
+								this.getAll()
+							}
+						}
+					}
+				})
+			},
+			getMore() {
+				let lat = this.getNear ? this.position.location.lat : ""
+				let lng = this.getNear ? this.position.location.lng : ""
+				if (this.currentPage < this.pagination.page_count) {
+					this.currentPage++
+					let url = "/guest/recommend-jobs?page=" + this.currentPage +
+						"&keyword=&crowd_sourcing_job_type_code=" +
+						this.currentTab.value + "&latitude=" + lat + "&longitude=" + lng
+					this.$request(url).then(res => {
+						if (res.code == 0) {
+							this.jobList = this.jobList.concat(res.data.list)
+							this.pagination = res.data.pagination
+						}
+					})
+				} else {
+					uni.showToast({
+						title: "已加载全部",
+						icon: "none"
+					})
+				}
+			},
+			getTypeAll() {
+				this.allCurrentPage = 1
+				this.currentListType = "allType"
+				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=" + this
+					.currentTab.value + "&latitude=&longitude="
+				this.$request(url).then(res => {
+					if (res.code == 0) {
+						this.allList = res.data.list
+						this.allPagination = res.data.pagination
+						if (this.allList.length == 0) {
+							// 此分类无数据，加载所有数据
 							this.getAll()
 						}
 					}
 				})
 			},
+			getTypeAllMore() {
+				if (this.allCurrentPage < this.allPagination.page_count) {
+					this.allCurrentPage++
+					let url = "/guest/recommend-jobs?page=" + this.allCurrentPage +
+						"&keyword=&crowd_sourcing_job_type_code=" + this.currentTab.value + "&latitude=&longitude="
+					this.$request(url).then(res => {
+						if (res.code == 0) {
+							this.allList = this.allList.concat(res.data.list)
+							this.allPagination = res.data.allPagination
+						}
+					})
+				} else {
+					uni.showToast({
+						title: "已加载全部",
+						icon: "none"
+					})
+				}
+			},
 			getAll() {
-				let lat = this.getNear ? this.position.location.lat : ""
-				let lng = this.getNear ? this.position.location.lng : ""
-				let _this = this
-				let url = "/guest/recommend-jobs?page=1&keyword=" + "&crowd_sourcing_job_type_code=&latitude=" + lat +
-					"&longitude=" + lng
+				this.allCurrentPage = 1
+				this.currentListType = "all"
+				let url = "/guest/recommend-jobs?page=1&keyword=&crowd_sourcing_job_type_code=&latitude=&longitude="
 				this.$request(url).then(res => {
 					if (res.code == 0) {
 						this.allList = res.data.list
@@ -338,16 +427,14 @@
 				})
 			},
 			getAllMore() {
-				let lat = this.getNear ? this.position.location.lat : ""
-				let lng = this.getNear ? this.position.location.lng : ""
 				if (this.allCurrentPage < this.allPagination.page_count) {
 					this.allCurrentPage++
 					let url = "/guest/recommend-jobs?page=" + this.allCurrentPage +
-						"&keyword=&crowd_sourcing_job_type_code=&latitude=" + lat + "&longitude=" + lng
+						"&keyword=&crowd_sourcing_job_type_code=&latitude=&longitude="
 					this.$request(url).then(res => {
 						if (res.code == 0) {
 							this.allList = this.allList.concat(res.data.list)
-							this.allPagination = res.data.pagination
+							this.allPagination = res.data.allPagination
 						}
 					})
 				} else {
@@ -377,28 +464,7 @@
 					})
 				})
 			},
-			getMore() {
-				let lat = this.getNear ? this.position.location.lat : ""
-				let lng = this.getNear ? this.position.location.lng : ""
-				if (this.currentPage < this.pagination.page_count) {
-					this.currentPage++
-					let url = "/guest/recommend-jobs?page=" + this.currentPage +
-						"&keyword=&crowd_sourcing_job_type_code=" +
-						this.currentTab.value + "&latitude=" + lat + "&longitude=" + lng
-					this.$request(url).then(res => {
-						if (res.code == 0) {
-							this.jobList = this.jobList.concat(res.data.list)
-							this.pagination = res.data.pagination
-						}
-					})
-				} else {
-					uni.showToast({
-						title: "已加载全部",
-						icon: "none"
-					})
-				}
 
-			},
 			clickFengling() {
 				this.showBroadcast = true
 				this.canPlay = true
@@ -417,8 +483,7 @@
 		z-index: 200;
 
 		image {
-			width: 119rpx;
-			height: 119rpx;
+			width: 84rpx;
 		}
 	}
 
@@ -429,6 +494,30 @@
 
 		.u-tabs__wrapper__nav__item {
 			padding: 0 !important;
+		}
+	}
+
+	.noda_tips {
+		padding: 0 38rpx;
+		margin-bottom: 28rpx;
+		margin-top: 20rpx;
+
+		.line {
+			width: 87rpx;
+			height: 2rpx;
+			// border: 2rpx solid;
+			background: linear-gradient(63deg, rgba(246, 245, 250, 1), rgba(173, 203, 255, 1));
+
+			&:last-child {
+				transform: rotateY(180deg);
+			}
+		}
+
+		.text {
+			font-size: 27rpx;
+			color: #216FF9;
+			line-height: 38rpx;
+			margin: 0 6rpx;
 		}
 	}
 
@@ -492,9 +581,19 @@
 		}
 	}
 
+	.content {
+		&.no_scroll {
+			height: 100vh;
+			max-height: 100vh;
+			overflow: hidden;
+		}
+	}
+
 	.cont {
 		min-height: 100vh;
 		background: #F3F3F5;
+
+
 	}
 
 	.empty {

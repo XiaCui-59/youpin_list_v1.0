@@ -30,6 +30,11 @@ image.data-v-e2787a3e {
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.data-v-e2787a3e::-webkit-scrollbar {
+  width: 2rpx !important;
+  height: 2rpx !important;
+  display: block !important;
+}
 .cascade_inner.data-v-e2787a3e {
   height: 100vh;
   box-sizing: border-box;
@@ -129,7 +134,6 @@ image.data-v-e2787a3e {
           transform: translateY(-50%);
 }
 .cascade_inner .cascade_wrap .one_box.data-v-e2787a3e {
-  height: 100%;
   overflow: scroll;
   background: #F9F9F9;
   border-radius: 8rpx;

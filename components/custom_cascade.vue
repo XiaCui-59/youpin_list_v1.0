@@ -1,6 +1,6 @@
 <template>
 	<view class="custom_cascade">
-		<u-popup :show="show" :mode="mode" @close="close" @open="open">
+		<u-popup :show="show" :mode="mode" @close="close" @open="open" :duration="400">
 			<view class="cascade_inner" style="width: 80vw;" :style="{paddingTop:top+'px'}">
 				<view class="title" style="height: 44px;line-height: 44px;">{{title}}</view>
 				<view class="cascade_wrap flex" :style="{height:cascadeHeight+'px'}">
@@ -188,6 +188,12 @@
 </script>
 
 <style lang="scss" scoped>
+	::-webkit-scrollbar {
+		width: 2rpx !important;
+		height: 2rpx !important;
+		display: block !important;
+	}
+
 	.cascade_inner {
 		height: 100vh;
 		box-sizing: border-box;
@@ -301,7 +307,6 @@
 			}
 
 			.one_box {
-				height: 100%;
 				overflow: scroll;
 				background: #F9F9F9;
 				border-radius: 8rpx;

@@ -305,28 +305,32 @@ const store = new Vuex.Store({
 			commit
 		}) {
 			let _this = this
-			uni.login({
-				success: (res) => {
-					if (res.errMsg == 'login:ok') {
-						let url = "/auth/ai-wechat/mini/openid"
-						let data = {
-							code: res.code,
-							share_id: ""
-						}
-						request(url, data, "POST").then(resp => {
-							if (resp.code == 0) {
-								console.log("open_id:", resp.data.open_id)
-								uni.setStorageSync("openid", resp.data.open_id)
-								commit("updateOpenid", resp.data.open_id)
-								commit("updateOpenidStatus", "success")
-							} else {
-								commit("updateOpenidStatus", "error")
+			return new Promise((resolve) => {
+				uni.login({
+					success: (res) => {
+						if (res.errMsg == 'login:ok') {
+							let url = "/auth/ai-wechat/mini/openid"
+							let data = {
+								code: res.code,
+								share_id: ""
 							}
-						})
-					}
-				},
-				fail(err) {}
-			});
+							request(url, data, "POST").then(resp => {
+								if (resp.code == 0) {
+									console.log("open_id:", resp.data.open_id)
+									uni.setStorageSync("openid", resp.data.open_id)
+									commit("updateOpenid", resp.data.open_id)
+									commit("updateOpenidStatus", "success")
+									resolve(resp.data.open_id)
+								} else {
+									commit("updateOpenidStatus", "error")
+								}
+							})
+						}
+					},
+					fail(err) {}
+				});
+			})
+
 		},
 		getWorkType({
 			commit
